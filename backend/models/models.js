@@ -1,9 +1,9 @@
 const sequelize = require('../db');
 const { DataTypes } = require('sequelize');
-
+//переделать в аккаунты и отдельные таблицы юзеров с компаниями
 const User = sequelize.define('user', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    username: { type: DataTypes.STRING, unique: true, allowNull: false },
+    name: { type: DataTypes.STRING, unique: true, allowNull: false },
     picture: { type: DataTypes.STRING, defaultValue: "default.jpg" },
     email: { type: DataTypes.STRING, unique: true, allowNull: false },
     password: { type: DataTypes.STRING, allowNull: false },
