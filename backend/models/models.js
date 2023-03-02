@@ -1,23 +1,23 @@
 const sequelize = require('../db');
 const { DataTypes } = require('sequelize');
-//переделать в аккаунты и отдельные таблицы юзеров с компаниями
-const User = sequelize.define('user', {
+
+const Account = sequelize.define('account', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    name: { type: DataTypes.STRING, unique: true, allowNull: false },
-    picture: { type: DataTypes.STRING, defaultValue: "default.jpg" },
     email: { type: DataTypes.STRING, unique: true, allowNull: false },
     password: { type: DataTypes.STRING, allowNull: false },
+})
+
+const User = sequelize.define('user', {
+    name: { type: DataTypes.STRING, unique: true, allowNull: false },
+    picture: { type: DataTypes.STRING, defaultValue: "default.jpg" },
     role: { type: DataTypes.ENUM('USER', 'MODERATOR', 'ADMIN'), defaultValue: "USER" },
 });
 
 const Company = sequelize.define('company', {
-    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     picture: { type: DataTypes.STRING, defaultValue: "default.jpg" },
     name: { type: DataTypes.STRING, unique: true, allowNull: false },
     location: { type: DataTypes.STRING, unique: false, allowNull: false },
     description: { type: DataTypes.STRING, allowNull: false },
-    email: { type: DataTypes.STRING, unique: true, allowNull: false },
-    password: { type: DataTypes.STRING, allowNull: false },
 })
 
 const Event = sequelize.define('event', {
@@ -52,7 +52,6 @@ const Ticket = sequelize.define('ticket', {
     seat: { type: DataTypes.INTEGER, allowNull: false },
 })
 
-
 const UserMedia = sequelize.define('user_media');
 
 const CompanyMedia = sequelize.define('company_media');
@@ -60,6 +59,12 @@ const CompanyMedia = sequelize.define('company_media');
 const EventMedia = sequelize.define('event_media');
 
 const EventCategory = sequelize.define('event_category');
+
+Account.hasOne(User);
+User.belongsTo(Account);
+
+Account.hasOne(Company);
+Company.belongsTo(Account);
 
 Company.hasMany(Event);
 Event.belongsTo(Company);
@@ -89,6 +94,7 @@ Event.hasMany(Ticket);
 Ticket.belongsTo(Event);
 
 module.exports = {
+    Account,
     User,
     Company,
     Event,

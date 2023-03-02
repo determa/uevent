@@ -2,8 +2,7 @@ const ApiError = require('../error/ApiError');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
-const { User, Company } = require('../models/models');
-const { Op } = require('sequelize');
+const { User, Company, Account } = require('../models/models');
 
 // Mail host example
 const transporter = nodemailer.createTransport({
@@ -24,42 +23,62 @@ const send_mail = (path, email, jwt) => {
         html: `
         <div>
             <h1>Activation link:</h1>
-            <a href="http://127.0.0.1:${process.env.CL_PORT}/${path}/${jwt}" target="_blank">click to confirm</a>
+            <a href="http://127.0.0.1:${process.env.CL_PORT}/${path}/${jwt}" target="_blank">Нажмите для подтверждения</a>
         </div>
         `,
     });
 }
 
-const generateJwt = (id, login, time, key) => {
-    return jwt.sign({ id, login },
+const generateJwt = (id, type, time, key) => {
+    return jwt.sign({ id, type },
         key,
         { expiresIn: time }
     );
 }
 
 class AuthController {
-    async register(req, res, next) {
+    async register_account(req, res, next) {
         try {
-            const { name, password, password_conf, email, type, location } = req.body;
-            if (!name || !password || !password_conf || !email || (type == "company" && !location)) {
+            const { password, password_conf, email } = req.body;
+            if (!password || !password_conf || !email) {
                 return next(ApiError.badRequest("Некорректное поле!"));
             }
             if (password !== password_conf) {
-                return next(ApiError.badRequest("Подтвердите пароль!"));
+                return next(ApiError.badRequest("Пароли не совпадают!"));
             }
-            if (type == "company") {
-                if (await Company.findOne({ where: { [Op.or]: [{ name }, { email }] } })) {
-                    return next(ApiError.badRequest("Компания уже существует!"));
-                }
-                const hashPassword = await bcrypt.hash(password, 5);
-                await Company.create({ username, password: hashPassword, email });
-            } else {
-                if (await User.findOne({ where: { [Op.or]: [{ name }, { email }] } })) {
-                    return next(ApiError.badRequest("Пользователь уже существует!"));
-                }
-                const hashPassword = await bcrypt.hash(password, 5);
-                await User.create({ username, password: hashPassword, email });
+            if (await Account.findOne({ where: { email } })) {
+                return next(ApiError.badRequest("Аккаунт уже существует!"));
             }
+            const hashPassword = await bcrypt.hash(password, 5);
+            await Account.create({ username, password: hashPassword, email });
+            return res.json({ message: "Регистрация успешна!" });
+        } catch (error) {
+            console.log(error);
+            return next(ApiError.internal());
+        }
+    }
+
+    async register_user(req, res, next) {
+        try {
+            const { name, picture } = req.body;
+            if (!name) {
+                return next(ApiError.badRequest("Некорректное поле!"));
+            }
+            await User.create({ name, picture });
+            return res.json({ message: "Регистрация успешна!" });
+        } catch (error) {
+            console.log(error);
+            return next(ApiError.internal());
+        }
+    }
+
+    async register_company(req, res, next) {
+        try {
+            const { name, picture, location, description } = req.body;
+            if (!name || !location || !description) {
+                return next(ApiError.badRequest("Некорректное поле!"));
+            }
+            await Company.create({ name, picture, location, description });
             return res.json({ message: "Регистрация успешна!" });
         } catch (error) {
             console.log(error);
@@ -70,24 +89,28 @@ class AuthController {
     async login(req, res, next) {
         try {
             const cookies = req.cookies;
-            const { password, email, type } = req.body;
+            const { password, email } = req.body;
             if (!password || !email) {
                 return next(ApiError.badRequest("Некорректное поле!"));
             }
-            let user;
-            if (type == "company") {
-                user = await Company.findOne({ where: { email } });
-            } else {
-                user = await User.findOne({ where: { email } });
-            }
-            if (!user) {
+            let account = await Account.findOne({ where: { email } });
+            if (!account) {
                 return next(ApiError.notFound("Аккаунт не найден!"));
             }
-            if (!bcrypt.compareSync(password, user.password)) {
+            let type = 'user';
+            let account_type = await User.findOne({ where: { accountId: account.id } });
+            if (!account_type) {
+                type = 'company';
+                account_type = await Company.findOne({ where: { accountId: account.id } })
+                if (!account_type) {
+                    return next(ApiError.forbidden("Продолжите регистрацию!"));
+                }
+            }
+            if (!bcrypt.compareSync(password, account.password)) {
                 return next(ApiError.badRequest("Неверные данные!"));
             }
-            const accessToken = generateJwt(user.id, user.name, '24h', process.env.SECRET_KEY_ACCESS);
-            const newRefreshToken = generateJwt(user.id, user.name, '24h', process.env.SECRET_KEY_REFRESH); ///back time to 60s
+            const accessToken = generateJwt(account.id, type, '24h', process.env.SECRET_KEY_ACCESS);
+            const newRefreshToken = generateJwt(account.id, type, '24h', process.env.SECRET_KEY_REFRESH); ///back time to 60s
             if (cookies?.token) {
                 res.clearCookie('token', {
                     secure: true,
@@ -118,7 +141,7 @@ class AuthController {
                     sameSite: 'None'
                 });
             }
-            return res.json({ message: "Logout complete!" });
+            return res.json({ message: "Выход успешен!" });
         } catch (error) {
             console.log(error);
             return next(ApiError.internal());
@@ -131,12 +154,12 @@ class AuthController {
             if (!email) {
                 return next(ApiError.badRequest("Некорректное поле!"));
             }
-            const user = await User.findOne({ where: { email } });
-            if (!user) {
-                return next(ApiError.badRequest());
+            const account = await Account.findOne({ where: { email } });
+            if (!account) {
+                return next(ApiError.notFound("Аккаунт не найден!"));
             }
-            send_mail('password-reset', email, generateJwt(user.id, '', '900s', process.env.SECRET_KEY_REFRESH));
-            return res.json({ message: "Check email, link valid of 15 minutes!" });
+            send_mail('password-reset', email, generateJwt(account.id, '', '900s', process.env.SECRET_KEY_REFRESH));
+            return res.json({ message: "Проверьте почту, ссылка действительна 15 минут!" });
         } catch (error) {
             console.log(error);
             return next(ApiError.internal());
@@ -157,14 +180,14 @@ class AuthController {
             try {
                 info = jwt.verify(token, process.env.SECRET_KEY_REFRESH);
             } catch (e) {
-                return next(ApiError.badRequest("link expired"));
+                return next(ApiError.badRequest("Ссылка недействительна!"));
             }
             const hashPassword = await bcrypt.hash(new_password, 5);
-            const user = await User.update({ password: hashPassword }, { where: { id: info.id } });
-            if (!user) {
-                return next(ApiError.notFound("User does not exists"));
+            const account = await Account.update({ password: hashPassword }, { where: { id: info.id } });
+            if (!account) {
+                return next(ApiError.notFound("Аккаунта не существует!"));
             }
-            return res.json({ message: "Password changed!" });
+            return res.json({ message: "Пароль изменён!" });
         } catch (error) {
             console.log(error);
             return next(ApiError.internal());
@@ -175,12 +198,12 @@ class AuthController {
         try {
             const token = req.cookies.token;
             if (!token) return next(ApiError.notAuth());
-            const { id, login } = jwt.verify(token, process.env.SECRET_KEY_ACCESS);
-            const user = await User.findOne({ where: { login, id } });
-            if (!user) {
+            const { id, type } = jwt.verify(token, process.env.SECRET_KEY_ACCESS);
+            const account = await Account.findOne({ where: { id } });
+            if (!account) {
                 return next(ApiError.notAuth("Пользователь не найден!"));
             }
-            const jwt_token = generateJwt(user.id, user.login, '60s', process.env.SECRET_KEY_REFRESH);
+            const jwt_token = generateJwt(account.id, type, '60s', process.env.SECRET_KEY_REFRESH);
             return res.json(jwt_token);
         } catch (error) {
             console.log(error);
