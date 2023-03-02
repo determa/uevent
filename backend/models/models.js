@@ -8,12 +8,14 @@ const Account = sequelize.define('account', {
 })
 
 const User = sequelize.define('user', {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     name: { type: DataTypes.STRING, unique: true, allowNull: false },
     picture: { type: DataTypes.STRING, defaultValue: "default.jpg" },
     role: { type: DataTypes.ENUM('USER', 'MODERATOR', 'ADMIN'), defaultValue: "USER" },
 });
 
 const Company = sequelize.define('company', {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     picture: { type: DataTypes.STRING, defaultValue: "default.jpg" },
     name: { type: DataTypes.STRING, unique: true, allowNull: false },
     location: { type: DataTypes.STRING, unique: false, allowNull: false },

@@ -29,8 +29,8 @@ const send_mail = (path, email, jwt) => {
     });
 }
 
-const generateJwt = (id, type, time, key) => {
-    return jwt.sign({ id, type },
+const generateJwt = (accountId, id, type, time, key) => {
+    return jwt.sign({ accountId, id, type },
         key,
         { expiresIn: time }
     );
@@ -109,8 +109,8 @@ class AuthController {
             if (!bcrypt.compareSync(password, account.password)) {
                 return next(ApiError.badRequest("Неверные данные!"));
             }
-            const accessToken = generateJwt(account.id, type, '24h', process.env.SECRET_KEY_ACCESS);
-            const newRefreshToken = generateJwt(account.id, type, '24h', process.env.SECRET_KEY_REFRESH); ///back time to 60s
+            const accessToken = generateJwt(account.id, account_type.id, type, '24h', process.env.SECRET_KEY_ACCESS);
+            const newRefreshToken = generateJwt(account.id, account_type.id, type, '24h', process.env.SECRET_KEY_REFRESH); ///back time to 60s
             if (cookies?.token) {
                 res.clearCookie('token', {
                     secure: true,

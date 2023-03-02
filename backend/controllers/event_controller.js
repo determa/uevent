@@ -1,122 +1,147 @@
-const ApiError = require('../error/ApiError');
-const { User, Company, Account, Event } = require('../models/models');
-
+const ApiError = require("../error/ApiError");
+const { User, Company, Account, Category, Event } = require("../models/models");
 
 class EventController {
-    async get_events(req, res, next) {
+    async create(req, res, next) {
         try {
-            let { id, date, pri } = req.query;
-            const calendar = await Calendar.findOne({ where: { id } });
-            if (!calendar) {
-                return next(ApiError.notFound("Календарь не найден!"));
-            }
-            const events = await calendar.getEvents({
-                where: {
-                    date_start: {
-                        [Op.between]: [
-                            new Date(date_start), new Date(date_end)
-                        ]
-                    }
-                }
-            });
-            return res.json(events);
-        } catch (error) {
-            console.log(error);
-            return next(ApiError.internal());
-        }
-    }
+            let { title, picture, description, date, location, price, tickets_count } = req.body;
 
-    async get_create_link(req, res, next) {
-        try {
-            const { id } = req.params;
-            const event = await Event.findOne({ where: { id } });
-            if (!event) {
-                return next(ApiError.notFound("Event not found!"));
-            }
-            return res.json({ link: `http://127.0.0.1:${process.env.CL_PORT}/share-event/${id}` });
-        } catch (error) {
-            console.log(error);
-            return next(ApiError.internal("Create link error!"));
-        }
-    }
-
-    async create_event(req, res, next) {
-        try {
-            const { id } = req.params;
-            const calendar = await Calendar.findOne({ where: { id } });
-            let message = '';
-            if (!calendar) {
-                return next(ApiError.notFound("Calendar not found!"));
-            }
-            if (req.query.event_id) {
-                const event_id = +req.query.event_id;
-                const event = await Event.findOne({ where: { id: event_id } });
-                if (!event) {
-                    return next(ApiError.notFound("Событие не найдено!"));
-                }
-                if (!calendar.hasEvent(event)) {
-                    await calendar.addEvent(event);
-                    message = 'Add success!'
-                } else {
-                    message = 'Event was already added!'
-                }
-            } else {
-                const { title, description, date_start, date_end, type } = req.body;
-                if (!title || !description || !date_start || !date_end || !type) {
-                    return next(ApiError.badRequest("Некорректное поле!"));
-                }
-                await calendar.createEvent({ title, description, date_start, date_end, type });
-                message = 'Create success!'
-            }
-            return res.json({ message });
-        } catch (error) {
-            console.log(error);
-            return next(ApiError.internal("Create event error!"));
-        }
-    }
-
-    async update_event(req, res, next) {
-        try {
-            const { id } = req.params;
-            const { title, description, date_start, date_end, type } = req.body;
-            const event = await Event.findOne({ where: { id } });
-            if (!event) {
-                return next(ApiError.notFound("Event not found!"));
-            }
-            if (!title || !description || !date_start || !date_end || !type) {
+            if (!title || !description || !date ||!location || !price || !tickets_count)
                 return next(ApiError.badRequest("Некорректное поле!"));
-            }
-            await event.update({ title, description, date_start, date_end, type });
-            return res.json({ message: "Event updated!" });
-        } catch (error) {
-            console.log(error);
-            return next(ApiError.internal("Update event error!"));
+
+            let event = await Event.create({ title, picture, description,
+                date, location, price, tickets_count, companyId: req.account.id });
+                
+            // const db_categories = await Category.findAll({
+            //     where: { id: categories },
+            // });
+            // if (!db_categories[0])
+            //     return next(ApiError.notFound("Category not found!"));
+            // const event_category = await event.addCategory(db_categories);
+
+            return res.json(event);
+        } catch (e) {
+            next(ApiError.badRequest(e.message));
         }
     }
 
-    async delete_event(req, res, next) {
+    async getOne(req, res, next) {
         try {
-            const { id, event_id } = req.query;
-            const calendar = await Calendar.findOne({ where: { id } });
-            if (!calendar) {
-                return next(ApiError.notFound("Calendar not found!"));
-            }
-            const event = await Event.findOne({ where: { id: event_id } });
-            if (!event) {
-                return next(ApiError.notFound("Event not found!"));
-            }
-            const events = await event.getCalendars();
-            if (events.length < 2) {
-                await event.destroy();
-            } else {
-                await calendar.removeEvent(event);
-            }
-            return res.json({ message: "Event deleted!" });
-        } catch (error) {
-            console.log(error)
-            return next(ApiError.internal("Delete event error!"));
+            let { id } = req.params;
+            const event = await Event.findOne({
+                where: { id },
+                include: { model: Category },
+            });
+            // if (event.status == false) {
+            //     if (req.user.id != event.userId && req.user.role != "ADMIN") {
+            //         return next(ApiError.forbidden());
+            //     }
+            // }
+            return res.json(event);
+        } catch (e) {
+            next(ApiError.badRequest(e.message));
         }
     }
+
+    async getAll(req, res, next) {
+        try {
+            let { limit, page, categories, locations, startDate, endDate, sort } = req.query;
+
+            page = page || 1;
+            limit = limit || 10;
+            let offset = page * limit - limit;
+
+            let eventObj = {};
+            let catObj = { where: {} };
+            // let locObj = { where: {} };
+
+            if (categories) catObj.where.id = categories.split(",");
+            // if (locations) locObj.where.id = locations.split(",");
+
+            if (startDate) startDate = new Date(startDate);
+            if (endDate)
+                endDate = new Date(endDate).getTime() + 24 * 60 * 60 * 1000 - 1; //до конца дня
+
+            if (startDate && endDate)
+                eventObj.date = { [Op.gte]: startDate, [Op.lte]: endDate };
+            if (!startDate && endDate)
+                eventObj.date = { [Op.lte]: endDate };
+            if (startDate && !endDate)
+                eventObj.date = { [Op.gte]: startDate };
+
+            let sortArr = [[literal("countlike"), "DESC"]];
+            if (sort === "-like") sortArr = [[literal("countlike"), "ASC"]];
+            if (sort === "date") sortArr = [['"createdAt"', "DESC"]];
+            if (sort === "-date") sortArr = [['"createdAt"', "ASC"]];
+
+            const event = await Event.findAll({
+                limit,
+                offset,
+                where: eventObj,
+                include: [{ model: Category, catObj }],
+                // attributes: {
+                //     include: [
+                //         [
+                //             literal(
+                //                 `(SELECT COUNT(*) FROM event_likes WHERE "eventId" = event.id AND type = 'LIKE')`
+                //             ),
+                //             "countlike",
+                //         ],
+                //     ],
+                // },
+                order: sortArr,
+            });
+            return res.json(event);
+        } catch (e) {
+            next(ApiError.badRequest(e.message));
+        }
+    }
+
+    async getCategories(req, res, next) {
+        try {
+            let { id } = req.params;
+            const event = await Event.findOne({
+                where: { id },
+                include: { model: Category },
+            });
+            if (!event) return next(ApiError.notFound("Event not found"));
+            return res.json(event.categories);
+        } catch (e) {
+            next(ApiError.badRequest(e.message));
+        }
+    }
+
+    // async patch(req, res, next) {
+    //     try {
+    //         let { id } = req.params;
+    //         let { title, picture, description, date, location, price, tickets_count, categories } = req.body;
+
+    //         const event = await Event.findOne({ where: { id } });
+    //         if (!event) return next(ApiError.notFound("Event not found!"));
+
+    //         if (req.account.id != event.userId && req.account.role != "ADMIN") {
+    //             return next(ApiError.forbidden());
+    //         }
+
+    //         let data = {};
+    //         if (content && req.user.id == event.userId) data.content = content;
+
+    //         if (!data.content && data.status === undefined)
+    //             return next(ApiError.forbidden());
+    //         await Event.update(data, { where: { id } });
+
+    //         const db_categories = await Category.findAll({
+    //             where: { id: categories },
+    //         });
+    //         // if (!db_categories[0])
+    //         //     return next(ApiError.notFound("Category not found!"));
+    //         await event.setCategories(db_categories);
+
+    //         return res.json({ message: "Event update!" });
+    //     } catch (e) {
+    //         next(ApiError.badRequest(e.message));
+    //     }
+    // }
 }
 
 module.exports = new EventController();
