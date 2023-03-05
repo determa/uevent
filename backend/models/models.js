@@ -62,6 +62,8 @@ const EventMedia = sequelize.define('event_media');
 
 const EventCategory = sequelize.define('event_category');
 
+const UserFavorite = sequelize.define('user_favorite');
+
 Account.hasOne(User);
 User.belongsTo(Account);
 
@@ -83,17 +85,17 @@ Media.belongsToMany(Event, { through: EventMedia });
 Event.belongsToMany(Category, { through: EventCategory });
 Category.belongsToMany(Event, { through: EventCategory });
 
-User.hasMany(Comment);
-Comment.belongsTo(User);
-
-Event.hasMany(Comment);
-Comment.belongsTo(Event);
+Account.hasMany(Comment);
+Comment.belongsTo(Account);
 
 User.hasMany(Ticket);
 Ticket.belongsTo(User);
 
 Event.hasMany(Ticket);
 Ticket.belongsTo(Event);
+
+User.belongsToMany(Event, {through: UserFavorite});
+Event.belongsToMany(User, {through: UserFavorite});
 
 module.exports = {
     Account,
