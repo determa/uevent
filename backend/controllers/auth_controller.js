@@ -36,6 +36,13 @@ const generateJwt = (accountId, id, type, time, key) => {
     );
 }
 
+const cookieOptions = {
+    secure: true,
+    httpOnly: true,
+    sameSite: 'None',
+    maxAge: 24 * 60 * 60 * 1000,
+  };
+
 class AuthController {
     async register_account(req, res, next) {
         try {
@@ -45,6 +52,9 @@ class AuthController {
             }
             if (password !== password_conf) {
                 return next(ApiError.badRequest("Пароли не совпадают!"));
+            }
+            if (!/\S+@\S+\.\S+/.test(email)) {
+                return ApiError.badRequest('Некорректный email!');
             }
             if (await Account.findOne({ where: { email } })) {
                 return next(ApiError.badRequest("Аккаунт уже существует!"));
@@ -112,18 +122,9 @@ class AuthController {
             const accessToken = generateJwt(account.id, account_type.id, type, '24h', process.env.SECRET_KEY_ACCESS);
             const newRefreshToken = generateJwt(account.id, account_type.id, type, '24h', process.env.SECRET_KEY_REFRESH); ///back time to 60s
             if (cookies?.token) {
-                res.clearCookie('token', {
-                    secure: true,
-                    httpOnly: true,
-                    sameSite: 'None'
-                });
+                res.clearCookie('token', cookieOptions);
             }
-            res.cookie('token', accessToken, {
-                secure: true,
-                maxAge: 24 * 60 * 60 * 1000,
-                httpOnly: true,
-                sameSite: 'None'
-            });
+            res.cookie('token', accessToken, cookieOptions);
             res.json(newRefreshToken);
         } catch (error) {
             console.log(error);
@@ -135,11 +136,7 @@ class AuthController {
         try {
             const cookies = req.cookies;
             if (cookies?.token) {
-                res.clearCookie('token', {
-                    secure: true,
-                    httpOnly: true,
-                    sameSite: 'None'
-                });
+                res.clearCookie('token', cookieOptions);
             }
             return res.json({ message: "Выход успешен!" });
         } catch (error) {

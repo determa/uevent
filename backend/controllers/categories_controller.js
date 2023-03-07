@@ -16,7 +16,7 @@ class CategoryController {
         }
     }
 
-    async get_сategories_by_event(req, res, next) {
+    async get_categories_by_event(req, res, next) {
         try {
             let { id } = req.params;
             const event = await Event.findOne({

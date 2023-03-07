@@ -2,7 +2,7 @@ const ApiError = require("../error/ApiError");
 const { User, Company, Account, Category, Event, Comment } = require("../models/models");
 
 class CommentController {
-    async get_сomments(req, res, next) {
+    async get_comments(req, res, next) {
         try {
             let { id } = req.params;
             let { limit, page } = req.query;
