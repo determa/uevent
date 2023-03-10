@@ -9,8 +9,7 @@ class CommentController {
             page = page || 1;
             limit = limit || 10;
             let offset = page * limit - limit;
-
-            const comments = await Comment.findAll({ limit, offset, where: { eventId: id } });
+            const comments = await Comment.findAll({ limit, offset, where: { eventId: id }, include: [{ model: Comment, as: 'replies' }] });
             if (!comments[0]) return next(ApiError.notFound("Комментарии не найдены!"));
             return res.json(comments);
         } catch (e) {
@@ -33,6 +32,28 @@ class CommentController {
             });
             if (!comment) return next(ApiError.internal("comment not add"));
             return res.json(comment);
+        } catch (e) {
+            return next(ApiError.badRequest(e.message));
+        }
+    }
+
+    async create_answer(req, res, next) {
+        try {
+            let { id, comment_id } = req.params;
+            const { content } = req.body;
+            if (!content) return next(ApiError.badRequest("Некорректное поле!"));
+
+            const comment = await Comment.findOne({ where: { comment_id } });
+            if (!comment) return next(ApiError.notFound("Комментарий не найден!"));
+            let answer = await Comment.create({
+                content,
+                accountId: req.account.id,
+                eventId: id,
+                parent_comment_id: comment_id,
+            });
+            comment.addReply(answer);
+            if (!answer) return next(ApiError.internal("comment not add"));
+            return res.json(answer);
         } catch (e) {
             return next(ApiError.badRequest(e.message));
         }
