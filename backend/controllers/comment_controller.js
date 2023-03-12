@@ -19,17 +19,25 @@ class CommentController {
 
     async create(req, res, next) {
         try {
-            let { id } = req.params;
+            let { id, comment_id } = req.params;
             const { content } = req.body;
             if (!content) return next(ApiError.badRequest("Некорректное поле!"));
 
             const event = await Event.findOne({ where: { id } });
             if (!event) return next(ApiError.notFound("Событие не найдено!"));
+            const comment_parent = await Comment.findOne({ where: { comment_id } });
+            if (comment_id) {
+                if (!comment_parent) return next(ApiError.notFound("Комментарий не найден!"));
+            }
             let comment = await Comment.create({
                 content,
                 accountId: req.account.id,
                 eventId: id,
+                parent_comment_id: comment_id ? comment_id : null,
             });
+            if (comment_id) {
+                comment_parent.addReply(comment);
+            }
             if (!comment) return next(ApiError.internal("comment not add"));
             return res.json(comment);
         } catch (e) {
@@ -37,27 +45,27 @@ class CommentController {
         }
     }
 
-    async create_answer(req, res, next) {
-        try {
-            let { id, comment_id } = req.params;
-            const { content } = req.body;
-            if (!content) return next(ApiError.badRequest("Некорректное поле!"));
+    // async create_answer(req, res, next) {
+    //     try {
+    //         let { id, comment_id } = req.params;
+    //         const { content } = req.body;
+    //         if (!content) return next(ApiError.badRequest("Некорректное поле!"));
 
-            const comment = await Comment.findOne({ where: { comment_id } });
-            if (!comment) return next(ApiError.notFound("Комментарий не найден!"));
-            let answer = await Comment.create({
-                content,
-                accountId: req.account.id,
-                eventId: id,
-                parent_comment_id: comment_id,
-            });
-            comment.addReply(answer);
-            if (!answer) return next(ApiError.internal("comment not add"));
-            return res.json(answer);
-        } catch (e) {
-            return next(ApiError.badRequest(e.message));
-        }
-    }
+    //         const comment = await Comment.findOne({ where: { comment_id } });
+    //         if (!comment) return next(ApiError.notFound("Комментарий не найден!"));
+    //         let answer = await Comment.create({
+    //             content,
+    //             accountId: req.account.id,
+    //             eventId: id,
+    //             parent_comment_id: comment_id,
+    //         });
+    //         comment.addReply(answer);
+    //         if (!answer) return next(ApiError.internal("comment not add"));
+    //         return res.json(answer);
+    //     } catch (e) {
+    //         return next(ApiError.badRequest(e.message));
+    //     }
+    // }
 
     async update(req, res, next) {
         try {
