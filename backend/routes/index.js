@@ -7,8 +7,8 @@ const commentsRouter = require('./commentsRouter');
 const eventRouter = require('./eventRouter');
 
 router.use('/auth', authRouter);
-router.use('/categories', authRouter);
-router.use('/comments', authRouter);
-router.use('/events', authRouter);
+router.use('/categories', categoriesRouter);
+router.use('/comments', commentsRouter);
+router.use('/events', eventRouter);
 
 module.exports = router;
