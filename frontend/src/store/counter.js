@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import axios from 'axios';
+import axios from "axios";
 
 class Counter {
     count = 0;
@@ -22,10 +22,14 @@ class Counter {
     }
 
     async getUsers() {
-        const response = await axios.get(
-            "https://jsonplaceholder.typicode.com/users"
-        );
-        this.users = response.data;
+        const response = await axios.get("https://randomuser.me/api");
+
+        this.setUser(response.data.results[0]);
+    }
+
+    setUser(user) {
+        this.users.push(user);
+        console.log(user);
     }
 }
 
