@@ -1,26 +1,49 @@
 import { useState } from "react";
 import AuthForm from "../components/AuthForm";
 import SignUpForm from "../components/SignUpForm";
-import Saly from "../images/Saly-1.svg";
 
 const AuthPage = () => {
-
     let [page, setPage] = useState(false);
 
     return (
         <div className="bg-auth-back min-h-screen flex justify-center items-center">
-            <div className="flex flex-col items-center bg-white rounded-lg shadow-sm p-5 gap-4">
-                <h1>{page ? "SignUp" : "Login"}</h1>
+            <div className="flex flex-col items-center bg-white rounded-lg shadow-md p-5 gap-4">
+                <h1 className="font-semibold">
+                    {page ? "Create Account" : "Welcome"}
+                </h1>
                 <div className="flex w-full">
-                    <button className="flex-1" onClick={() => { setPage(false) }}>Login</button>
-                    <button className="flex-1" onClick={() => { setPage(true) }}>SignUp</button>
+                    <button
+                        className={
+                            (page
+                                ? "border-2 border-gray-200 text-gray-900 rounded-l-lg"
+                                : "bg-indigo-600 text-white rounded-l-lg") +
+                            " flex-1 py-2 px-3 text-sm font-semibold"
+                        }
+                        onClick={() => {
+                            setPage(false);
+                        }}
+                    >
+                        Login
+                    </button>
+                    <button
+                        className={
+                            (page
+                                ? "bg-indigo-600 text-white rounded-r-lg"
+                                : "border-2 border-gray-200 text-gray-900 rounded-r-lg") +
+                            " flex-1 py-2 px-3 text-sm font-semibold"
+                        }
+                        onClick={() => {
+                            setPage(true);
+                        }}
+                    >
+                        SignUp
+                    </button>
                 </div>
                 <div className="flex">
-                    {/* <SignUpForm /> */}
-                    <AuthForm />
+                    {page ? <SignUpForm /> : <AuthForm />}
                 </div>
             </div>
-        </div >
+        </div>
     );
 };
 
