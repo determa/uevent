@@ -1,6 +1,6 @@
 const SignUpForm = () => {
     return (
-        <form class="flex gap-3 flex-col bg-white p-10 rounded-2xl absolute top-0 right-0 bottom-0 left-0" action="#">
+        <form class="flex gap-3 flex-col bg-white p-10 rounded-2xl" action="#">
             <p className="text-4xl font-extrabold">Create Account</p>
             <div>
                 <input
