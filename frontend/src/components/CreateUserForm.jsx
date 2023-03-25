@@ -1,36 +1,67 @@
 const CreateUserForm = () => {
+    function previewImage() {
+        const preview = document.getElementById("preview");
+        const file = document.querySelector("input[type=file]").files[0];
+        const reader = new FileReader();
+
+        reader.addEventListener(
+            "load",
+            function () {
+                preview.innerHTML = `<img src="${reader.result}" class="h-full w-full object-cover">`;
+                preview.classList.remove("hidden");
+            },
+            false
+        );
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    }
+
     return (
         <form className="flex gap-3 flex-col" action="#">
-            {/* <div class="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+            <div className="flex items-center justify-center">
+                <label
+                    htmlFor="avatar"
+                    className="relative flex items-center justify-center w-20 h-20 rounded-full bg-gray-400 text-gray-700 cursor-pointer hover:bg-gray-500"
+                >
                     <svg
-                        class="absolute w-12 h-12 text-gray-400 -left-1"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
+                        className="h-full w-full"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
                         xmlns="http://www.w3.org/2000/svg"
                     >
+                        <rect
+                            x="0.62854"
+                            y="0.359985"
+                            width="15"
+                            height="15"
+                            rx="7.5"
+                        />
                         <path
-                            fill-rule="evenodd"
-                            d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                            clip-rule="evenodd"
-                        ></path>
+                            d="M8.12421 7.20374C9.21151 7.20374 10.093 6.32229 10.093 5.23499C10.093 4.14767 9.21151 3.26624 8.12421 3.26624C7.0369 3.26624 6.15546 4.14767 6.15546 5.23499C6.15546 6.32229 7.0369 7.20374 8.12421 7.20374Z"
+                            fill="currentColor"
+                        />
+                        <path
+                            d="M11.818 10.5975C10.2992 12.6412 7.42106 13.0631 5.37731 11.5537C5.01171 11.2818 4.69296 10.9631 4.42107 10.5975C4.28982 10.4006 4.27107 10.1475 4.37419 9.94123L4.51482 9.65059C4.84296 8.95684 5.53671 8.51624 6.30546 8.51624H9.95231C10.7023 8.51624 11.3867 8.94749 11.7242 9.62249L11.8742 9.93184C11.968 10.1475 11.9586 10.4006 11.818 10.5975Z"
+                            fill="currentColor"
+                        />
                     </svg>
-                </div>
-                <label
-                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    for="file_input"
-                ></label> */}
-            <input
-                class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                aria-describedby="file_input_help"
-                id="file_input"
-                type="file"
-            />
-            <p
-                class="mt-1 text-sm text-gray-500 dark:text-gray-300"
-                id="file_input_help"
-            >
-                SVG, PNG, JPG or GIF (MAX. 800x400px).
-            </p>
+                    <input
+                        type="file"
+                        name="avatar"
+                        id="avatar"
+                        className="hidden"
+                        onChange={previewImage}
+                    />
+                    <div
+                        id="preview"
+                        className="absolute inset-0 rounded-full overflow-hidden hidden"
+                    ></div>
+                </label>
+            </div>
 
             <input
                 id="name"
