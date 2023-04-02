@@ -1,12 +1,12 @@
+import React from "react";
+import { BrowserRouter } from "react-router-dom";
+import AppRouter from "./components/AppRouter";
+
 function App() {
     return (
-        <div>
-            <header>
-                <p>
-                    Edit <code>src/App.js</code> and save to reload.
-                </p>
-            </header>
-        </div>
+        <BrowserRouter>
+            <AppRouter />
+        </BrowserRouter>
     );
 }
 
