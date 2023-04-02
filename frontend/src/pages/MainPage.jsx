@@ -7,7 +7,9 @@ import Footer from "../components/Footer";
 const MainPage = () => {
     return (
         <>
-            <Header />
+            <div className="bg-header bg-center h-96">
+                <Header />
+            </div>
             <div className="px-4 sm:px-6 lg:px-8">
                 <SearchTicket />
                 <Events />
