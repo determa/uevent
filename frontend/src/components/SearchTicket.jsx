@@ -1,9 +1,4 @@
 import React from "react";
-import { Fragment } from "react";
-
-function classNames(...classes) {
-    return classes.filter(Boolean).join(" ");
-}
 
 const SearchTicket = () => {
     return (

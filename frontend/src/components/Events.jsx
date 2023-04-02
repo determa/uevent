@@ -1,51 +1,5 @@
 import React from "react";
-
-const evnts = [
-    {
-        id: 1,
-        name: "Dnipro Fest",
-        href: "#",
-        imageSrc:
-            "https://img.freepik.com/free-vector/silhouette-party-audience_1048-9714.jpg",
-        imageAlt: "Party",
-        date: "Fri, 24.03.2022 19:00",
-        price: "350 грн",
-        place: "Dnipro City",
-    },
-    {
-        id: 2,
-        name: "Dnipro Fest",
-        href: "#",
-        imageSrc:
-            "https://img.freepik.com/free-vector/silhouette-party-audience_1048-9714.jpg",
-        imageAlt: "Party",
-        date: "Fri, 24.03.2022 19:00",
-        price: "350 грн",
-        place: "Dnipro City",
-    },
-    {
-        id: 3,
-        name: "Dnipro Fest",
-        href: "#",
-        imageSrc:
-            "https://img.freepik.com/free-vector/silhouette-party-audience_1048-9714.jpg",
-        imageAlt: "Party",
-        date: "Fri, 24.03.2022 19:00",
-        price: "350 грн",
-        place: "Dnipro City",
-    },
-    {
-        id: 4,
-        name: "Dnipro Fest",
-        href: "#",
-        imageSrc:
-            "https://img.freepik.com/free-vector/silhouette-party-audience_1048-9714.jpg",
-        imageAlt: "Party",
-        date: "Fri, 24.03.2022 19:00",
-        price: "350 грн",
-        place: "Dnipro City",
-    },
-];
+import evnts from "./eventList";
 
 const Events = () => {
     return (

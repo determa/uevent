@@ -1,12 +1,14 @@
 import { useState } from "react";
 import AuthForm from "../components/AuthForm";
 import SignUpForm from "../components/SignUpForm";
+import Stepper from "../components/Stepper";
 
 const AuthPage = () => {
     let [page, setPage] = useState(false);
 
     return (
-        <div className="bg-auth-back min-h-screen flex justify-center items-center">
+        <div className="bg-auth-back min-h-screen flex justify-center items-center flex-col gap-3">
+            <Stepper />
             <div className="flex flex-col items-center bg-white rounded-lg shadow-md p-5 gap-4">
                 <h1 className="font-semibold">
                     {page ? "Create Account" : "Welcome"}
