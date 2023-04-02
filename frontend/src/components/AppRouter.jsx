@@ -13,7 +13,7 @@ const AppRouter = () => {
             {publicRoutes.map(({path, component}) => {
                 return <Route key={path} path={path} element={component} exact/>
             })}
-            <Route path='*' element={<Navigate to={'/auth'} replace/>}/>
+            <Route path='*' element={<Navigate to={'/'} replace/>}/>
         </Routes>
     )
 
