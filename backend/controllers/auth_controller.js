@@ -36,12 +36,23 @@ const generateJwt = (accountId, id, type, time, key) => {
     );
 }
 
+const generate_tokens = (accountId, id, type, req, res) => {
+    const cookies = req.cookies;
+    const accessToken = generateJwt(accountId, id, type, '30s', process.env.SECRET_KEY_ACCESS);
+    const newRefreshToken = generateJwt(accountId, id, type, '24h', process.env.SECRET_KEY_REFRESH); ///back time to 60s
+    if (cookies?.token) {
+        res.clearCookie('token', cookieOptions);
+    }
+    res.cookie('token', newRefreshToken, cookieOptions);
+    return accessToken;
+}
+
 const cookieOptions = {
-    secure: true,
+    secure: false, //need true
     httpOnly: true,
     sameSite: 'None',
     maxAge: 24 * 60 * 60 * 1000,
-  };
+};
 
 class AuthController {
     async register_account(req, res, next) {
@@ -60,8 +71,8 @@ class AuthController {
                 return next(ApiError.badRequest("Аккаунт уже существует!"));
             }
             const hashPassword = await bcrypt.hash(password, 5);
-            await Account.create({ username, password: hashPassword, email });
-            return res.json({ message: "Регистрация успешна!" });
+            const account = await Account.create({ password: hashPassword, email });
+            return res.json(generate_tokens(account.id, 0, 'NONE', req, res));
         } catch (error) {
             console.log(error);
             return next(ApiError.internal());
@@ -74,8 +85,8 @@ class AuthController {
             if (!name) {
                 return next(ApiError.badRequest("Некорректное поле!"));
             }
-            await User.create({ name, picture });
-            return res.json({ message: "Регистрация успешна!" });
+            const user = await User.create({ name, picture, accountId: req.account.accountId });
+            return res.json(generate_tokens(req.account.accountId, user.id, 'USER', req, res));
         } catch (error) {
             console.log(error);
             return next(ApiError.internal());
@@ -88,8 +99,8 @@ class AuthController {
             if (!name || !location || !description) {
                 return next(ApiError.badRequest("Некорректное поле!"));
             }
-            await Company.create({ name, picture, location, description });
-            return res.json({ message: "Регистрация успешна!" });
+            const company = await Company.create({ name, picture, location, description, accountId: req.account.accountId });
+            return res.json(generate_tokens(req.account.accountId, company.id, 'COMPANY', req, res));
         } catch (error) {
             console.log(error);
             return next(ApiError.internal());
@@ -98,7 +109,6 @@ class AuthController {
 
     async login(req, res, next) {
         try {
-            const cookies = req.cookies;
             const { password, email } = req.body;
             if (!password || !email) {
                 return next(ApiError.badRequest("Некорректное поле!"));
@@ -107,25 +117,19 @@ class AuthController {
             if (!account) {
                 return next(ApiError.notFound("Аккаунт не найден!"));
             }
-            let type = 'user';
+            let type = 'USER';
             let account_type = await User.findOne({ where: { accountId: account.id } });
             if (!account_type) {
-                type = 'company';
+                type = 'COMPANY';
                 account_type = await Company.findOne({ where: { accountId: account.id } })
                 if (!account_type) {
-                    return next(ApiError.forbidden("Продолжите регистрацию!"));
+                    type = 'NONE';
                 }
             }
             if (!bcrypt.compareSync(password, account.password)) {
                 return next(ApiError.badRequest("Неверные данные!"));
             }
-            const accessToken = generateJwt(account.id, account_type.id, type, '24h', process.env.SECRET_KEY_ACCESS);
-            const newRefreshToken = generateJwt(account.id, account_type.id, type, '24h', process.env.SECRET_KEY_REFRESH); ///back time to 60s
-            if (cookies?.token) {
-                res.clearCookie('token', cookieOptions);
-            }
-            res.cookie('token', accessToken, cookieOptions);
-            res.json(newRefreshToken);
+            res.json(generate_tokens(account.id, account_type?.id || 0, type, req, res));
         } catch (error) {
             console.log(error);
             return next(ApiError.internal());
@@ -195,13 +199,12 @@ class AuthController {
         try {
             const token = req.cookies.token;
             if (!token) return next(ApiError.notAuth());
-            const { id, type } = jwt.verify(token, process.env.SECRET_KEY_ACCESS);
-            const account = await Account.findOne({ where: { id } });
+            const { accountId, id, type } = jwt.verify(token, process.env.SECRET_KEY_REFRESH);
+            const account = await Account.findOne({ where: { accountId } });
             if (!account) {
                 return next(ApiError.notAuth("Пользователь не найден!"));
             }
-            const jwt_token = generateJwt(account.id, type, '60s', process.env.SECRET_KEY_REFRESH);
-            return res.json(jwt_token);
+            return res.json(generate_tokens(accountId, id, type, req, res));
         } catch (error) {
             console.log(error);
             return next(ApiError.notAuth());

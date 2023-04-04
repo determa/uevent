@@ -7,12 +7,13 @@ module.exports = function (req, res, next) {
     }
     try {
         const token = req.cookies.token;
+        console.log(token, req.headers.authorization)
         if (!token || !req.headers.authorization) return next(ApiError.notAuth());
-        const refresh_token = req.headers.authorization.split(" ")[1];
-        if (!refresh_token) {
+        const access_token = req.headers.authorization.split(" ")[1];
+        if (!access_token) {
             return next(ApiError.notAuth());
         }
-        const decoded = jwt.verify(refresh_token, process.env.SECRET_KEY_REFRESH);
+        const decoded = jwt.verify(access_token, process.env.SECRET_KEY_ACCESS);
         req.account = decoded;
         next();
     } catch (error) {

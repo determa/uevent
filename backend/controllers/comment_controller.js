@@ -31,7 +31,7 @@ class CommentController {
             }
             let comment = await Comment.create({
                 content,
-                accountId: req.account.id,
+                accountId: req.account.accountId,
                 eventId: id,
                 parent_comment_id: comment_id ? comment_id : null,
             });
@@ -75,7 +75,7 @@ class CommentController {
             const comment = await Comment.findOne({ where: { id } });
             if (!comment) return next(ApiError.notFound("Комментарий не найден!"));
 
-            if (req.account.id != comment.accountId) {
+            if (req.account.accountId != comment.accountId) {
                 return next(ApiError.forbidden());
             }
 
@@ -94,7 +94,7 @@ class CommentController {
             const comment = await Comment.findOne({ where: { id } });
             if (!comment) return next(ApiError.notFound("Комментарий не найден!"));
 
-            if (req.account.id != comment.accountId && req.account.role != "ADMIN" && req.account.role != "MODERATOR") {
+            if (req.account.accountId != comment.accountId && req.account.role != "ADMIN" && req.account.role != "MODERATOR") {
                 return next(ApiError.forbidden());
             }
 
