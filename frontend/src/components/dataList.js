@@ -45,4 +45,11 @@ const evnts = [
     },
 ];
 
-export default evnts;
+const userProfile = {
+    id: 333,
+    name: "Jonny",
+    picture: "https://randomuser.me/api/portraits/men/99.jpg",
+    role: "ADMIN",
+};
+
+export { evnts, userProfile };

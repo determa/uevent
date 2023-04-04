@@ -3,10 +3,11 @@ import Header from "../components/Header";
 import SearchTicket from "../components/SearchTicket";
 import Events from "../components/Events";
 import Footer from "../components/Footer";
+import ReactDOM from "react-dom/client";
 
 const MainPage = () => {
     return (
-        <>
+        <div className="flex flex-col justify-between min-h-screen">
             <div className="bg-header bg-center h-96">
                 <Header />
             </div>
@@ -14,8 +15,8 @@ const MainPage = () => {
                 <SearchTicket />
                 <Events />
             </div>
-            <Footer />
-        </>
+            {/* <Footer /> */}
+        </div>
     );
 };
 

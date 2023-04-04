@@ -65,7 +65,7 @@ class AuthController {
                 return next(ApiError.badRequest("Пароли не совпадают!"));
             }
             if (!/\S+@\S+\.\S+/.test(email)) {
-                return ApiError.badRequest('Некорректный email!');
+                return next(ApiError.badRequest('Некорректный email!'));
             }
             if (await Account.findOne({ where: { email } })) {
                 return next(ApiError.badRequest("Аккаунт уже существует!"));

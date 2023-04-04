@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Header = () => {
     return (
-        <header className="bg-gradient-to-r from-[#ED4690]/70 to-[#5522CC]/70 h-full w-full border-gray-200 px-4 lg:px-6 py-3 dark:bg-gray-800">
+        <header className="bg-gradient-to-r from-[#ED4690]/70 to-[#5522CC]/70 w-full h-full border-gray-200 px-4 lg:px-6 py-3 dark:bg-gray-800">
             <nav>
                 <ul className="flex text-white flex-wrap justify-between items-center mx-auto max-w-screen-xl">
                     <li>
@@ -21,10 +21,10 @@ const Header = () => {
                         <Link to={`/`}>Ticket</Link>
                     </li>
                     <li>
-                        <Link to={`/`}>Contact</Link>
+                        <Link to={`/user`}>Profile</Link>
                     </li>
                     <li>
-                        <Link to="/login">Create account</Link>
+                        <Link to="/auth">Create account</Link>
                     </li>
                 </ul>
             </nav>

@@ -7,7 +7,7 @@ const AuthPage = () => {
     let [page, setPage] = useState(false);
 
     return (
-        <div className="bg-auth-back min-h-screen flex justify-center items-center flex-col gap-3">
+        <div className="bg-auth-back flex-1 flex justify-center items-center flex-col gap-3">
             <Stepper />
             <div className="flex flex-col items-center bg-white rounded-lg shadow-md p-5 gap-4">
                 <h1 className="font-semibold">

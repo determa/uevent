@@ -1,5 +1,5 @@
 import React from "react";
-import evnts from "./eventList";
+import {evnts} from "./dataList";
 
 const Events = () => {
     return (
