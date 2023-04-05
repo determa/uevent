@@ -10,7 +10,7 @@ const AuthForm = () => {
     async function login_handler(e) {
         e.preventDefault();
         let res = await login(new FormData(e.target))
-        dispatch(setCredentials(res));
+        if (!res.error) dispatch(setCredentials(res));
     }
 
     return (

@@ -3,18 +3,21 @@ import { userAPI } from "../services/UserService";
 import { setCredentials } from "../store/reducers/UserSlice";
 
 const SignUpForm = () => {
-
     const [register, { data, error: reg_er }] = userAPI.useRegisterMutation();
     const dispatch = useDispatch();
 
     async function register_handler(e) {
         e.preventDefault();
         const res = await register(new FormData(e.target));
-        dispatch(setCredentials(res));
+        if (!res.error) dispatch(setCredentials(res));
     }
 
     return (
-        <form className="flex gap-3 flex-col" method="POST" onSubmit={register_handler}>
+        <form
+            className="flex gap-3 flex-col"
+            method="POST"
+            onSubmit={register_handler}
+        >
             <input
                 id="email"
                 name="email"

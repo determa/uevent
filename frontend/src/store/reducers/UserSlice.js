@@ -6,6 +6,7 @@ const authSlice = createSlice({
     initialState: { token: null, isAuth: false, accountId: null, id: null, type: null, confirmed: null },
     reducers: {
         setCredentials: (state, action) => {
+            console.log(action.payload)
             const { jwt_token } = action.payload.data;
             const { accountId, id, type, confirmed } = jwt_decode(jwt_token);
             state.token = jwt_token;
