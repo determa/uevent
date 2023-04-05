@@ -1,6 +1,20 @@
+import { useDispatch } from "react-redux";
+import { userAPI } from "../services/UserService";
+import { setCredentials } from "../store/reducers/UserSlice";
+
 const SignUpForm = () => {
+
+    const [register, { data, error: reg_er }] = userAPI.useRegisterMutation();
+    const dispatch = useDispatch();
+
+    async function register_handler(e) {
+        e.preventDefault();
+        const res = await register(new FormData(e.target));
+        dispatch(setCredentials(res));
+    }
+
     return (
-        <form className="flex gap-3 flex-col" action="#">
+        <form className="flex gap-3 flex-col" method="POST" onSubmit={register_handler}>
             <input
                 id="email"
                 name="email"
@@ -21,8 +35,8 @@ const SignUpForm = () => {
             />
 
             <input
-                id="conf_password"
-                name="conf_password"
+                id="password_conf"
+                name="password_conf"
                 type="password"
                 autoComplete="new-password"
                 required

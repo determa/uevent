@@ -29,26 +29,26 @@ const send_mail = (path, email, jwt) => {
     });
 }
 
-const generateJwt = (accountId, id, type, time, key) => {
-    return jwt.sign({ accountId, id, type },
+const generateJwt = (accountId, id, type, confirmed, time, key) => {
+    return jwt.sign({ accountId, id, type, confirmed },
         key,
         { expiresIn: time }
     );
 }
 
-const generate_tokens = (accountId, id, type, req, res) => {
+const generate_tokens = (accountId, id, type, confirmed, req, res) => {
     const cookies = req.cookies;
-    const accessToken = generateJwt(accountId, id, type, '30s', process.env.SECRET_KEY_ACCESS);
-    const newRefreshToken = generateJwt(accountId, id, type, '24h', process.env.SECRET_KEY_REFRESH); ///back time to 60s
+    const accessToken = generateJwt(accountId, id, type, confirmed, '30s', process.env.SECRET_KEY_ACCESS);
+    const newRefreshToken = generateJwt(accountId, id, type, confirmed, '24h', process.env.SECRET_KEY_REFRESH); ///back time to 60s
     if (cookies?.token) {
         res.clearCookie('token', cookieOptions);
     }
     res.cookie('token', newRefreshToken, cookieOptions);
-    return accessToken;
+    return {jwt_token: accessToken};
 }
 
 const cookieOptions = {
-    secure: false, //need true
+    secure: true, //need true
     httpOnly: true,
     sameSite: 'None',
     maxAge: 24 * 60 * 60 * 1000,
@@ -72,7 +72,7 @@ class AuthController {
             }
             const hashPassword = await bcrypt.hash(password, 5);
             const account = await Account.create({ password: hashPassword, email });
-            return res.json(generate_tokens(account.id, 0, 'NONE', req, res));
+            return res.json(generate_tokens(account.id, 0, 'NONE', account.confirmed, req, res));
         } catch (error) {
             console.log(error);
             return next(ApiError.internal());
@@ -86,7 +86,7 @@ class AuthController {
                 return next(ApiError.badRequest("Некорректное поле!"));
             }
             const user = await User.create({ name, picture, accountId: req.account.accountId });
-            return res.json(generate_tokens(req.account.accountId, user.id, 'USER', req, res));
+            return res.json(generate_tokens(req.account.accountId, user.id, 'USER', req.account.confirmed, req, res));
         } catch (error) {
             console.log(error);
             return next(ApiError.internal());
@@ -100,7 +100,7 @@ class AuthController {
                 return next(ApiError.badRequest("Некорректное поле!"));
             }
             const company = await Company.create({ name, picture, location, description, accountId: req.account.accountId });
-            return res.json(generate_tokens(req.account.accountId, company.id, 'COMPANY', req, res));
+            return res.json(generate_tokens(req.account.accountId, company.id, 'COMPANY', req.account.confirmed, req, res));
         } catch (error) {
             console.log(error);
             return next(ApiError.internal());
@@ -129,7 +129,7 @@ class AuthController {
             if (!bcrypt.compareSync(password, account.password)) {
                 return next(ApiError.badRequest("Неверные данные!"));
             }
-            res.json(generate_tokens(account.id, account_type?.id || 0, type, req, res));
+            res.json(generate_tokens(account.id, account_type?.id || 0, type, account.confirmed, req, res));
         } catch (error) {
             console.log(error);
             return next(ApiError.internal());
@@ -198,13 +198,14 @@ class AuthController {
     async handleRefreshToken(req, res, next) {
         try {
             const token = req.cookies.token;
+            console.log(token)
             if (!token) return next(ApiError.notAuth());
-            const { accountId, id, type } = jwt.verify(token, process.env.SECRET_KEY_REFRESH);
-            const account = await Account.findOne({ where: { accountId } });
+            const { accountId, id, type, confirmed } = jwt.verify(token, process.env.SECRET_KEY_REFRESH);
+            const account = await Account.findOne({ where: { id: accountId } });
             if (!account) {
                 return next(ApiError.notAuth("Пользователь не найден!"));
             }
-            return res.json(generate_tokens(accountId, id, type, req, res));
+            return res.json(generate_tokens(accountId, id, type, confirmed, req, res));
         } catch (error) {
             console.log(error);
             return next(ApiError.notAuth());

@@ -8,6 +8,8 @@ const cors = require("cors");
 const errorHandler = require("./middleware/ErrorHandler");
 const path = require("path");
 const cookieParser = require("cookie-parser");
+const multer = require('multer');
+const upload = multer();
 
 const PORT = process.env.PORT || 5000;
 const HOST = process.env.HOST || "localhost";
@@ -17,6 +19,7 @@ app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 app.use(express.static(path.resolve(__dirname, "static")));
 // app.use(fileUpload({}));
+app.use(upload.array());
 app.use(cookieParser());
 app.get("/", (req, res) => {
     res.send("asd");

@@ -1,6 +1,20 @@
+import { useDispatch } from "react-redux";
+import { userAPI } from "../services/UserService";
+import { setCredentials } from "../store/reducers/UserSlice";
+
 const AuthForm = () => {
+
+    const [login, { data: log_data, error: log_er }] = userAPI.useLoginMutation();
+    const dispatch = useDispatch();
+
+    async function login_handler(e) {
+        e.preventDefault();
+        let res = await login(new FormData(e.target))
+        dispatch(setCredentials(res));
+    }
+
     return (
-        <form className="flex gap-3 flex-col" action="#">
+        <form className="flex gap-3 flex-col" method="POST" onSubmit={login_handler}>
             <input
                 id="email"
                 name="email"
