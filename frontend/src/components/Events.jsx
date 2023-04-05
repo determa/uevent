@@ -3,7 +3,7 @@ import {evnts} from "./dataList";
 
 const Events = () => {
     return (
-        <div className="mx-auto max-w-2xl lg:max-w-7xl">
+        <div className="mx-auto max-w-2xl lg:max-w-7xl mb-12">
             <h2 className="text-2xl font-bold tracking-tight text-gray-900">
                 Customers also purchased
             </h2>

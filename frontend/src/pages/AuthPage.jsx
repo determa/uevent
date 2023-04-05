@@ -2,12 +2,16 @@ import { useState } from "react";
 import AuthForm from "../components/AuthForm";
 import SignUpForm from "../components/SignUpForm";
 import Stepper from "../components/Stepper";
+import { Link } from "react-router-dom";
 
 const AuthPage = () => {
     let [page, setPage] = useState(false);
 
     return (
-        <div className="bg-auth-back flex-1 flex justify-center items-center flex-col gap-3">
+        <div className="bg-auth-back min-h-screen flex justify-center items-center flex-col gap-3">
+            <Link className="logo text-4xl font-semibold" to="/">
+                uevent
+            </Link>
             <Stepper />
             <div className="flex flex-col items-center bg-white rounded-lg shadow-md p-5 gap-4">
                 <h1 className="font-semibold">

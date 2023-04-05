@@ -3,7 +3,6 @@ import Header from "../components/Header";
 import SearchTicket from "../components/SearchTicket";
 import Events from "../components/Events";
 import Footer from "../components/Footer";
-import ReactDOM from "react-dom/client";
 
 const MainPage = () => {
     return (
@@ -15,7 +14,7 @@ const MainPage = () => {
                 <SearchTicket />
                 <Events />
             </div>
-            {/* <Footer /> */}
+            <Footer />
         </div>
     );
 };
