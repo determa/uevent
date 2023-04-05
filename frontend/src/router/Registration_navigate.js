@@ -1,20 +1,37 @@
-import { useSelector } from "react-redux"
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import AuthPage from "../pages/AuthPage";
 import RegisterSecondPage from "../pages/RegisterSecondPage";
+import Stepper from "../components/Stepper";
 
 export default () => {
-    const { isAuth, type, confirmed } = useSelector(state => state.userReducer);
+    const { isAuth, type, confirmed } = useSelector(
+        (state) => state.userReducer
+    );
     const navigate = useNavigate();
     if (!isAuth) {
-        return <AuthPage />;
+        return (
+            <>
+                <Stepper step={1} />
+                <AuthPage />
+            </>
+        );
     }
-    if (type == 'NONE') {
-        return <RegisterSecondPage />;
+    if (type == "NONE") {
+        return (
+            <>
+                <Stepper step={2} />
+                <RegisterSecondPage />
+            </>
+        );
     }
     if (!confirmed) {
-        return;
-        // navigate
+        return (
+            <>
+                <Stepper step={3} />
+                <RegisterSecondPage />
+            </>
+        );
     }
-    return navigate('/');
-}
+    return navigate("/");
+};
