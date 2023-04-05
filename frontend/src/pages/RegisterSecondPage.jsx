@@ -1,9 +1,11 @@
 import { useState } from "react";
 import CreateCompanyForm from "../components/CreateCompanyForm";
 import CreateUserForm from "../components/CreateUserForm";
+import Reg_navigate from '../router/Registration_navigate';
 
 const RegisterSecondPage = () => {
     let [page, setPage] = useState(false);
+    Reg_navigate();
 
     return (
         <div className="bg-auth-back min-h-screen flex justify-center items-center">

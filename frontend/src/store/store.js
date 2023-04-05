@@ -1,9 +1,9 @@
 import { combineReducers, configureStore, getDefaultMiddleware } from '@reduxjs/toolkit'
 import { userAPI } from '../services/UserService'
-import authReducer from './reducers/UserSlice'
+import userReducer from './reducers/UserSlice'
 
 const rootReducer = combineReducers({
-    authReducer,
+    userReducer,
     [userAPI.reducerPath]: userAPI.reducer
 })
 

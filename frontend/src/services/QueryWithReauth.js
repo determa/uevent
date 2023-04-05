@@ -5,7 +5,7 @@ const baseQuery = fetchBaseQuery({
     baseUrl: 'http://127.0.0.1:5000/api',
     credentials: 'include',
     prepareHeaders: (headers, { getState }) => {
-        const token = getState().authReducer.token;
+        const token = getState().userReducer.token;
         if (token) {
             headers.set("authorization", `Bearer ${token}`);
         }

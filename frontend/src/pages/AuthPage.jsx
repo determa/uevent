@@ -3,9 +3,11 @@ import AuthForm from "../components/AuthForm";
 import SignUpForm from "../components/SignUpForm";
 import Stepper from "../components/Stepper";
 import { Link } from "react-router-dom";
+import Reg_navigate from '../router/Registration_navigate';
 
 const AuthPage = () => {
     let [page, setPage] = useState(false);
+    Reg_navigate();
 
     return (
         <div className="bg-auth-back min-h-screen flex justify-center items-center flex-col gap-3">

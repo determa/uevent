@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import jwt_decode from "jwt-decode";
 
-const authSlice = createSlice({
+const userSlice = createSlice({
     name: 'auth',
     initialState: { token: null, isAuth: false, accountId: null, id: null, type: null, confirmed: null },
     reducers: {
@@ -28,6 +28,6 @@ const authSlice = createSlice({
         }
     }
 })
-export const { setCredentials, logOut } = authSlice.actions;
+export const { setCredentials, logOut } = userSlice.actions;
 
-export default authSlice.reducer;
+export default userSlice.reducer;
