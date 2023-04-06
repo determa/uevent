@@ -44,7 +44,7 @@ const generate_tokens = (accountId, id, type, confirmed, req, res) => {
         res.clearCookie('token', cookieOptions);
     }
     res.cookie('token', newRefreshToken, cookieOptions);
-    return {jwt_token: accessToken};
+    return { jwt_token: accessToken };
 }
 
 const cookieOptions = {
@@ -129,7 +129,7 @@ class AuthController {
             if (!bcrypt.compareSync(password, account.password)) {
                 return next(ApiError.badRequest("Неверные данные!"));
             }
-            res.json(generate_tokens(account.id, account_type?.id || 0, type, account.confirmed, req, res));
+            return res.json(generate_tokens(account.id, account_type?.id || 0, type, account.confirmed, req, res));
         } catch (error) {
             console.log(error);
             return next(ApiError.internal());
@@ -143,6 +143,34 @@ class AuthController {
                 res.clearCookie('token', cookieOptions);
             }
             return res.json({ message: "Выход успешен!" });
+        } catch (error) {
+            console.log(error);
+            return next(ApiError.internal());
+        }
+    }
+
+    async send_link(req, res, next) {
+        try {
+            const account = await Account.findOne({ where: { id: req.account.accountId } });
+            if (!account) {
+                return next(ApiError.notFound("Аккаунт не найден!"));
+            }
+            send_mail('validation', account.email, await bcrypt.hash(req.account.accountId, 5));
+            return res.json({message: "Ссылка отправлена"});
+        } catch (error) {
+            console.log(error);
+            return next(ApiError.internal());
+        }
+    }
+
+    async email_confirm(req, res, next) {
+        try {
+            const crypted_id = req.params.id;
+            if (!bcrypt.compareSync(crypted_id, req.account.accountId)) {
+                return next(ApiError.badRequest("Ссыла чужого пользователя!"));
+            }
+            await Account.update({ confirmed: true }, { where: { id: req.account.accountId } })
+            return res.redirect(process.env.CL_URL); //wefwfwef
         } catch (error) {
             console.log(error);
             return next(ApiError.internal());

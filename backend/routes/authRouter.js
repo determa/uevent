@@ -11,7 +11,7 @@ router.post("/logout", AuthController.logout);
 router.post("/password-reset", AuthController.password_reset);
 router.post("/password-reset/:token", AuthController.password_confirm);
 router.get("/refresh", AuthController.handleRefreshToken);
-// router.get("/email-confirm/:token", AuthController.emailConfirm);
-// router.get("/whoami", authMiddleware, AuthController.check);
+router.get("/validation", authMiddleware, AuthController.send_link);
+router.get("/validation/:id", authMiddleware, AuthController.email_confirm);
 
 module.exports = router;
