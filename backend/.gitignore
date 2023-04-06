@@ -60,4 +60,4 @@ test.js
 .env
 
 static/*
-!static/null.jpg
+!static/default.jpg

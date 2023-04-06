@@ -1,15 +1,15 @@
 import AuthPage from '../pages/AuthPage';
 import MainPage from '../pages/MainPage';
-import RegisterPage from '../pages/RegisterSecondPage';
 import EventPage from '../pages/EventPage';
 import Test from '../components/Test';
 import Container from '../pages/Container';
 import RegisterSteps from '../pages/RegisterSteps';
+import ProfilePage from '../pages/ProfilePage';
 
 export const publicRoutes = [
     {path: "/", component: <MainPage />},
     {path: "/auth", component: <RegisterSteps />},
-    // {path: "/register", component: <RegisterPage />},
+    {path: "/profile", component: <Container component={<ProfilePage />} />},
     {path: "/events/:id", component: <Container component={<EventPage />} />},
     {path: "/test", component: <Test />},
     // {path: "/password-reset", component: passwordResetPage, exact: true},

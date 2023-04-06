@@ -32,30 +32,32 @@ const DropDown = () => {
                         id="sett"
                         className="absolute right-0 z-10 mt-1 w-40 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5"
                     >
-                        <ul>
-                            <div className="py-1">
-                                <li className="text-gray-700 px-4 py-2 text-sm cursor-pointer">
-                                    Ваш профиль
-                                </li>
-                                <li className="text-gray-700 px-4 py-2 text-sm cursor-pointer">
-                                    Ваши билеты
-                                </li>
-                                <li className="text-gray-700 px-4 py-2 text-sm cursor-pointer">
-                                    Понравившиеся
-                                </li>
-                            </div>
-                            <div className="py-1 border-t border-gray-400">
-                                <li
-                                    className="text-gray-700 px-4 py-2 text-sm cursor-pointer"
-                                    onClick={() => {
-                                        dispatch(logOut());
-                                        logout();
-                                    }}
-                                >
-                                    Выйти
-                                </li>
-                            </div>
-                        </ul>
+                        <div className="py-1 flex flex-col">
+                            <Link
+                                to="/profile"
+                                className="text-gray-700 px-4 py-2 text-sm cursor-pointer"
+                            >
+                                Ваш профиль
+                            </Link>
+                            <Link className="text-gray-700 px-4 py-2 text-sm cursor-pointer">
+                                Ваши билеты
+                            </Link>
+                            <Link className="text-gray-700 px-4 py-2 text-sm cursor-pointer">
+                                Понравившиеся
+                            </Link>
+                        </div>
+                        <div className="py-1 flex flex-col border-t border-gray-400">
+                            <Link
+                                to="/"
+                                onClick={() => {
+                                    dispatch(logOut());
+                                    logout();
+                                }}
+                                className="text-gray-700 px-4 py-2 text-sm cursor-pointer"
+                            >
+                                Выйти
+                            </Link>
+                        </div>
                     </div>
                 )}
             </div>
