@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import AuthPage from "../pages/AuthPage";
 import RegisterSecondPage from "../pages/RegisterSecondPage";
 import Stepper from "../components/Stepper";
+import ConfirmEmailPage from "../pages/ConfirmEmailPage";
 
 export default () => {
     const { isAuth, type, confirmed } = useSelector(
@@ -29,7 +30,7 @@ export default () => {
         return (
             <>
                 <Stepper step={3} />
-                <RegisterSecondPage />
+                <ConfirmEmailPage />
             </>
         );
     }

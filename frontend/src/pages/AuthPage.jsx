@@ -1,11 +1,9 @@
 import { useState } from "react";
 import AuthForm from "../components/AuthForm";
 import SignUpForm from "../components/SignUpForm";
-import Reg_navigate from "../router/Registration_navigate";
 
 const AuthPage = () => {
     let [page, setPage] = useState(false);
-    Reg_navigate();
 
     return (
         <div className="flex flex-col items-center bg-white rounded-lg shadow-md p-5 gap-4">

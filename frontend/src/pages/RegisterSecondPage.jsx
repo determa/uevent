@@ -1,16 +1,14 @@
 import { useState } from "react";
 import CreateCompanyForm from "../components/CreateCompanyForm";
 import CreateUserForm from "../components/CreateUserForm";
-import Reg_navigate from "../router/Registration_navigate";
 
 const RegisterSecondPage = () => {
     let [page, setPage] = useState(false);
-    Reg_navigate();
 
     return (
         <div className="flex flex-col items-center bg-white rounded-lg shadow-md p-5 gap-4">
             <h1 className="font-semibold">
-                {page ? "Create User" : "Create Company"}
+                {page ? "Create Company" : "Create User"}
             </h1>
             <div className="flex w-full">
                 <button

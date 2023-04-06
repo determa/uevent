@@ -1,44 +1,83 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { logOut } from "../store/reducers/UserSlice";
 import { userAPI } from "../services/UserService";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronDown, faUser } from "@fortawesome/free-solid-svg-icons";
+
+const DropDown = () => {
+    const dispatch = useDispatch();
+    const [logout] = userAPI.useLogoutMutation();
+    const [isOpen, setIsOpen] = useState(false);
+
+    return (
+        <>
+            <div className="relative text-left">
+                <div
+                    className="flex items-center justify-center"
+                    onClick={() => setIsOpen(!isOpen)}
+                >
+                    {/* <div className="relative flex items-center justify-center w-8 h-8 rounded-full bg-gray-400 text-gray-800 cursor-pointer hover:bg-gray-500">
+                        <FontAwesomeIcon icon={faUser} />
+                    </div> */}
+                    <img
+                        className="rounded-full w-8 h-8"
+                        src="https://static-cdn.jtvnw.net/jtv_user_pictures/9e2f1fe0-e17b-44f1-9bee-e083b856920e-profile_image-70x70.png"
+                    />
+                </div>
+
+                {isOpen && (
+                    <div
+                        id="sett"
+                        className="absolute right-0 z-10 mt-1 w-40 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5"
+                    >
+                        <ul>
+                            <div className="py-1">
+                                <li className="text-gray-700 px-4 py-2 text-sm cursor-pointer">
+                                    Ваш профиль
+                                </li>
+                                <li className="text-gray-700 px-4 py-2 text-sm cursor-pointer">
+                                    Ваши билеты
+                                </li>
+                                <li className="text-gray-700 px-4 py-2 text-sm cursor-pointer">
+                                    Понравившиеся
+                                </li>
+                            </div>
+                            <div className="py-1 border-t border-gray-400">
+                                <li
+                                    className="text-gray-700 px-4 py-2 text-sm cursor-pointer"
+                                    onClick={() => {
+                                        dispatch(logOut());
+                                        logout();
+                                    }}
+                                >
+                                    Выйти
+                                </li>
+                            </div>
+                        </ul>
+                    </div>
+                )}
+            </div>
+        </>
+    );
+};
 
 const Header = () => {
     const { isAuth } = useSelector((state) => state.userReducer);
-    const dispatch = useDispatch();
-
-    const [logout] = userAPI.useLogoutMutation();
 
     return (
         <header className="bg-gradient-to-r from-[#ED4690]/70 to-[#5522CC]/70 w-full h-full border-gray-200 px-4 lg:px-6 py-3 dark:bg-gray-800">
             <nav>
-                <ul className="flex text-white flex-wrap justify-between items-center mx-auto max-w-screen-xl">
+                <ul className="flex h-8 text-white flex-wrap items-center justify-between mx-auto max-w-7xl">
                     <li>
                         <Link className="logo" to="/">
                             uevent
                         </Link>
                     </li>
-                    <li>
-                        <Link to="/">Schedule</Link>
-                    </li>
-                    <li>
-                        <Link to="/">Speakers</Link>
-                    </li>
-                    <li>
-                        <Link to={`/`}>Ticket</Link>
-                    </li>
-                    <li>
-                        <Link to={`/user`}>Profile</Link>
-                    </li>
                     {isAuth ? (
-                        <li
-                            onClick={() => {
-                                dispatch(logOut());
-                                logout();
-                            }}
-                        >
-                            logOut
+                        <li>
+                            <DropDown />
                         </li>
                     ) : (
                         <li>
