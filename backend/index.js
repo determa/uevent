@@ -4,12 +4,10 @@ const sequelize = require("./db");
 const models = require("./models/models");
 const router = require("./routes/index");
 const cors = require("cors");
-// const fileUpload = require("express-fileupload");
+const fileUpload = require("express-fileupload");
 const errorHandler = require("./middleware/ErrorHandler");
 const path = require("path");
 const cookieParser = require("cookie-parser");
-const multer = require('multer');
-const upload = multer();
 
 const PORT = process.env.PORT || 5000;
 const HOST = process.env.HOST || "localhost";
@@ -18,8 +16,7 @@ const app = express();
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 app.use(express.static(path.resolve(__dirname, "static")));
-// app.use(fileUpload({}));
-app.use(upload.array());
+app.use(fileUpload({}));
 app.use(cookieParser());
 app.get("/", (req, res) => {
     res.send("asd");

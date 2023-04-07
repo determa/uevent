@@ -63,5 +63,12 @@ export const userAPI = createApi({
             }),
             // providesTags: result => ['User']
         }),
+        getOneUser: build.query({
+            query: (data) => ({
+                url: `/user/${data}`,
+                method: "GET",
+            }),
+            // providesTags: result => ['User']
+        }),
     })
 })

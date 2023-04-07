@@ -3,14 +3,16 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const { User, Company, Account } = require('../models/models');
+const uuid = require('uuid');
+const path = require('path');
 
 // Mail host example
 const transporter = nodemailer.createTransport({
     host: 'smtp.ethereal.email',
     port: 587,
     auth: {
-        user: 'meta95@ethereal.email',
-        pass: 'w4WKRuXUYDZuR8zMpQ'
+        user: 'liliana65@ethereal.email',
+        pass: '47qKCTN3Cwj8q9Cmhu'
     }
 });
 
@@ -54,9 +56,16 @@ const cookieOptions = {
     maxAge: 24 * 60 * 60 * 1000,
 };
 
+const image_upload = (file) => {
+    let fileName = uuid.v4() + '.jpg';
+    file.mv(path.resolve(__dirname, '..', 'static', fileName));
+    return fileName;
+}
+
 class AuthController {
     async register_account(req, res, next) {
         try {
+            console.log("WORKEDFEROIFJERI")
             const { password, password_conf, email } = req.body;
             if (!password || !password_conf || !email) {
                 return next(ApiError.badRequest("Некорректное поле!"));
@@ -81,9 +90,13 @@ class AuthController {
 
     async register_user(req, res, next) {
         try {
-            const { name, picture } = req.body;
+            const { name } = req.body;
+            let picture = 'default.jpg';
             if (!name) {
                 return next(ApiError.badRequest("Некорректное поле!"));
+            }
+            if (req.files?.avatar) {
+                picture = image_upload(req.files.avatar)
             }
             const user = await User.create({ name, picture, accountId: req.account.accountId });
             await Account.update({ type: "USER" }, { where: { id: req.account.accountId } });
@@ -96,9 +109,13 @@ class AuthController {
 
     async register_company(req, res, next) {
         try {
-            const { name, picture, location, description } = req.body;
+            const { name, location, description } = req.body;
+            let picture = 'default.jpg';
             if (!name || !location || !description) {
                 return next(ApiError.badRequest("Некорректное поле!"));
+            }
+            if (req.files?.img) {
+                picture = image_upload(req.files.img)
             }
             const company = await Company.create({ name, picture, location, description, accountId: req.account.accountId });
             await Account.update({ type: "COMPANY" }, { where: { id: req.account.accountId } });

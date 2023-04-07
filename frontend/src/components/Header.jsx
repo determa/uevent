@@ -6,9 +6,37 @@ import { userAPI } from "../services/UserService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faUser } from "@fortawesome/free-solid-svg-icons";
 
+const CompanyData = () => {
+    // const { id } = useSelector(state => state.userReducer);
+    // const { data } = userAPI.useGetOneUserQuery(id);
+    // return (
+    //     <>
+    //         {data && <img
+    //             className="rounded-full w-8 h-8"
+    //             src={`http://localhost:5000/${data.picture}`}
+    //         />}
+    //     </>
+    // )
+}
+
+const UserData = () => {
+    const { id } = useSelector(state => state.userReducer);
+    const { data } = userAPI.useGetOneUserQuery(id);
+    return (
+        <>
+            {data && <img
+                className="rounded-full w-8 h-8"
+                src={`http://localhost:5000/${data.picture}`}
+            />}
+        </>
+    )
+}
+
 const DropDown = () => {
     const dispatch = useDispatch();
+    const { type, id } = useSelector(state => state.userReducer);
     const [logout] = userAPI.useLogoutMutation();
+    // const { data } = userAPI.useGetOneUserQuery(id);
     const [isOpen, setIsOpen] = useState(false);
 
     return (
@@ -21,10 +49,12 @@ const DropDown = () => {
                     {/* <div className="relative flex items-center justify-center w-8 h-8 rounded-full bg-gray-400 text-gray-800 cursor-pointer hover:bg-gray-500">
                         <FontAwesomeIcon icon={faUser} />
                     </div> */}
-                    <img
-                        className="rounded-full w-8 h-8"
-                        src="https://static-cdn.jtvnw.net/jtv_user_pictures/9e2f1fe0-e17b-44f1-9bee-e083b856920e-profile_image-70x70.png"
-                    />
+                    {type === 'USER' ? <UserData />
+                        : type === 'COMPANY' ? <CompanyData />
+                            : <img
+                                className="rounded-full w-8 h-8"
+                                src={`http://localhost:5000/default.jpg`} />
+                    }
                 </div>
 
                 {isOpen && (
@@ -34,7 +64,7 @@ const DropDown = () => {
                     >
                         <div className="py-1 flex flex-col">
                             <Link
-                                to="/profile"
+                                to={`/profile/${id}`}
                                 className="text-gray-700 px-4 py-2 text-sm cursor-pointer"
                             >
                                 Ваш профиль

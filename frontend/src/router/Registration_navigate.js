@@ -17,8 +17,7 @@ export default function RegNavigate() {
             </>
         );
     }
-    console.log(type)
-    if (type == "NONE") {
+    if (type === "NONE") {
         return (
             <>
                 <Stepper step={2} />
