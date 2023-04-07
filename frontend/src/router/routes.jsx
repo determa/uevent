@@ -5,13 +5,15 @@ import Test from '../components/Test';
 import Container from '../pages/Container';
 import RegisterSteps from '../pages/RegisterSteps';
 import ProfilePage from '../pages/ProfilePage';
+import ConfirmEmail from '../services/ConfirmEmail';
 
 export const publicRoutes = [
-    {path: "/", component: <MainPage />},
-    {path: "/auth", component: <RegisterSteps />},
-    {path: "/profile", component: <Container component={<ProfilePage />} />},
-    {path: "/events/:id", component: <Container component={<EventPage />} />},
-    {path: "/test", component: <Test />},
+    { path: "/", component: <MainPage /> },
+    { path: "/auth", component: <RegisterSteps /> },
+    { path: "/profile", component: <Container component={<ProfilePage />} /> },
+    { path: "/events/:id", component: <Container component={<EventPage />} /> },
+    { path: "/test", component: <Test /> },
+    { path: "/validation/:id", component: <ConfirmEmail /> },
     // {path: "/password-reset", component: passwordResetPage, exact: true},
     // {path: "/password-reset/:token", component: passwordResetStep2Page, exact: true},
     // {path: "/", component: mainPage, exact: true},

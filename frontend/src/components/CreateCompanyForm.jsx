@@ -1,28 +1,15 @@
-import { useDispatch } from "react-redux";
-import { setCredentials } from "../store/reducers/UserSlice";
-import { userAPI } from "../services/UserService";
 import PlaceComponent from "./LocationInput";
 import previewImage from "../utils/previewImage";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 
-const CreateCompanyForm = () => {
-    // const [registerCompany, { data: reg_data, error: reg_er }] =
-    //     userAPI.useRegisterCompanyMutation();
-    const dispatch = useDispatch();
-
-    async function register_handler(e) {
-        e.preventDefault();
-        console.log(Object.fromEntries(new FormData(e.target).entries()));
-        // let res = await registerCompany(new FormData(e.target));
-        // if (!res.error) dispatch(setCredentials(res));
-    }
+const CreateCompanyForm = ({handler}) => {
 
     return (
         <form
             className="flex flex-col"
             method="POST"
-            onSubmit={register_handler}
+            onSubmit={handler}
         >
             <div className="flex items-center justify-center">
                 <label

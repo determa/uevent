@@ -9,8 +9,8 @@ const transporter = nodemailer.createTransport({
     host: 'smtp.ethereal.email',
     port: 587,
     auth: {
-        user: 'ernie.luettgen@ethereal.email',
-        pass: 'umeNQq3MzxCpQEgrdm'
+        user: 'meta95@ethereal.email',
+        pass: 'w4WKRuXUYDZuR8zMpQ'
     }
 });
 
@@ -21,11 +21,11 @@ const send_mail = (path, email, jwt) => {
         subject: 'Message from Node js',
         text: "",
         html: `
-        <div>
-            <h1>Activation link:</h1>
-            <a href="http://127.0.0.1:${process.env.CL_PORT}/${path}/${jwt}" target="_blank">Нажмите для подтверждения</a>
-        </div>
-        `,
+            <div>
+                <h1>Activation link:</h1>
+                <a href="http://127.0.0.1:${process.env.CL_PORT}/${path}/${jwt}" target="_blank">Нажмите для подтверждения</a>
+            </div>
+            `,
     });
 }
 
@@ -72,7 +72,7 @@ class AuthController {
             }
             const hashPassword = await bcrypt.hash(password, 5);
             const account = await Account.create({ password: hashPassword, email });
-            return res.json(generate_tokens(account.id, 0, 'NONE', account.confirmed, req, res));
+            return res.json(generate_tokens(account.id, 0, account.type, account.confirmed, req, res));
         } catch (error) {
             console.log(error);
             return next(ApiError.internal());
@@ -86,6 +86,7 @@ class AuthController {
                 return next(ApiError.badRequest("Некорректное поле!"));
             }
             const user = await User.create({ name, picture, accountId: req.account.accountId });
+            await Account.update({ type: "USER" }, { where: { id: req.account.accountId } });
             return res.json(generate_tokens(req.account.accountId, user.id, 'USER', req.account.confirmed, req, res));
         } catch (error) {
             console.log(error);
@@ -100,6 +101,7 @@ class AuthController {
                 return next(ApiError.badRequest("Некорректное поле!"));
             }
             const company = await Company.create({ name, picture, location, description, accountId: req.account.accountId });
+            await Account.update({ type: "COMPANY" }, { where: { id: req.account.accountId } });
             return res.json(generate_tokens(req.account.accountId, company.id, 'COMPANY', req.account.confirmed, req, res));
         } catch (error) {
             console.log(error);
@@ -117,19 +119,14 @@ class AuthController {
             if (!account) {
                 return next(ApiError.notFound("Аккаунт не найден!"));
             }
-            let type = 'USER';
             let account_type = await User.findOne({ where: { accountId: account.id } });
             if (!account_type) {
-                type = 'COMPANY';
                 account_type = await Company.findOne({ where: { accountId: account.id } })
-                if (!account_type) {
-                    type = 'NONE';
-                }
             }
             if (!bcrypt.compareSync(password, account.password)) {
                 return next(ApiError.badRequest("Неверные данные!"));
             }
-            return res.json(generate_tokens(account.id, account_type?.id || 0, type, account.confirmed, req, res));
+            return res.json(generate_tokens(account.id, account_type?.id || 0, account.type, account.confirmed, req, res));
         } catch (error) {
             console.log(error);
             return next(ApiError.internal());
@@ -155,8 +152,9 @@ class AuthController {
             if (!account) {
                 return next(ApiError.notFound("Аккаунт не найден!"));
             }
-            send_mail('validation', account.email, await bcrypt.hash(req.account.accountId, 5));
-            return res.json({message: "Ссылка отправлена"});
+            const hash = await bcrypt.hash(String(req.account.accountId), 5);
+            send_mail('validation', account.email, encodeURIComponent(hash));
+            return res.json({ message: "Ссылка отправлена" });
         } catch (error) {
             console.log(error);
             return next(ApiError.internal());
@@ -166,11 +164,11 @@ class AuthController {
     async email_confirm(req, res, next) {
         try {
             const crypted_id = req.params.id;
-            if (!bcrypt.compareSync(crypted_id, req.account.accountId)) {
-                return next(ApiError.badRequest("Ссыла чужого пользователя!"));
+            if (!bcrypt.compareSync(String(req.account.accountId), decodeURIComponent(crypted_id))) {
+                return next(ApiError.badRequest("Ссылка чужого пользователя!"));
             }
             await Account.update({ confirmed: true }, { where: { id: req.account.accountId } })
-            return res.redirect(process.env.CL_URL); //wefwfwef
+            return res.json({ message: "Confirm complete!" }); //wefwfwef
         } catch (error) {
             console.log(error);
             return next(ApiError.internal());
@@ -226,14 +224,13 @@ class AuthController {
     async handleRefreshToken(req, res, next) {
         try {
             const token = req.cookies.token;
-            console.log(token)
             if (!token) return next(ApiError.notAuth());
-            const { accountId, id, type, confirmed } = jwt.verify(token, process.env.SECRET_KEY_REFRESH);
+            const { accountId, id } = jwt.verify(token, process.env.SECRET_KEY_REFRESH);
             const account = await Account.findOne({ where: { id: accountId } });
             if (!account) {
                 return next(ApiError.notAuth("Пользователь не найден!"));
             }
-            return res.json(generate_tokens(accountId, id, type, confirmed, req, res));
+            return res.json(generate_tokens(accountId, id, account.type, account.confirmed, req, res));
         } catch (error) {
             console.log(error);
             return next(ApiError.notAuth());

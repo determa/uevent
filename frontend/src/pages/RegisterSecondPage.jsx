@@ -1,9 +1,27 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import CreateCompanyForm from "../components/CreateCompanyForm";
 import CreateUserForm from "../components/CreateUserForm";
+import { userAPI } from "../services/UserService";
+import { setCredentials } from "../store/reducers/UserSlice";
 
 const RegisterSecondPage = () => {
     let [page, setPage] = useState(false);
+    const [register_user, { data: log_data, error: log_er }] = userAPI.useRegisterUserMutation();
+    const [register_company, { data, error: reg_er }] = userAPI.useRegisterCompanyMutation();
+    const dispatch = useDispatch();
+
+    async function register_user_handler(e) {
+        e.preventDefault();
+        const res = await register_user(new FormData(e.target));
+        if (!res.error) dispatch(setCredentials(res));
+    }
+
+    async function register_company_handler(e) {
+        e.preventDefault();
+        let res = await register_company(new FormData(e.target))
+        if (!res.error) dispatch(setCredentials(res));
+    }
 
     return (
         <div className="flex flex-col items-center bg-white rounded-lg shadow-md p-5 gap-4">
@@ -39,7 +57,7 @@ const RegisterSecondPage = () => {
                 </button>
             </div>
             <div className="flex">
-                {page ? <CreateCompanyForm /> : <CreateUserForm />}
+                {page ? <CreateCompanyForm handler={register_company_handler} /> : <CreateUserForm handler={register_user_handler} />}
             </div>
         </div>
     );

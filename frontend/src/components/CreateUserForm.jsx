@@ -1,26 +1,14 @@
-import { useDispatch } from "react-redux";
-import { setCredentials } from "../store/reducers/UserSlice";
-import { userAPI } from "../services/UserService";
 import previewImage from "../utils/previewImage";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 
-const CreateUserForm = () => {
-    // const [registerUser, { data: reg_data, error: reg_er }] =
-    //     userAPI.useRegisterUserMutation();
-    const dispatch = useDispatch();
-
-    async function register_handler(e) {
-        e.preventDefault();
-        // let res = await registerUser(new FormData(e.target));
-        // if (!res.error) dispatch(setCredentials(res));
-    }
+const CreateUserForm = ({handler}) => {
 
     return (
         <form
             className="flex gap-3 flex-col"
             method="POST"
-            onSubmit={register_handler}
+            onSubmit={handler}
         >
             <div className="flex items-center justify-center">
                 <label

@@ -1,10 +1,26 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelopeCircleCheck } from "@fortawesome/free-solid-svg-icons";
+import { useEffect } from "react";
+import { userAPI } from "../services/UserService";
+import { setCredentials } from "../store/reducers/UserSlice";
+import { useDispatch } from "react-redux";
 
 const ConfirmEmailPage = () => {
-    const sendEmail = () => {
-        console.log("send to serv");
-    };
+    const [send] = userAPI.useSendRequestMutation();
+    const { data } = userAPI.useInitQuery('', { pollingInterval: 5000 });
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (data?.jwt_token) {
+            console.log("work")
+            // window.close();
+            dispatch(setCredentials({ data }));
+        }
+    }, [data, dispatch])
+
+    useEffect(() => {
+        send();
+    }, [send])
 
     return (
         <div className="flex flex-col items-center max-w-[300px] bg-white rounded-lg shadow-md p-5 gap-4">
@@ -19,7 +35,7 @@ const ConfirmEmailPage = () => {
             </p>
             <p
                 className="font-semibold text-sm text-blue-600 cursor-pointer"
-                onClick={sendEmail}
+                onClick={() => { send() }}
             >
                 Запросить код еще раз
             </p>

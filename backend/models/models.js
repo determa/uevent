@@ -5,7 +5,8 @@ const Account = sequelize.define('account', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     email: { type: DataTypes.STRING, unique: true, allowNull: false },
     password: { type: DataTypes.STRING, allowNull: false },
-    confirmed: {type: DataTypes.BOOLEAN, defaultValue: false},
+    type: { type: DataTypes.ENUM('NONE', 'USER', 'COMPANY'), defaultValue: 'NONE' },
+    confirmed: { type: DataTypes.BOOLEAN, defaultValue: false },
 })
 
 const User = sequelize.define('user', {
@@ -97,8 +98,8 @@ Ticket.belongsTo(User);
 Event.hasMany(Ticket);
 Ticket.belongsTo(Event);
 
-User.belongsToMany(Event, {through: UserFavorite});
-Event.belongsToMany(User, {through: UserFavorite});
+User.belongsToMany(Event, { through: UserFavorite });
+Event.belongsToMany(User, { through: UserFavorite });
 
 module.exports = {
     Account,

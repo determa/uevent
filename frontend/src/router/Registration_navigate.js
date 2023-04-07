@@ -1,15 +1,14 @@
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router";
+import { Navigate } from "react-router";
 import AuthPage from "../pages/AuthPage";
 import RegisterSecondPage from "../pages/RegisterSecondPage";
 import Stepper from "../components/Stepper";
 import ConfirmEmailPage from "../pages/ConfirmEmailPage";
 
-export default () => {
+export default function RegNavigate() {
     const { isAuth, type, confirmed } = useSelector(
         (state) => state.userReducer
     );
-    const navigate = useNavigate();
     if (!isAuth) {
         return (
             <>
@@ -18,6 +17,7 @@ export default () => {
             </>
         );
     }
+    console.log(type)
     if (type == "NONE") {
         return (
             <>
@@ -34,5 +34,5 @@ export default () => {
             </>
         );
     }
-    return navigate("/");
+    return <Navigate to={'/'} replace />;
 };

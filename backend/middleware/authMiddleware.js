@@ -7,7 +7,6 @@ module.exports = function (req, res, next) {
     }
     try {
         const token = req.cookies.token;
-        console.log(token, req.headers.authorization)
         if (!token || !req.headers.authorization) return next(ApiError.notAuth());
         const access_token = req.headers.authorization.split(" ")[1];
         if (!access_token) {

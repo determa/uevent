@@ -1,22 +1,10 @@
-import { useDispatch } from "react-redux";
-import { userAPI } from "../services/UserService";
-import { setCredentials } from "../store/reducers/UserSlice";
-
-const SignUpForm = () => {
-    const [register, { data, error: reg_er }] = userAPI.useRegisterMutation();
-    const dispatch = useDispatch();
-
-    async function register_handler(e) {
-        e.preventDefault();
-        const res = await register(new FormData(e.target));
-        if (!res.error) dispatch(setCredentials(res));
-    }
+const SignUpForm = ({handler}) => {
 
     return (
         <form
             className="flex gap-3 flex-col"
             method="POST"
-            onSubmit={register_handler}
+            onSubmit={handler}
         >
             <input
                 id="email"
