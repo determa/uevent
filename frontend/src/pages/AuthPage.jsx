@@ -8,7 +8,8 @@ import { setCredentials } from "../store/reducers/UserSlice";
 const AuthPage = () => {
     let [page, setPage] = useState(false);
     const [register, { data, error: reg_er }] = userAPI.useRegisterMutation();
-    const [login, { data: log_data, error: log_er }] = userAPI.useLoginMutation();
+    const [login, { data: log_data, error: log_er }] =
+        userAPI.useLoginMutation();
     const dispatch = useDispatch();
 
     async function register_handler(e) {
@@ -19,7 +20,7 @@ const AuthPage = () => {
 
     async function login_handler(e) {
         e.preventDefault();
-        let res = await login(new FormData(e.target))
+        let res = await login(new FormData(e.target));
         if (!res.error) dispatch(setCredentials(res));
     }
 
@@ -56,7 +57,19 @@ const AuthPage = () => {
                     SignUp
                 </button>
             </div>
-            <div className="flex">{page ? <SignUpForm handler={register_handler}/> : <AuthForm handler={login_handler} />}</div>
+            <div className="flex">
+                {page ? (
+                    <SignUpForm
+                        handler={register_handler}
+                        error={reg_er ? reg_er : null}
+                    />
+                ) : (
+                    <AuthForm
+                        handler={login_handler}
+                        error={log_er ? log_er : null}
+                    />
+                )}
+            </div>
         </div>
     );
 };

@@ -12,7 +12,7 @@ const CompanyData = () => {
     // return (
     //     <>
     //         {data && <img
-    //             className="rounded-full w-8 h-8"
+    //             className="rounded-full object-cover object-center w-8 h-8"
     //             src={`http://localhost:5000/${data.picture}`}
     //         />}
     //     </>
@@ -25,7 +25,7 @@ const UserData = () => {
     return (
         <>
             {data && <img
-                className="rounded-full w-8 h-8"
+                className="rounded-full w-8 h-8 object-cover object-center backdrop-blur-sm"
                 src={`http://localhost:5000/${data.picture}`}
             />}
         </>
@@ -52,7 +52,7 @@ const DropDown = () => {
                     {type === 'USER' ? <UserData />
                         : type === 'COMPANY' ? <CompanyData />
                             : <img
-                                className="rounded-full w-8 h-8"
+                                className="rounded-full w-8 h-8 object-cover object-center"
                                 src={`http://localhost:5000/default.jpg`} />
                     }
                 </div>

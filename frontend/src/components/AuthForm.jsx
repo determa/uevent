@@ -1,5 +1,4 @@
-const AuthForm = ({handler}) => {
-
+const AuthForm = ({ handler, error }) => {
     return (
         <form className="flex gap-3 flex-col" method="POST" onSubmit={handler}>
             <input
@@ -29,6 +28,10 @@ const AuthForm = ({handler}) => {
                     Forgot password?
                 </a>
             </div>
+
+            <span className="text-red-700 text-sm font-semibold text-center">
+                {error ? error.data?.message : null}
+            </span>
 
             <div>
                 <button

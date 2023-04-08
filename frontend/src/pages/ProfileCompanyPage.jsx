@@ -1,16 +1,11 @@
 import React from "react";
-import { Navigate, useParams } from "react-router";
+import { useParams } from "react-router";
 // import { userProfile } from "../components/dataList";
 import { userAPI } from "../services/UserService";
-import { useSelector } from "react-redux";
 
-const ProfilePage = () => {
+const ProfileCompanyPage = () => {
     const { id } = useParams();
     const { data } = userAPI.useGetOneUserQuery(id);
-    const { type, confirmed } = useSelector((state) => state.userReducer);
-    if (type === "NONE" || !confirmed) {
-        return <Navigate to={"/auth"} replace />;
-    }
     return (
         <>
             {data && (
@@ -18,7 +13,7 @@ const ProfilePage = () => {
                     <div className="flex justify-center">
                         <div className="bg-white p-1.5 rounded-full border border-gray-300">
                             <img
-                                className="w-40 h-40 rounded-full object-cover object-center backdrop-blur-sm"
+                                className="w-40 h-40 rounded-full"
                                 src={`http://localhost:5000/${data.picture}`}
                             />
                         </div>
@@ -32,4 +27,4 @@ const ProfilePage = () => {
     );
 };
 
-export default ProfilePage;
+export default ProfileCompanyPage;

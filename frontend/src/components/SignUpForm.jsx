@@ -1,11 +1,6 @@
-const SignUpForm = ({handler}) => {
-
+const SignUpForm = ({ handler, error }) => {
     return (
-        <form
-            className="flex gap-3 flex-col"
-            method="POST"
-            onSubmit={handler}
-        >
+        <form className="flex gap-3 flex-col" method="POST" onSubmit={handler}>
             <input
                 id="email"
                 name="email"
@@ -34,6 +29,10 @@ const SignUpForm = ({handler}) => {
                 className="w-full border-2 duration-300 border-gray-200 text-gray-900 py-1.5 px-2.5 placeholder:text-gray-400 outline-none outline-offset-0 hover:border-indigo-400 focus:border-indigo-600 rounded-md sm:text-sm sm:leading-6"
                 placeholder="Confirm password"
             />
+
+            <span className="text-red-700 text-sm font-semibold text-center">
+                {error ? error.data?.message : null}
+            </span>
 
             <div>
                 <button
