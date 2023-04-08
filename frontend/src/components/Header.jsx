@@ -5,18 +5,19 @@ import { logOut } from "../store/reducers/UserSlice";
 import { userAPI } from "../services/UserService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faUser } from "@fortawesome/free-solid-svg-icons";
+import { companyAPI } from "../services/CompanyService";
 
 const CompanyData = () => {
-    // const { id } = useSelector(state => state.userReducer);
-    // const { data } = userAPI.useGetOneUserQuery(id);
-    // return (
-    //     <>
-    //         {data && <img
-    //             className="rounded-full object-cover object-center w-8 h-8"
-    //             src={`http://localhost:5000/${data.picture}`}
-    //         />}
-    //     </>
-    // )
+    const { id } = useSelector(state => state.userReducer);
+    const { data } = companyAPI.useGetOneCompanyQuery(id);
+    return (
+        <>
+            {data && <img
+                className="rounded-full object-cover object-center w-8 h-8"
+                src={`http://localhost:5000/${data.picture}`}
+            />}
+        </>
+    )
 }
 
 const UserData = () => {

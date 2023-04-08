@@ -1,35 +1,9 @@
 const ApiError = require('../error/ApiError');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const nodemailer = require('nodemailer');
 const { User, Company, Account } = require('../models/models');
 const uuid = require('uuid');
 const path = require('path');
-
-// Mail host example
-const transporter = nodemailer.createTransport({
-    host: 'smtp.ethereal.email',
-    port: 587,
-    auth: {
-        user: 'liliana65@ethereal.email',
-        pass: '47qKCTN3Cwj8q9Cmhu'
-    }
-});
-
-const send_mail = (path, email, jwt) => {
-    transporter.sendMail({
-        from: '"Node js" <nodejs@example.com>',
-        to: email,
-        subject: 'Message from Node js',
-        text: "",
-        html: `
-            <div>
-                <h1>Activation link:</h1>
-                <a href="http://127.0.0.1:${process.env.CL_PORT}/${path}/${jwt}" target="_blank">Нажмите для подтверждения</a>
-            </div>
-            `,
-    });
-}
 
 const generateJwt = (accountId, id, type, confirmed, time, key) => {
     return jwt.sign({ accountId, id, type, confirmed },
@@ -114,8 +88,8 @@ class AuthController {
             if (!name || !location || !description) {
                 return next(ApiError.badRequest("Некорректное поле!"));
             }
-            if (req.files?.img) {
-                picture = image_upload(req.files.img)
+            if (req.files?.avatar) {
+                picture = image_upload(req.files.avatar)
             }
             const company = await Company.create({ name, picture, location, description, accountId: req.account.accountId });
             await Account.update({ type: "COMPANY" }, { where: { id: req.account.accountId } });
@@ -157,21 +131,6 @@ class AuthController {
                 res.clearCookie('token', cookieOptions);
             }
             return res.json({ message: "Выход успешен!" });
-        } catch (error) {
-            console.log(error);
-            return next(ApiError.internal());
-        }
-    }
-
-    async send_link(req, res, next) {
-        try {
-            const account = await Account.findOne({ where: { id: req.account.accountId } });
-            if (!account) {
-                return next(ApiError.notFound("Аккаунт не найден!"));
-            }
-            const hash = await bcrypt.hash(String(req.account.accountId), 5);
-            send_mail('validation', account.email, encodeURIComponent(hash));
-            return res.json({ message: "Ссылка отправлена" });
         } catch (error) {
             console.log(error);
             return next(ApiError.internal());
