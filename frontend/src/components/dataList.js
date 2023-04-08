@@ -79,14 +79,18 @@ const userProfile = [
 const companyProfile = [
     {
         id: 333,
-        name: "Jonny",
-        picture: "https://random.imagecdn.app/500/150",
+        name: "Huggy Waggy",
+        picture: "https://random.imagecdn.app/500/400",
+        location: "Dnipro City",
+        description: "Компания Huggy Waggy",
         role: "ADMIN",
     },
     {
         id: 777,
         name: "Den4ik",
-        picture: "https://random.imagecdn.app/500/150",
+        picture: "https://random.imagecdn.app/500/400",
+        location: "Dnipro City",
+        description: "",
         role: "ADMIN",
     },
 ];

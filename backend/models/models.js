@@ -21,7 +21,7 @@ const Company = sequelize.define('company', {
     picture: { type: DataTypes.STRING, defaultValue: "default.jpg" },
     name: { type: DataTypes.STRING, unique: true, allowNull: false },
     location: { type: DataTypes.STRING, unique: false, allowNull: false },
-    description: { type: DataTypes.STRING, allowNull: false },
+    description: { type: DataTypes.TEXT, allowNull: false },
 })
 
 const Event = sequelize.define('event', {

@@ -1,6 +1,7 @@
 import React from "react";
 import { useParams } from "react-router";
 import { evnts } from "../components/dataList";
+import GoogleMapComponent from "../components/GoogleMapComponent";
 
 const EventPage = () => {
     const { id } = useParams();
@@ -14,7 +15,7 @@ const EventPage = () => {
                     alt="afisha"
                     src={event.imageSrc}
                 />
-                <div className="flex flex-1 flex-col p-4 gap-3">
+                <div className="flex flex-col p-4 gap-3">
                     <p className="text-sm text-gray-500 font-semibold">
                         {event.date}
                     </p>
@@ -37,6 +38,9 @@ const EventPage = () => {
                             Buy
                         </button>
                     </div>
+                </div>
+                <div className="flex flex-1 h-auto">
+                    <GoogleMapComponent center={{ lat: 48.45, lng: 35.04 }} />
                 </div>
             </div>
             <div className="mt-4 flex shadow-sm gap-3 max-w-7xl mx-auto p-4 bg-white border border-gray-200 rounded-lg flex-wrap">
