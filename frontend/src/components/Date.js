@@ -3,7 +3,7 @@ import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import { MobileDateTimePicker } from "@mui/x-date-pickers";
 
 export default function MaterialUIPickers({
     label,
@@ -15,7 +15,7 @@ export default function MaterialUIPickers({
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <Stack spacing={3}>
-                <DateTimePicker
+                <MobileDateTimePicker 
                     inputFormat="DD/MM/YYYY HH:mm"
                     label={label}
                     value={value}
