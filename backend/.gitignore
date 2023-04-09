@@ -57,6 +57,7 @@ dkms.conf
 package-lock.json
 node_modules
 test.js
+.env
 
 static/*
 !static/default.jpg
