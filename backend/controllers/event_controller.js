@@ -2,6 +2,8 @@ const ApiError = require("../error/ApiError");
 const crypto = require('crypto')
 const shasum = crypto.createHash('sha1');
 const { User, Company, Account, Category, Event } = require("../models/models");
+const LiqPay = require('../service/liqpay');
+
 
 class EventController {
     async create(req, res, next) {
@@ -36,17 +38,19 @@ class EventController {
                 where: { id },
                 include: { model: Category },
             });
-            let json = JSON.stringify({ public_key: "sandbox_i11273955643", version: 3, action: 'pay', amount: event.price, currency: 'UAH', description: "test", order_id: String(Date.now()), result_url: 'http://localhost:3000/'});
-            console.log(json)
-            let data  = Buffer.from(json).toString('base64');
+            let liqpay = new LiqPay(process.env.LIQPAY_PUBLIC_KEY, process.env.LIQPAY_PRIVATE_KEY);
+            const { data, signature } = liqpay.cnb_form({
+                'action': 'pay',
+                'amount': String(event.price),
+                'currency': 'UAH',
+                'description': 'description text',
+                'order_id': String(Date.now()),
+                'version': '3',
+                'result_url': 'http://localhost:3000/test',
+                'server_url': 'http://localhost:5000/payment/callback',
+            });
             event.dataValues.data = data;
-            let sign_string  = `sandbox_9yA8vqyqqVw3WdD1XUsSO5DC4lN7oQJDUJayhPbt${data}sandbox_9yA8vqyqqVw3WdD1XUsSO5DC4lN7oQJDUJayhPbt`;
-            console.log(sign_string, '|||||||||||||||||')
-            let hash = shasum.update(sign_string).digest('hex');
-            console.log(hash)
-            let signature  = Buffer.from(hash).toString('base64');
             event.dataValues.signature = signature;
-            console.log(event)
             return res.json(event);
         } catch (e) {
             console.log(e)
