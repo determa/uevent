@@ -3,7 +3,7 @@ const ApiError = require('../error/ApiError');
 class PaymentController {
     async paymentCallback(req, res, next) {
         try {
-            console.log(req.body);
+            console.log(req);
         } catch (error) {
             console.log(e)
             return next(ApiError.badRequest(e.message));
