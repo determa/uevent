@@ -1,6 +1,21 @@
 const crypto = require('crypto');
 
-module.exports = function LiqPay(public_key, private_key) {
+module.exports = function my_payment(event) {
+  let liqpay = new LiqPay(process.env.LIQPAY_PUBLIC_KEY, process.env.LIQPAY_PRIVATE_KEY);
+  const data = liqpay.cnb_form({
+    'action': 'pay',
+    'amount': String(event.price),
+    'currency': 'UAH',
+    'description': `Покупка билетов на ${event.title}`,
+    'order_id': String(Date.now()),
+    'version': '3',
+    'result_url': `${process.env.CL_URL}/events/${event.id}`,
+    'server_url': `http://${process.env.HOST}:${process.env.PORT}/payment/callback`,
+  });
+  return data;
+}
+
+function LiqPay(public_key, private_key) {
   this.cnb_form = function cnb_form(params) {
     let language = "ru";
 

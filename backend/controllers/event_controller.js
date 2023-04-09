@@ -1,6 +1,4 @@
 const ApiError = require("../error/ApiError");
-const crypto = require('crypto')
-const shasum = crypto.createHash('sha1');
 const { User, Company, Account, Category, Event } = require("../models/models");
 const LiqPay = require('../service/liqpay');
 
@@ -24,7 +22,6 @@ class EventController {
             if (!db_categories[0])
                 return next(ApiError.notFound("Категории не найдено!"));
             await event.addCategory(db_categories);
-
             return res.json(event);
         } catch (e) {
             return next(ApiError.badRequest(e.message));
@@ -38,17 +35,7 @@ class EventController {
                 where: { id },
                 include: { model: Category },
             });
-            let liqpay = new LiqPay(process.env.LIQPAY_PUBLIC_KEY, process.env.LIQPAY_PRIVATE_KEY);
-            const { data, signature } = liqpay.cnb_form({
-                'action': 'pay',
-                'amount': String(event.price),
-                'currency': 'UAH',
-                'description': 'description text',
-                'order_id': String(Date.now()),
-                'version': '3',
-                'result_url': 'http://localhost:3000/test',
-                'server_url': 'http://localhost:5000/payment/callback',
-            });
+            const {data, signature} = LiqPay(event);
             event.dataValues.data = data;
             event.dataValues.signature = signature;
             return res.json(event);
