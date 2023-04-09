@@ -21,6 +21,7 @@
     "pg": "^8.8.0",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.21.4",
+    "uevent": "file:..",
     "uuid": "^9.0.0"
   },
   "devDependencies": {

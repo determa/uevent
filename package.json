@@ -4,7 +4,7 @@
   "description": "**languages and tools:**\r NodeJS, React",
   "main": "index.js",
   "scripts": {
-    "start": "npm --prefix ./backend run start"
+    "start": "npm --prefix ./backend install && npm --prefix ./backend  run start"
   },
   "repository": {
     "type": "git",
