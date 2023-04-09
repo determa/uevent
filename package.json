@@ -1,0 +1,19 @@
+{
+  "name": "uevent",
+  "version": "1.0.0",
+  "description": "**languages and tools:**\r NodeJS, React",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm --prefix ./backend run dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/determa/uevent.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/determa/uevent/issues"
+  },
+  "homepage": "https://github.com/determa/uevent#readme"
+}
