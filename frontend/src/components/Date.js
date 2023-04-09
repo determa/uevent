@@ -4,23 +4,20 @@ import TextField from "@mui/material/TextField";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { MobileDateTimePicker } from "@mui/x-date-pickers";
+import dayjs from "dayjs";
 
-export default function MaterialUIPickers({
-    label,
-    dateNow,
-    value,
-    handleChange,
-}) {
-
+export default function MaterialUIPickers({ label, value, handleChange }) {
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <Stack spacing={3}>
-                <MobileDateTimePicker 
+                <MobileDateTimePicker
                     inputFormat="DD/MM/YYYY HH:mm"
                     label={label}
                     value={value}
+                    size={"small"}
                     onChange={handleChange}
                     ampm={false}
+                    minDate={dayjs().add(1, "day").startOf("day")}
                     renderInput={(params) => <TextField {...params} />}
                 />
             </Stack>

@@ -1,11 +1,10 @@
-import { useState } from "react";
-import LiqPay from "./LiqPay";
+import CreateEvent from "./CreateEvent";
+import Modal from "./Modal";
 
 const Test = () => {
-    // const [showModal, setShowModal] = useState(false);
     return (
         <div>
-            <LiqPay />
+            <Modal component={<CreateEvent />} />
         </div>
     );
 };
