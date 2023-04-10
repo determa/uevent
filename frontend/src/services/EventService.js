@@ -1,10 +1,10 @@
-import { createApi } from '@reduxjs/toolkit/dist/query/react';
-import baseQueryWithReauth from './QueryWithReauth';
+import { createApi } from "@reduxjs/toolkit/dist/query/react";
+import baseQueryWithReauth from "./QueryWithReauth";
 
 export const eventAPI = createApi({
-    reducerPath: 'eventAPI',
+    reducerPath: "eventAPI",
     baseQuery: baseQueryWithReauth,
-    tagTypes: ['Event'],
+    tagTypes: ["Event"],
     endpoints: (build) => ({
         getOneEvent: build.query({
             query: (data) => ({
@@ -13,5 +13,13 @@ export const eventAPI = createApi({
             }),
             // providesTags: result => ['User']
         }),
-    })
-})
+        create: build.mutation({
+            query: (data) => ({
+                url: `/events`,
+                method: "POST",
+                body: data,
+            }),
+            // providesTags: result => ['User']
+        }),
+    }),
+});

@@ -23,7 +23,10 @@ const RegisterSecondPage = () => {
     async function register_company_handler(e) {
         e.preventDefault();
         let form = new FormData(e.target);
-        form.set('location', JSON.stringify(location));
+        form.set(
+            "location",
+            JSON.stringify({ name: form.get("location"), location })
+        );
         let res = await register_company(form);
         if (!res.error) dispatch(setCredentials(res));
     }
@@ -63,7 +66,10 @@ const RegisterSecondPage = () => {
             </div>
             <div className="flex">
                 {page ? (
-                    <CreateCompanyForm handler={register_company_handler} setLocation={setLocation} />
+                    <CreateCompanyForm
+                        handler={register_company_handler}
+                        setLocation={setLocation}
+                    />
                 ) : (
                     <CreateUserForm handler={register_user_handler} />
                 )}

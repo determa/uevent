@@ -3,11 +3,14 @@ import MaterialUIPickers from "./Date";
 import dayjs from "dayjs";
 import { FormControl, TextField } from "@mui/material";
 import { PlaceComponent } from "./GoogleMapComponent";
+import { eventAPI } from "../services/EventService";
 
 function CreateEvent() {
-    // const [create_event, { data, error: reg_er }] = eventAPI.useRegisterMutation();
-
-    const [selectedDate, setSelectedDate] = useState(dayjs().add(1, "day").startOf("day"));
+    const [create_event, { error }] = eventAPI.useCreateMutation();
+    let [location, setLocation] = useState(undefined);
+    const [selectedDate, setSelectedDate] = useState(
+        dayjs().add(1, "day").startOf("day")
+    );
 
     const handleChangeDate = (newValue) => {
         setSelectedDate(newValue);
@@ -15,11 +18,15 @@ function CreateEvent() {
 
     async function handler(e) {
         e.preventDefault();
-        const formData = new FormData(e.target);
-        formData.append("date", selectedDate);
-        console.log(Object.fromEntries(formData));
-        // const res = await create_event(new FormData(e.target));
-        // if (!res.error) dispatch(setCredentials(res));
+        const form = new FormData(e.target);
+        form.append("date", selectedDate);
+        form.set(
+            "location",
+            JSON.stringify({ name: form.get("location"), location })
+        );
+        console.log(Object.fromEntries(form));
+        const res = await create_event(form);
+        
     }
 
     return (
@@ -53,7 +60,7 @@ function CreateEvent() {
                         value={selectedDate}
                     />
 
-                    <PlaceComponent />
+                    <PlaceComponent setLocation={setLocation} />
 
                     <TextField
                         required
@@ -72,6 +79,7 @@ function CreateEvent() {
                         placeholder="100"
                     />
                 </FormControl>
+                {error ? error.message : null}
                 <button
                     type="submit"
                     className="relative flex w-full justify-center rounded-md bg-indigo-600 py-2 px-3 text-sm font-semibold text-white hover:bg-indigo-500"

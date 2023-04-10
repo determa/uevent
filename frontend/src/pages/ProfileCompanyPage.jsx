@@ -36,7 +36,7 @@ const ProfilePage = () => {
                         <div className="flex w-1/2 h-96 mt-3">
                             <GoogleMapComponent
                                 // center={{ lat: 48.45, lng: 35.04 }}
-                                center={JSON.parse(data.location)}
+                                center={JSON.parse(data.location).location}
                             />
                         </div>
 
