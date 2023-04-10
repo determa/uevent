@@ -7,6 +7,7 @@ class EventController {
     async create(req, res, next) {
         try {
             let { title, picture, description, date, location, price, tickets_count, categories } = req.body;
+            categories = categories || [];
 
             if (!title || !description || !date || !location || !price || !tickets_count)
                 return next(ApiError.badRequest("Некорректное поле!"));
@@ -35,7 +36,7 @@ class EventController {
                 where: { id },
                 include: { model: Category },
             });
-            const {data, signature} = LiqPay(event);
+            const { data, signature } = LiqPay(event);
             event.dataValues.data = data;
             event.dataValues.signature = signature;
             return res.json(event);
