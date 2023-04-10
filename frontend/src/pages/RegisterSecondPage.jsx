@@ -7,6 +7,7 @@ import { setCredentials } from "../store/reducers/UserSlice";
 
 const RegisterSecondPage = () => {
     let [page, setPage] = useState(false);
+    let [location, setLocation] = useState(undefined);
     const [register_user, { data: log_data, error: log_er }] =
         userAPI.useRegisterUserMutation();
     const [register_company, { data, error: reg_er }] =
@@ -21,11 +22,10 @@ const RegisterSecondPage = () => {
 
     async function register_company_handler(e) {
         e.preventDefault();
-        // let res = await register_company(new FormData(e.target));
-        for (const value of new FormData(e.target).values()) {
-            console.log(value);
-        }
-        // if (!res.error) dispatch(setCredentials(res));
+        let form = new FormData(e.target);
+        form.set('location', JSON.stringify(location));
+        let res = await register_company(form);
+        if (!res.error) dispatch(setCredentials(res));
     }
 
     return (
@@ -63,7 +63,7 @@ const RegisterSecondPage = () => {
             </div>
             <div className="flex">
                 {page ? (
-                    <CreateCompanyForm handler={register_company_handler} />
+                    <CreateCompanyForm handler={register_company_handler} setLocation={setLocation} />
                 ) : (
                     <CreateUserForm handler={register_user_handler} />
                 )}

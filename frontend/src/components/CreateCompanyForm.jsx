@@ -3,7 +3,7 @@ import previewImage from "../utils/previewImage";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 
-const CreateCompanyForm = ({ handler }) => {
+const CreateCompanyForm = ({ handler, setLocation }) => {
     return (
         <form className="flex flex-col gap-3" method="POST" onSubmit={handler}>
             <div className="flex items-center justify-center">
@@ -34,7 +34,7 @@ const CreateCompanyForm = ({ handler }) => {
                 placeholder="Enter your name"
             />
 
-            <PlaceComponent />
+            <PlaceComponent setLocation={setLocation} />
 
             <textarea
                 id="description"

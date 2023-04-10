@@ -35,7 +35,8 @@ const ProfilePage = () => {
                         {/* <div className="absolute w-96 h-96 right-1 top-1 bg-gray-400"></div> */}
                         <div className="flex w-1/2 h-96 mt-3">
                             <GoogleMapComponent
-                                center={{ lat: 48.45, lng: 35.04 }}
+                                // center={{ lat: 48.45, lng: 35.04 }}
+                                center={JSON.parse(data.location)}
                             />
                         </div>
 
@@ -43,8 +44,8 @@ const ProfilePage = () => {
                             События компании:
                         </h1>
                         <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8 drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)]">
-                            {evnts.map((event) => (
-                                <Event event={event} />
+                            {evnts.map((event, index) => (
+                                <Event event={event} key={index} />
                             ))}
                         </div>
                     </div>

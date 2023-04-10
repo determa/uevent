@@ -17,7 +17,7 @@ function Event({ event }) {
                 <p className="text-xs">{event.date}</p>
                 <div className="flex justify-between items-center">
                     <h3 className="text-xl font-semibold text-gray-700">
-                        <a href={event.href}>{event.name}</a>
+                        <a href={`/events/${event.id}`}>{event.name}</a>
                     </h3>
                     <p className="mt-1 text-sm text-gray-500">{event.color}</p>
                     <p className="text-sm font-medium text-gray-900">
