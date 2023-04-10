@@ -5,7 +5,7 @@ module.exports = function (req, res, next) {
         let answer = Buffer.from(req.body.data.toString('utf8'), 'base64').toString('ascii');
         req.answer = JSON.parse(answer);
         console.log(answer)
-        if (req.answer.status != "succes") {
+        if (req.answer.status != "success") {
             return next(ApiError.badRequest("Ошибка при оплате!"));
         }
         return next();
