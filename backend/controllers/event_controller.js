@@ -7,7 +7,7 @@ class EventController {
     async create(req, res, next) {
         try {
             let { title, picture, description, date, location, price, tickets_count, categories } = req.body;
-            categories = categories || [];
+            categories = categories || 0;
 
             if (!title || !description || !date || !location || !price || !tickets_count)
                 return next(ApiError.badRequest("Некорректное поле!"));
