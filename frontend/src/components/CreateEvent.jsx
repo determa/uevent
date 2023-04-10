@@ -5,7 +5,7 @@ import { FormControl, TextField } from "@mui/material";
 import { PlaceComponent } from "./GoogleMapComponent";
 import { eventAPI } from "../services/EventService";
 
-function CreateEvent() {
+function CreateEvent({ setShowModal }) {
     const [create_event, { error }] = eventAPI.useCreateMutation();
     let [location, setLocation] = useState(undefined);
     const [selectedDate, setSelectedDate] = useState(
@@ -26,7 +26,10 @@ function CreateEvent() {
         );
         console.log(Object.fromEntries(form));
         const res = await create_event(form);
-        
+        if (res) {
+            console.log(res)
+            setShowModal(true);
+        }
     }
 
     return (

@@ -4,7 +4,7 @@ import Modal from "./Modal";
 const Test = () => {
     return (
         <div>
-            <Modal component={<CreateEvent />} />
+            <Modal Component={CreateEvent} />
         </div>
     );
 };
