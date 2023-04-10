@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router";
 import { companyAPI } from "../services/CompanyService";
-import GoogleMapComponent from "../components/GoogleMapComponent";
+import { GoogleMapComponent } from "../components/GoogleMapComponent";
 import { evnts } from "../components/dataList";
 import Event from "../components/Event";
 
@@ -17,6 +17,7 @@ const ProfilePage = () => {
                             <div className="bg-white p-1.5 rounded-full border border-gray-300">
                                 <img
                                     className="w-40 h-40 rounded-full object-cover object-center backdrop-blur-sm"
+                                    alt="img"
                                     src={`${process.env.REACT_APP_SERVER_DOMEN}/${data.picture}`}
                                 />
                             </div>
@@ -38,7 +39,9 @@ const ProfilePage = () => {
                             />
                         </div>
 
-                        <h1 className="font-semibold text-lg">События компании:</h1>
+                        <h1 className="font-semibold text-lg">
+                            События компании:
+                        </h1>
                         <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8 drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)]">
                             {evnts.map((event) => (
                                 <Event event={event} />

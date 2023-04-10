@@ -1,16 +1,11 @@
-import PlaceComponent from "./LocationInput";
+import { PlaceComponent } from "./GoogleMapComponent";
 import previewImage from "../utils/previewImage";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 
-const CreateCompanyForm = ({handler}) => {
-
+const CreateCompanyForm = ({ handler }) => {
     return (
-        <form
-            className="flex flex-col"
-            method="POST"
-            onSubmit={handler}
-        >
+        <form className="flex flex-col gap-3" method="POST" onSubmit={handler}>
             <div className="flex items-center justify-center">
                 <label
                     htmlFor="avatar"
@@ -35,7 +30,7 @@ const CreateCompanyForm = ({handler}) => {
                 name="name"
                 type="text"
                 required
-                className="mt-3 border-2 duration-300 border-gray-200 text-gray-900 py-1.5 px-2.5 placeholder:text-gray-400 outline-none outline-offset-0 hover:border-indigo-400 focus:border-indigo-600 rounded-md sm:text-sm sm:leading-6"
+                className="border-2 duration-300 border-gray-200 text-gray-900 py-1.5 px-2.5 placeholder:text-gray-400 outline-none outline-offset-0 hover:border-indigo-400 focus:border-indigo-600 rounded-md sm:text-sm sm:leading-6"
                 placeholder="Enter your name"
             />
 
@@ -46,7 +41,7 @@ const CreateCompanyForm = ({handler}) => {
                 name="description"
                 type="text"
                 required
-                className="my-3 w-full border-2 border-gray-200 text-gray-900 py-1.5 px-2.5 placeholder:text-gray-400 outline-none outline-offset-0 hover:border-indigo-400 focus:border-indigo-600 rounded-md sm:text-sm sm:leading-6"
+                className="w-full border-2 border-gray-200 text-gray-900 py-1.5 px-2.5 placeholder:text-gray-400 outline-none outline-offset-0 hover:border-indigo-400 focus:border-indigo-600 rounded-md sm:text-sm sm:leading-6"
                 placeholder="description"
             />
 

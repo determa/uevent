@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import MaterialUIPickers from "./Date";
 import dayjs from "dayjs";
-import LocationInput from "./LocationInput";
 import { FormControl, TextField } from "@mui/material";
+import { PlaceComponent } from "./GoogleMapComponent";
 
 function CreateEvent() {
     // const [create_event, { data, error: reg_er }] = eventAPI.useRegisterMutation();
@@ -53,7 +53,7 @@ function CreateEvent() {
                         value={selectedDate}
                     />
 
-                    <LocationInput />
+                    <PlaceComponent />
 
                     <TextField
                         required
