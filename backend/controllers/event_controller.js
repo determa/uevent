@@ -155,7 +155,8 @@ class EventController {
             const { eventId } = req.dae;
             const event = await Event.findOne({ where: { id: eventId } });
             if (event.tickets_count > 0) {
-                await Event.update({ tickets_count: tickets_count - 1 }, { where: { id: eventId } });
+                const count = event.tickets_count - 1;
+                await Event.update({ tickets_count: count }, { where: { id: eventId } });
             } else {
                 return next(ApiError.badRequest("Все билеты проданы, обратитесь в техподдержку для возврата средств."));
             }
