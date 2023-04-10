@@ -160,7 +160,7 @@ class EventController {
                 return next(ApiError.badRequest("Все билеты проданы, обратитесь в техподдержку для возврата средств."));
             }
             return next();
-        } catch (error) {
+        } catch (e) {
             console.log(e)
             return next(ApiError.badRequest(e.message));
         }
