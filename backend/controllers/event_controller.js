@@ -36,7 +36,7 @@ class EventController {
                 where: { id },
                 include: { model: Category },
             });
-            const { data, signature } = LiqPay(event);
+            const { data, signature } = LiqPay(event, req.account.accountId);
             event.dataValues.data = data;
             event.dataValues.signature = signature;
             return res.json(event);

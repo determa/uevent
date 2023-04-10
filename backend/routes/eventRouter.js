@@ -4,7 +4,7 @@ const EventController = require("../controllers/event_controller");
 const authMiddleware = require("../middleware/authMiddleware");
 
 router.get("/", EventController.get_all);
-router.get("/:id", EventController.get_one);
+router.get("/:id", authMiddleware, EventController.get_one);
 router.get("/category/:id", EventController.get_events_by_category);
 router.post("/", authMiddleware, EventController.create);
 router.patch("/:id", authMiddleware, EventController.update);

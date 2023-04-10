@@ -1,7 +1,8 @@
 const crypto = require('crypto');
 
-module.exports = function my_payment(event) {
+module.exports = function my_payment(event, id) {
     let liqpay = new LiqPay(process.env.LIQPAY_PUBLIC_KEY, process.env.LIQPAY_PRIVATE_KEY);
+    let dae = Buffer.from(JSON.stringify({ eventId: event.id, accountId: id })).toString('base64');
     const data = liqpay.cnb_form({
         'action': 'pay',
         'amount': String(event.price),
@@ -11,6 +12,7 @@ module.exports = function my_payment(event) {
         'version': '3',
         'result_url': `${process.env.CL_URL}/events/${event.id}`,
         'server_url': `https://uevent.pp.ua/api/ticket/callback`,
+        'dae': dae,
     });
     return data;
 }
