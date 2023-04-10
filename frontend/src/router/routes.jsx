@@ -7,7 +7,7 @@ import RegisterSteps from '../pages/RegisterSteps';
 import ProfilePage from '../pages/ProfilePage';
 import PorileCompanyPage from '../pages/ProfileCompanyPage';
 import ConfirmEmail from '../services/ConfirmEmail';
-import CreateEvent from '../pages/CreateEvent';
+import CreateEvent from '../components/CreateEvent';
 
 export const publicRoutes = [
     { path: "/", component: <MainPage /> },

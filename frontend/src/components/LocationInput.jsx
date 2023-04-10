@@ -19,7 +19,7 @@ const PlaceComponent = () => {
     });
 
     return (
-        <div className="mt-3">
+        <>
             {isLoaded && (
                 <StandaloneSearchBox
                     onLoad={(ref) => (inputRef.current = ref)}
@@ -28,12 +28,12 @@ const PlaceComponent = () => {
                     <input
                         type="text"
                         name="location"
-                        className="w-full border-2 duration-300 border-gray-200 text-gray-900 py-1.5 px-2.5 placeholder:text-gray-400 outline-none outline-offset-0 hover:border-indigo-400 focus:border-indigo-600 rounded-md sm:text-sm sm:leading-6"
+                        className="w-full border border-black border-opacity-25 text-gray-900 py-1.5 px-2.5 placeholder:text-gray-400 outline-none outline-offset-0 hover:border-indigo-400 focus:border-indigo-600 rounded-md sm:text-sm sm:leading-6"
                         placeholder="Enter location"
                     />
                 </StandaloneSearchBox>
             )}
-        </div>
+        </>
     );
 };
 
