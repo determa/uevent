@@ -7,6 +7,8 @@ module.exports = function (req, res, next) {
         if (req.answer.status != "success") {
             return next(ApiError.badRequest("Ошибка при оплате!"));
         }
+        let dae = Buffer.from(req.answer.dae, 'base64').toString('ascii');
+        req.dae = JSON.parse(dae);
         return next();
     } catch (error) {
         console.log(error)

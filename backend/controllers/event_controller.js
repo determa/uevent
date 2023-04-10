@@ -145,6 +145,23 @@ class EventController {
 
             return res.json({ message: "Событие обновлено!" });
         } catch (e) {
+            console.log(e)
+            return next(ApiError.badRequest(e.message));
+        }
+    }
+
+    async tickets_count_decrement(req, res, next) {
+        try {
+            const { eventId } = req.dae;
+            const event = await Event.findOne({ where: { id: eventId } });
+            if (event.tickets_count > 0) {
+                await Event.update({ tickets_count: tickets_count - 1 }, { where: { id: eventId } });
+            } else {
+                return next(ApiError.badRequest("Все билеты проданы, обратитесь в техподдержку для возврата средств."));
+            }
+            return next();
+        } catch (error) {
+            console.log(e)
             return next(ApiError.badRequest(e.message));
         }
     }
@@ -164,6 +181,7 @@ class EventController {
             if (!delEvent) return next(ApiError.notFound("Ошибка при удалении."));
             return res.json({ message: "Событие удалено." });
         } catch (e) {
+            console.log(e)
             return next(ApiError.badRequest(e.message));
         }
     }

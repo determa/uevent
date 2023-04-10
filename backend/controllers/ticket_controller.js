@@ -1,12 +1,13 @@
 const ApiError = require('../error/ApiError');
+const { Ticket } = require('../models/models');
 
 class TicketController {
     async create(req, res, next) {
         try {
-            console.log(req.answer);
-            let dae = Buffer.from(req.answer.dae, 'base64').toString('ascii');
-            dae = JSON.parse(dae);
-            console.log(dae);
+            const { accountId, eventId } = req.dae;
+            const { transaction_id } = req.answer;
+            const ticket = await Ticket.create({ accountId, eventId, transaction_id });
+            return res.json(ticket);
         } catch (error) {
             console.log(error)
             return next(ApiError.badRequest(e.message));

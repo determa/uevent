@@ -53,7 +53,7 @@ const Comment = sequelize.define('comment', {
 
 const Ticket = sequelize.define('ticket', {
     id: { type: DataTypes.STRING, allowNull: false, primaryKey: true },
-    seat: { type: DataTypes.INTEGER, allowNull: false },
+    seat: { type: DataTypes.INTEGER },
     transaction_id: { type: DataTypes.INTEGER, allowNull: false },
 })
 
@@ -93,8 +93,8 @@ Comment.belongsTo(Account);
 
 Comment.hasMany(Comment, { as: 'replies', foreignKey: 'parent_comment_id' });
 
-User.hasMany(Ticket);
-Ticket.belongsTo(User);
+Account.hasMany(Ticket);
+Ticket.belongsTo(Account);
 
 Event.hasMany(Ticket);
 Ticket.belongsTo(Event);
