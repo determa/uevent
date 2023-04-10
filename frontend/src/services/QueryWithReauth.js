@@ -2,7 +2,7 @@ import { fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react'
 import { setCredentials, logOut } from '../store/reducers/UserSlice'
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: 'http://127.0.0.1:5000/api',
+    baseUrl: 'https://uevent.pp.ua/api',
     credentials: 'include',
     prepareHeaders: (headers, { getState }) => {
         const token = getState().userReducer.token;
