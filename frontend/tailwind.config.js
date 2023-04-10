@@ -4,7 +4,7 @@ module.exports = {
     theme: {
         extend: {
             backgroundImage: {
-                header: "url('https://lifehacker.ru/wp-content/uploads/2016/09/concert_1474028386.jpg')",
+                header: `url('${process.env.REACT_APP_SERVER_DOMEN}/header.jpg')`,
             },
             backgroundColor: {
                 purp: "#242565",
