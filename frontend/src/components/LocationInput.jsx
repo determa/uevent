@@ -12,7 +12,7 @@ const PlaceComponent = () => {
         }
     };
 
-    const { isLoaded } = useJsApiLoader({
+    const { isLoaded, loadError } = useJsApiLoader({
         id: "google-map-script",
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_API_KEY,
         libraries: ["places"],
@@ -32,6 +32,11 @@ const PlaceComponent = () => {
                         placeholder="Enter location"
                     />
                 </StandaloneSearchBox>
+            )}
+            {loadError && (
+                <div className="w-full border border-black border-opacity-25 text-gray-900 py-1.5 px-2.5 placeholder:text-gray-400 outline-none outline-offset-0 hover:border-indigo-400 focus:border-indigo-600 rounded-md sm:text-sm sm:leading-6">
+                    Map cannot be loaded right now, sorry.
+                </div>
             )}
         </>
     );

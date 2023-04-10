@@ -15,7 +15,7 @@ const CompanyData = () => {
             {data && (
                 <img
                     className="rounded-full object-cover object-center w-8 h-8"
-                    src={`http://localhost:5000/${data.picture}`}
+                    src={`${process.env.REACT_APP_SERVER_DOMEN}/${data.picture}`}
                 />
             )}
         </>
@@ -30,7 +30,7 @@ const UserData = () => {
             {data && (
                 <img
                     className="rounded-full w-8 h-8 object-cover object-center backdrop-blur-sm"
-                    src={`http://localhost:5000/${data.picture}`}
+                    src={`${process.env.REACT_APP_SERVER_DOMEN}/${data.picture}`}
                 />
             )}
         </>

@@ -19,7 +19,7 @@ const ProfilePage = () => {
                         <div className="bg-white p-1.5 rounded-full border border-gray-300">
                             <img
                                 className="w-40 h-40 rounded-full object-cover object-center backdrop-blur-sm"
-                                src={`http://localhost:5000/${data.picture}`}
+                                src={`${process.env.REACT_APP_SERVER_DOMEN}/${data.picture}`}
                             />
                         </div>
                     </div>
