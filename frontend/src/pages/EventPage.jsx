@@ -35,14 +35,9 @@ const EventPage = () => {
                             </p>
                         ))} */}
                             </div>
-                            <div>
-                                <p className="font-bold text-gray-700">
-                                    {data.price}
-                                </p>
-                                <button className="mt-3 relative flex w-28 justify-center rounded-md bg-indigo-600 py-2 px-3 text-sm font-semibold text-white hover:bg-indigo-500">
-                                    Buy
-                                </button>
-                            </div>
+                            <p className="font-bold text-gray-700">
+                                {data.price}
+                            </p>
                             <div id="liqpay_checkout"></div>
                             <form
                                 method="POST"
@@ -59,11 +54,9 @@ const EventPage = () => {
                                     name="signature"
                                     value={data.signature}
                                 />
-                                <input
-                                    type="image"
-                                    alt="img"
-                                    src="//static.liqpay.ua/buttons/p1ru.radius.png"
-                                />
+                                <button className="mt-3 relative flex w-28 justify-center rounded-md bg-indigo-600 py-2 px-3 text-sm font-semibold text-white hover:bg-indigo-500">
+                                    Оплатить
+                                </button>
                             </form>
                         </div>
                         <div className="flex flex-1 h-auto">
