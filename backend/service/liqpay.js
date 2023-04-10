@@ -10,7 +10,7 @@ module.exports = function my_payment(event) {
         'order_id': String(Date.now()),
         'version': '3',
         'result_url': `${process.env.CL_URL}/events/${event.id}`,
-        'server_url': `http://${process.env.HOST}:${process.env.PORT}/api/payment/callback`,
+        'server_url': `http://${process.env.HOST}:${process.env.PORT}/api/ticket/callback`,
     });
     return data;
 }

@@ -54,6 +54,7 @@ const Comment = sequelize.define('comment', {
 const Ticket = sequelize.define('ticket', {
     id: { type: DataTypes.STRING, allowNull: false, primaryKey: true },
     seat: { type: DataTypes.INTEGER, allowNull: false },
+    transaction_id: { type: DataTypes.INTEGER, allowNull: false },
 })
 
 const UserMedia = sequelize.define('user_media');
