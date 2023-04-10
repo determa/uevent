@@ -6,7 +6,7 @@ module.exports = function my_payment(event) {
         'action': 'pay',
         'amount': String(event.price),
         'currency': 'UAH',
-        'description': `Покупка билетов на ${event.title}`,
+        'description': `Buy tickets for ${event.title}`,
         'order_id': String(Date.now()),
         'version': '3',
         'result_url': `${process.env.CL_URL}/events/${event.id}`,
