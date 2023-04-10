@@ -100,7 +100,7 @@ const DropDown = () => {
                     ) : (
                         <img
                             className="rounded-full w-8 h-8 object-cover object-center"
-                            src={`${process.env.REACT_APP_SERVER_DOMEN}/${data.picture}`}
+                            src={`${process.env.REACT_APP_SERVER_DOMEN}/default.jpg`}
                         />
                     )}
                 </div>
