@@ -5,15 +5,63 @@ import { FormControl, TextField } from "@mui/material";
 import { PlaceComponent } from "./GoogleMapComponent";
 import { eventAPI } from "../services/EventService";
 
+const SelectTheme = ({ option, setOption }) => {
+    const selectHandler = (e) => {
+        e.preventDefault();
+        console.log(e.target.value);
+        setOption(e.target.value);
+    };
+    return (
+        <select
+            name="theme"
+            className="border border-black border-opacity-25 text-gray-900 p-2.5 placeholder:text-gray-950/60 outline-none outline-offset-0 hover:border-indigo-400 focus:border-indigo-600 rounded-[4px] sm:text-sm sm:leading-6"
+            required
+            value={option}
+            onChange={selectHandler}
+        >
+            <option value={1}>One</option>
+            <option value={2}>Two</option>
+            <option value={3}>Three</option>
+            <option value={4}>Four</option>
+            <option value={5}>Five</option>
+            <option value={6}>Six</option>
+            <option value={7}>Seven</option>
+            <option value={8}>Eight</option>
+        </select>
+    );
+};
+
+const SelectTags = ({ id }) => {
+    //query
+
+    return (
+        <select
+            name="theme"
+            className="border border-black border-opacity-25 text-gray-900 p-2.5 placeholder:text-gray-950/60 outline-none outline-offset-0 hover:border-indigo-400 focus:border-indigo-600 rounded-[4px] sm:text-sm sm:leading-6"
+        >
+            <option value={1}>One</option>
+            <option value={2}>Two</option>
+            <option value={3}>Three</option>
+        </select>
+    );
+};
+
 function CreateEvent({ setShowModal }) {
-    const [create_event, { error }] = eventAPI.useCreateMutation();
+    const [create_event, { data, error }] = eventAPI.useCreateMutation();
     let [location, setLocation] = useState(undefined);
+    let [option, setOption] = useState(1);
     const [selectedDate, setSelectedDate] = useState(
         dayjs().add(1, "day").startOf("day")
     );
 
     const handleChangeDate = (newValue) => {
         setSelectedDate(newValue);
+    };
+
+    const selectHandler = (e) => {
+        e.preventDefault();
+        console.log(e.target.value);
+        setOption(e.target.value);
     };
 
     async function handler(e) {
@@ -25,11 +73,11 @@ function CreateEvent({ setShowModal }) {
             JSON.stringify({ name: form.get("location"), location })
         );
         console.log(Object.fromEntries(form));
-        const res = await create_event(form);
-        if (res) {
-            console.log(res)
-            setShowModal(true);
-        }
+        // const res = await create_event(form);
+        // if (data) {
+        //     console.log(res);
+        //     setShowModal(true);
+        // }
     }
 
     return (
@@ -64,6 +112,9 @@ function CreateEvent({ setShowModal }) {
                     />
 
                     <PlaceComponent setLocation={setLocation} />
+
+                    <SelectTheme option={option} setOption={setOption} />
+                    <SelectTags id={option} />
 
                     <TextField
                         required
