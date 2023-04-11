@@ -26,7 +26,10 @@ const TicketsPage = () => {
             <h1>Ваши билеты:</h1>
             {tickets &&
                 tickets.map((data) => (
-                    <div className="flex flex-col gap-3 w-full p-4 border border-gray-200 rounded-lg shadow-sm">
+                    <div
+                        key={data.id}
+                        className="flex flex-col gap-3 w-full p-4 border border-gray-200 rounded-lg shadow-sm"
+                    >
                         <p className="text-xl font-medium">
                             Место: {data.seat}
                         </p>

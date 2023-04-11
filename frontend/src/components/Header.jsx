@@ -3,8 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { logOut } from "../store/reducers/UserSlice";
 import { userAPI } from "../services/UserService";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown, faUser } from "@fortawesome/free-solid-svg-icons";
 import { companyAPI } from "../services/CompanyService";
 
 const CompanyData = () => {
@@ -39,7 +37,7 @@ const UserData = () => {
 
 const LinkComp = ({ id, type, confirmed }) => {
     if (type === "NONE" || !confirmed)
-        return <Link to={"/auth"}>Продолжить регистрацию</Link>;
+        return <Link to={"/auth"}>Авторизация</Link>;
     if (type === "USER")
         return (
             <>
@@ -90,7 +88,7 @@ const DropDown = () => {
         <>
             <div className="relative text-left">
                 <div
-                    className="flex items-center justify-center"
+                    className="flex items-center cursor-pointer justify-center"
                     onClick={() => setIsOpen(!isOpen)}
                 >
                     {/* <div className="relative flex items-center justify-center w-8 h-8 rounded-full bg-gray-400 text-gray-800 cursor-pointer hover:bg-gray-500">
@@ -111,7 +109,7 @@ const DropDown = () => {
                 {isOpen && (
                     <div
                         id="sett"
-                        className="absolute right-0 z-10 mt-1 w-40 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5"
+                        className="absolute right-0 z-10 mt-1 w-40 cursor-pointer rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5"
                     >
                         <div className="py-1 flex flex-col">
                             <LinkComp
