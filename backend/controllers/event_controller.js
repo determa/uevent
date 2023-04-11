@@ -150,6 +150,23 @@ class EventController {
         }
     }
 
+    async get_payment_data(req, res, next) {
+        try {
+            let { id } = req.params;
+            const event = await Event.findOne({
+                where: { id },
+            });
+            if (event.tickets_count <= 0) {
+                return next(ApiError.badRequest("Билеты распроданы!"));
+            }
+            const data = LiqPay(event, req.account.accountId);
+            return res.json(data);
+        } catch (e) {
+            console.log(e)
+            return next(ApiError.badRequest(e.message));
+        }
+    }
+
     async tickets_count_decrement(req, res, next) {
         try {
             const { eventId } = req.dae;
