@@ -43,6 +43,20 @@ class EventController {
         }
     }
 
+    async get_all_by_company(req, res, next) {
+        try {
+            let { id } = req.params;
+            const event = await Event.findAll({
+                where: { companyId: id },
+                include: { model: Category },
+            });
+            return res.json(event);
+        } catch (e) {
+            console.log(e)
+            return next(ApiError.badRequest(e.message));
+        }
+    }
+
     async get_all(req, res, next) {
         try {
             // let { limit, page, categories, locations, startDate, endDate, sort } = req.query;
