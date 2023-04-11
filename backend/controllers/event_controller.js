@@ -46,7 +46,7 @@ class EventController {
     async get_all_by_company(req, res, next) {
         try {
             let { id } = req.params;
-            const event = await Event.findOne({
+            const event = await Event.findAll({
                 where: { companyId: id },
                 include: { model: Category },
             });
