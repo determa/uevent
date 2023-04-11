@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const PaymentButton = ({ id }) => {
-    const { data } = eventAPI.useGetPaymentDataQuery(id); //query to other path
+    const { data, error } = eventAPI.useGetPaymentDataQuery(id);
 
     return (
         <>
@@ -26,6 +26,11 @@ const PaymentButton = ({ id }) => {
                         Оплатить
                     </button>
                 </form>
+            )}
+            {error && (
+                <span className="text-red-700 text-sm font-semibold">
+                    {error ? error.data?.message : null}
+                </span>
             )}
         </>
     );
@@ -65,7 +70,7 @@ const EventPage = () => {
                         ))} */}
                             </div>
                             <p className="font-bold text-gray-700">
-                                {data.price}
+                                {data.price} грн
                             </p>
 
                             {isAuth ? (
