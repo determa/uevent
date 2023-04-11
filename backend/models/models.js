@@ -32,7 +32,7 @@ const Event = sequelize.define('event', {
     date: { type: DataTypes.DATE, allowNull: false },
     location: { type: DataTypes.STRING, unique: false, allowNull: false },
     price: { type: DataTypes.INTEGER, defaultValue: 0 },
-    tickets_count: { type: DataTypes.INTEGER, allowNull: false },
+    tickets_count: { type: DataTypes.BIGINT, allowNull: false },
 });
 
 const Media = sequelize.define('media', {
