@@ -45,50 +45,50 @@ class EventController {
 
     async get_all(req, res, next) {
         try {
-            let { limit, page, categories, locations, startDate, endDate, sort } = req.query;
+            // let { limit, page, categories, locations, startDate, endDate, sort } = req.query;
 
-            page = page || 1;
-            limit = limit || 10;
-            let offset = page * limit - limit;
+            // page = page || 1;
+            // limit = limit || 10;
+            // let offset = page * limit - limit;
 
-            let eventObj = {};
-            let catObj = { where: {} };
+            // let eventObj = {};
+            // let catObj = { where: {} };
 
-            if (categories) catObj.where.id = categories.split(",");
-            if (locations) eventObj.location = locations.split(",");
+            // if (categories) catObj.where.id = categories.split(",");
+            // if (locations) eventObj.location = locations.split(",");
 
-            if (startDate) startDate = new Date(startDate);
-            if (endDate)
-                endDate = new Date(endDate).getTime() + 24 * 60 * 60 * 1000 - 1; //до конца дня
+            // if (startDate) startDate = new Date(startDate);
+            // if (endDate)
+            //     endDate = new Date(endDate).getTime() + 24 * 60 * 60 * 1000 - 1; //до конца дня
 
-            if (startDate && endDate)
-                eventObj.date = { [Op.gte]: startDate, [Op.lte]: endDate };
-            if (!startDate && endDate)
-                eventObj.date = { [Op.lte]: endDate };
-            if (startDate && !endDate)
-                eventObj.date = { [Op.gte]: startDate };
+            // if (startDate && endDate)
+            //     eventObj.date = { [Op.gte]: startDate, [Op.lte]: endDate };
+            // if (!startDate && endDate)
+            //     eventObj.date = { [Op.lte]: endDate };
+            // if (startDate && !endDate)
+            //     eventObj.date = { [Op.gte]: startDate };
 
-            let sortArr = [[literal("countlike"), "DESC"]];
-            if (sort === "-like") sortArr = [[literal("countlike"), "ASC"]];
-            if (sort === "date") sortArr = [['"createdAt"', "DESC"]];
-            if (sort === "-date") sortArr = [['"createdAt"', "ASC"]];
+            // let sortArr = [[literal("countlike"), "DESC"]];
+            // if (sort === "-like") sortArr = [[literal("countlike"), "ASC"]];
+            // if (sort === "date") sortArr = [['"createdAt"', "DESC"]];
+            // if (sort === "-date") sortArr = [['"createdAt"', "ASC"]];
 
             const event = await Event.findAll({
                 limit,
                 offset,
-                where: eventObj,
-                include: [{ model: Category, catObj }],
-                attributes: {
-                    include: [
-                        [
-                            literal(
-                                `(SELECT COUNT(*) FROM user_favorite WHERE "eventId" = event.id)`
-                            ),
-                            "countlike",
-                        ],
-                    ],
-                },
-                order: sortArr,
+                // where: eventObj,
+                // include: [{ model: Category, catObj }],
+                // attributes: {
+                //     include: [
+                //         [
+                //             literal(
+                //                 `(SELECT COUNT(*) FROM user_favorite WHERE "eventId" = event.id)`
+                //             ),
+                //             "countlike",
+                //         ],
+                //     ],
+                // },
+                // order: sortArr,
             });
             return res.json(event);
         } catch (e) {
