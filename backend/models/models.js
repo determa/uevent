@@ -32,7 +32,7 @@ const Event = sequelize.define('event', {
     date: { type: DataTypes.DATE, allowNull: false },
     location: { type: DataTypes.STRING, unique: false, allowNull: false },
     price: { type: DataTypes.INTEGER, defaultValue: 0 },
-    tickets_count: { type: DataTypes.BIGINT, allowNull: false },
+    tickets_count: { type: DataTypes.INTEGER, allowNull: false },
 });
 
 const Media = sequelize.define('media', {
@@ -53,7 +53,7 @@ const Comment = sequelize.define('comment', {
 
 const Ticket = sequelize.define('ticket', {
     seat: { type: DataTypes.INTEGER },
-    transaction_id: { type: DataTypes.INTEGER, allowNull: false },
+    transaction_id: { type: DataTypes.BIGINT, allowNull: false },
 })
 
 const UserMedia = sequelize.define('user_media');
