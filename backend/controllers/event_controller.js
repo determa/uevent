@@ -88,8 +88,8 @@ class EventController {
             // if (sort === "-date") sortArr = [['"createdAt"', "ASC"]];
 
             const event = await Event.findAll({
-                limit,
-                offset,
+                // limit,
+                // offset,
                 // where: eventObj,
                 // include: [{ model: Category, catObj }],
                 // attributes: {
