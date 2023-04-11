@@ -36,9 +36,6 @@ class EventController {
                 where: { id },
                 include: { model: Category },
             });
-            const { data, signature } = LiqPay(event, req.account.accountId);
-            event.dataValues.data = data;
-            event.dataValues.signature = signature;
             return res.json(event);
         } catch (e) {
             console.log(e)
@@ -144,6 +141,23 @@ class EventController {
             await event.setCategories(db_categories);
 
             return res.json({ message: "Событие обновлено!" });
+        } catch (e) {
+            console.log(e)
+            return next(ApiError.badRequest(e.message));
+        }
+    }
+
+    async get_payment_data(req, res, next) {
+        try {
+            let { id } = req.params;
+            const event = await Event.findOne({
+                where: { id },
+            });
+            if (event.tickets_count <= 0) {
+                return next(ApiError.badRequest("Билеты распроданы!"));
+            }
+            const data = LiqPay(event, req.account.accountId);
+            return res.json(data);
         } catch (e) {
             console.log(e)
             return next(ApiError.badRequest(e.message));
