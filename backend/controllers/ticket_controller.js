@@ -10,7 +10,7 @@ class TicketController {
             return res.json(ticket);
         } catch (error) {
             console.log(error)
-            return next(ApiError.badRequest(e.message));
+            return next(ApiError.badRequest(error.message));
         }
     }
 }
