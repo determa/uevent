@@ -1,5 +1,5 @@
 import React from "react";
-import { Navigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import { GoogleMapComponent } from "../components/GoogleMapComponent";
 import { eventAPI } from "../services/EventService";
 import { useSelector } from "react-redux";
@@ -46,13 +46,13 @@ const EventPage = () => {
             {data && (
                 <>
                     {console.log(data)}
-                    <div className="flex shadow-sm justify-center gap-3 max-w-7xl mx-auto p-4 bg-white border border-gray-200 rounded-lg flex-wrap">
+                    <div className="flex shadow-sm gap-3 max-w-7xl mx-auto p-4 bg-white border border-gray-200 rounded-lg flex-wrap">
                         <img
                             className="rounded-lg h-80 w-56 object-cover object-center"
                             alt="afisha"
-                            src={data.picture}
+                            src={`${process.env.REACT_APP_SERVER_DOMEN}/${data.picture}`}
                         />
-                        <div className="flex flex-col p-4 gap-3">
+                        <div className="flex flex-1 flex-col p-4 gap-3 min-w-[14rem]">
                             <p className="text-sm text-gray-500 font-semibold">
                                 {data.date}
                             </p>
@@ -84,7 +84,7 @@ const EventPage = () => {
                                 </Link>
                             )}
                         </div>
-                        <div className="flex flex-1 h-auto">
+                        <div className="flex w-full lg:w-2/5 h-80 min-w-[20rem]">
                             <GoogleMapComponent
                                 center={{ lat: 48.45, lng: 35.04 }}
                             />

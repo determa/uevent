@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { evnts } from "./dataList";
 import Event from "./Event";
+import { eventAPI } from "../services/EventService";
 // import Pagination from "./Pagination";
 
-const Events = ({ events }) => {
+const Events = () => {
+    const { data: events } = eventAPI.useGetAllEventsQuery();
+
     const [limit] = useState(10);
     const [page, setPage] = useState(1);
     const [sort, setSort] = useState("date");
@@ -16,7 +18,7 @@ const Events = ({ events }) => {
 
     return (
         <>
-            <div className="flex flex-col gap-6 mx-auto max-w-2xl md:max-w-4xl lg:max-w-7xl mb-12">
+            <div className="flex flex-col gap-6 mx-auto max-w-2xl md:max-w-4xl lg:max-w-7xl">
                 <div className="">
                     <span>Сортировать по: </span>
                     <select
@@ -70,9 +72,10 @@ const Events = ({ events }) => {
                     </label>
                 </div>
                 <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8 drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)]">
-                    {evnts.map((event, index) => (
-                        <Event key={index} event={event} />
-                    ))}
+                    {events &&
+                        events.map((event, index) => (
+                            <Event key={index} event={event} />
+                        ))}
                 </div>
 
                 {/* <Pagination /> */}

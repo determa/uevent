@@ -49,7 +49,7 @@ const evnts = [
             "https://img.freepik.com/free-vector/silhouette-party-audience_1048-9714.jpg",
 
         date: "Fri, 24.03.2022 19:00",
-        price: "350",
+        price: "350 грн",
         place: "Київ, Алея Героїв Небесної Сотні, 1",
         categories: ["рок", "поп", "джаз"],
         description:

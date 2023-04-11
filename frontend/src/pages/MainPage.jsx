@@ -10,8 +10,8 @@ const MainPage = () => {
             <div className="bg-header bg-center h-96">
                 <Header />
             </div>
-            <div className="px-4 sm:px-6 lg:px-8">
-                <SearchTicket />
+            <SearchTicket />
+            <div className="px-4 sm:px-6 lg:px-8 mb-7">
                 <Events />
             </div>
             <Footer />

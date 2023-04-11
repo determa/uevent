@@ -13,6 +13,20 @@ export const eventAPI = createApi({
             }),
             // providesTags: result => ['User']
         }),
+        getAllEvents: build.query({
+            query: () => ({
+                url: `/events`,
+                method: "GET",
+            }),
+            // providesTags: result => ['User']
+        }),
+        getAllEventsByCompany: build.query({
+            query: (data) => ({
+                url: `/events/company/${data}`,
+                method: "GET",
+            }),
+            // providesTags: result => ['User']
+        }),
         create: build.mutation({
             query: (data) => ({
                 url: `/events`,

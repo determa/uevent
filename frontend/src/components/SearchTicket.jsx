@@ -2,8 +2,8 @@ import React from "react";
 
 const SearchTicket = () => {
     return (
-        <div className="flex justify-center items-center relative -translate-y-1/2">
-            <div className="flex flex-wrap justify-center bg-[#242565] px-12 py-8 gap-12 rounded-lg shadow-gray-700 shadow-sm">
+        <div className="flex justify-center items-center relative -translate-y-1/2 px-4">
+            <div className="flex flex-col w-full lg:w-auto md:flex-row flex-wrap justify-center bg-[#242565] px-12 py-8 gap-12 rounded-lg shadow-gray-700 shadow-sm">
                 <div className="flex flex-col">
                     <label htmlFor="search" className="text-white text-xs">
                         Search Event

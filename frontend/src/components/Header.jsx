@@ -49,7 +49,10 @@ const LinkComp = ({ id, type, confirmed }) => {
                 >
                     Ваш профиль
                 </Link>
-                <Link className="text-gray-700 px-4 py-2 text-sm cursor-pointer">
+                <Link
+                    to={`/tickets`}
+                    className="text-gray-700 px-4 py-2 text-sm cursor-pointer"
+                >
                     Ваши билеты
                 </Link>
                 <Link className="text-gray-700 px-4 py-2 text-sm cursor-pointer">

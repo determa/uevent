@@ -8,6 +8,7 @@ import ProfilePage from '../pages/ProfilePage';
 import PorileCompanyPage from '../pages/ProfileCompanyPage';
 import ConfirmEmail from '../services/ConfirmEmail';
 import CreateEvent from '../components/CreateEvent';
+import TicketsPage from '../pages/TicketsPage';
 
 export const publicRoutes = [
     { path: "/", component: <MainPage /> },
@@ -16,6 +17,7 @@ export const publicRoutes = [
     { path: "/profile/company/:id", component: <Container component={<PorileCompanyPage />} /> },
     { path: "/events/:id", component: <Container component={<EventPage />} /> },
     { path: "/events/create", component: <CreateEvent /> },
+    { path: "/tickets", component: <Container component={<TicketsPage />} /> },
     { path: "/test", component: <Test /> },
     { path: "/validation/:id", component: <ConfirmEmail /> },
     // {path: "/password-reset", component: passwordResetPage, exact: true},
