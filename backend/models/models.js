@@ -52,7 +52,6 @@ const Comment = sequelize.define('comment', {
 });
 
 const Ticket = sequelize.define('ticket', {
-    id: { type: DataTypes.STRING, allowNull: false, primaryKey: true },
     seat: { type: DataTypes.INTEGER },
     transaction_id: { type: DataTypes.INTEGER, allowNull: false },
 })
