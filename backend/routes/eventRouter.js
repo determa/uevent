@@ -5,6 +5,7 @@ const authMiddleware = require("../middleware/authMiddleware");
 
 router.get("/", EventController.get_all);
 router.get("/:id", EventController.get_one);
+router.get("/company/:id", EventController.get_all_by_company);
 router.get("/payment-data/:id", authMiddleware, EventController.get_payment_data);
 router.get("/category/:id", EventController.get_events_by_category);
 router.post("/", authMiddleware, EventController.create);

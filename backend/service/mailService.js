@@ -46,6 +46,21 @@ class MailService {
         }
     }
 
+    sendPDF = async (req, res, next) => {
+        try {
+            const account = await Account.findOne({ where: { id: req.account.accountId } });
+            if (!account) {
+                return next(ApiError.notFound("Аккаунт не найден!"));
+            }
+            const hash = await bcrypt.hash(String(req.account.accountId), 5);
+            await send_mail('validation', account.email, encodeURIComponent(hash), this.transporter);
+            return res.json({ message: "Ссылка отправлена" });
+        } catch (error) {
+            console.log(error);
+            return next(ApiError.internal());
+        }
+    }
+
     async sendResetPass(to, token) {
         const link = `http://${process.env.HOST}:${process.env.PORT}/api/auth/password-reset/${token}`;
         await this.transporter.sendMail({
