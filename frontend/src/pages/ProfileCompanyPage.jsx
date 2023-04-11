@@ -4,6 +4,7 @@ import { companyAPI } from "../services/CompanyService";
 import { GoogleMapComponent } from "../components/GoogleMapComponent";
 import { evnts } from "../components/dataList";
 import Event from "../components/Event";
+import Events from "../components/Events";
 
 const ProfilePage = () => {
     const { id } = useParams();
@@ -39,16 +40,8 @@ const ProfilePage = () => {
                                 center={JSON.parse(data.location).location}
                             />
                         </div>
-
-                        <h1 className="font-semibold text-lg">
-                            События компании:
-                        </h1>
-                        <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8 drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)]">
-                            {evnts.map((event, index) => (
-                                <Event event={event} key={index} />
-                            ))}
-                        </div>
                     </div>
+                    <Events />
                 </>
             )}
         </>

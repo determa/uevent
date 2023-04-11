@@ -8,24 +8,20 @@ function Event({ event }) {
         >
             <div className="min-h-80 aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-t-lg bg-gray-200 group-hover:opacity-75 lg:aspect-none lg:h-80">
                 <img
-                    src={event.imageSrc}
-                    alt={event.imageAlt}
+                    src={event.picture}
+                    alt="img"
                     className="h-full w-full object-cover object-center lg:h-full lg:w-full"
                 />
             </div>
-            <div className="flex p-6 flex-col gap-2">
-                <p className="text-xs">{event.date}</p>
-                <div className="flex justify-between items-center">
+            <div className="flex p-6  justify-between items-center gap-2">
+                <div className="flex flex-col gap-2">
+                    <p className="text-xs">{event.date}</p>
                     <h3 className="text-xl font-semibold text-gray-700">
                         <a href={`/events/${event.id}`}>{event.name}</a>
                     </h3>
-                    <p className="mt-1 text-sm text-gray-500">{event.color}</p>
-                    <p className="text-sm font-medium text-gray-900">
-                        {event.price}
-                    </p>
+                    <p className="text-sm">{event.place}</p>
                 </div>
-                <p className="text-sm">{event.place}</p>
-                <p className="font-bold text-sm">{event.price}</p>
+                <p className="flex-1 font-bold text-base">{event.price} грн</p>
             </div>
         </div>
     );

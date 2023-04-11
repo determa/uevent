@@ -3,11 +3,11 @@ const evnts = [
         id: 1,
         name: "Dnipro Fest",
         href: "/events/1",
-        imageSrc:
+        picture:
             "https://img.freepik.com/free-vector/silhouette-party-audience_1048-9714.jpg",
-        imageAlt: "Party",
+
         date: "Fri, 24.03.2022 19:00",
-        price: "350 грн",
+        price: "350",
         place: "Київ, Алея Героїв Небесної Сотні, 1",
         categories: ["рок", "поп", "джаз"],
         description:
@@ -17,11 +17,11 @@ const evnts = [
         id: 2,
         name: "Dnipro Fest",
         href: "/events/2",
-        imageSrc:
+        picture:
             "https://tecdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(73).webp",
-        imageAlt: "Party",
+
         date: "Fri, 24.03.2022 19:00",
-        price: "350 грн",
+        price: "350",
         place: "Київ, Алея Героїв Небесної Сотні, 1",
         categories: ["рок", "поп", "джаз"],
         description:
@@ -31,11 +31,11 @@ const evnts = [
         id: 3,
         name: "Dnipro Fest",
         href: "/events/3",
-        imageSrc:
+        picture:
             "https://tecdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(73).webp",
-        imageAlt: "Party",
+
         date: "Fri, 24.03.2022 19:00",
-        price: "350 грн",
+        price: "350",
         place: "Київ, Алея Героїв Небесної Сотні, 1",
         categories: ["рок", "поп", "джаз"],
         description:
@@ -45,11 +45,11 @@ const evnts = [
         id: 4,
         name: "Dnipro Fest",
         href: "/events/4",
-        imageSrc:
+        picture:
             "https://img.freepik.com/free-vector/silhouette-party-audience_1048-9714.jpg",
-        imageAlt: "Party",
+
         date: "Fri, 24.03.2022 19:00",
-        price: "350 грн",
+        price: "350",
         place: "Київ, Алея Героїв Небесної Сотні, 1",
         categories: ["рок", "поп", "джаз"],
         description:

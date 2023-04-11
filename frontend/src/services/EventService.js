@@ -21,5 +21,12 @@ export const eventAPI = createApi({
             }),
             // providesTags: result => ['User']
         }),
+        getPaymentData: build.query({
+            query: (data) => ({
+                url: `/events/payment-data/${data}`,
+                method: "GET",
+            }),
+            // providesTags: result => ['User']
+        }),
     }),
 });

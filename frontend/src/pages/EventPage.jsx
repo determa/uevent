@@ -1,9 +1,38 @@
 import React from "react";
-import { useParams } from "react-router";
+import { Navigate, useParams } from "react-router";
 import { GoogleMapComponent } from "../components/GoogleMapComponent";
 import { eventAPI } from "../services/EventService";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+
+const PaymentButton = ({ id }) => {
+    const { data } = eventAPI.useGetPaymentDataQuery(id); //query to other path
+
+    return (
+        <>
+            {data && (
+                <form
+                    method="POST"
+                    action="https://www.liqpay.ua/api/3/checkout"
+                    acceptCharset="utf-8"
+                >
+                    <input type="hidden" name="data" value={data.data} />
+                    <input
+                        type="hidden"
+                        name="signature"
+                        value={data.signature}
+                    />
+                    <button className="mt-3 relative flex w-fit justify-center rounded-md bg-indigo-600 py-2 px-3 text-sm font-semibold text-white hover:bg-indigo-500">
+                        Оплатить
+                    </button>
+                </form>
+            )}
+        </>
+    );
+};
 
 const EventPage = () => {
+    const { isAuth } = useSelector((state) => state.userReducer);
     const { id } = useParams();
     const { data } = eventAPI.useGetOneEventQuery(id);
 
@@ -38,26 +67,17 @@ const EventPage = () => {
                             <p className="font-bold text-gray-700">
                                 {data.price}
                             </p>
-                            <div id="liqpay_checkout"></div>
-                            <form
-                                method="POST"
-                                action="https://www.liqpay.ua/api/3/checkout"
-                                acceptCharset="utf-8"
-                            >
-                                <input
-                                    type="hidden"
-                                    name="data"
-                                    value={data.data}
-                                />
-                                <input
-                                    type="hidden"
-                                    name="signature"
-                                    value={data.signature}
-                                />
-                                <button className="mt-3 relative flex w-28 justify-center rounded-md bg-indigo-600 py-2 px-3 text-sm font-semibold text-white hover:bg-indigo-500">
-                                    Оплатить
-                                </button>
-                            </form>
+
+                            {isAuth ? (
+                                <PaymentButton id={id} />
+                            ) : (
+                                <Link
+                                    to="/auth"
+                                    className="mt-3 relative flex w-fit justify-center rounded-md bg-indigo-600 py-2 px-3 text-sm font-semibold text-white hover:bg-indigo-500"
+                                >
+                                    Авторизоваться
+                                </Link>
+                            )}
                         </div>
                         <div className="flex flex-1 h-auto">
                             <GoogleMapComponent
