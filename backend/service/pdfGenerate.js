@@ -26,7 +26,7 @@ module.exports = async (accountId, eventId, transaction_id) => {
 
         const options = {
             format: "A5",
-            orientation: "landscape",
+            orientation: "portrait",
             border: "5mm",
             childProcessOptions: {
                 env: {
