@@ -26,8 +26,7 @@ module.exports = async (accountId, eventId, transaction_id) => {
 
         const options = {
             format: "A4",
-            orientation: "landscape",
-            border: "5mm",
+            orientation: "portrait",
             childProcessOptions: {
                 env: {
                     OPENSSL_CONF: '/dev/null',
