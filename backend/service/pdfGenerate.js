@@ -19,7 +19,7 @@ module.exports = async (accountId, eventId, transaction_id) => {
         time,
         location: event.location, //change to event.location.name
         transaction_id,
-        qr_code: await qrGenerate(),
+        // qr_code: await qrGenerate(),
     };
     console.log(params.qr_code);
     ejs.renderFile(__dirname + "/template.ejs", params, (err, html) => {
