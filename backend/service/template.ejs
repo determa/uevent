@@ -2,265 +2,252 @@
 
 <head>
     <meta charset="utf-8" />
-    <style type="text/css">
-        .ticket {
-            display: flex;
-            font-family: Roboto;
-            margin: 16px;
-            border: 1px solid #e0e0e0;
-            position: relative;
-        }
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Staatliches&display=swap");
+        @import url("https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap");
 
-        .ticket:before {
-            content: '';
-            width: 32px;
-            height: 32px;
-            background-color: #fff;
-            border: 1px solid #e0e0e0;
-            border-top-color: transparent;
-            border-left-color: transparent;
-            position: absolute;
-            transform: rotate(-45deg);
-            left: -18px;
-            top: 50%;
-            margin-top: -16px;
-            border-radius: 50%;
-        }
-
-        .ticket:after {
-            content: '';
-            width: 32px;
-            height: 32px;
-            background-color: #fff;
-            border: 1px solid #e0e0e0;
-            border-top-color: transparent;
-            border-left-color: transparent;
-            position: absolute;
-            transform: rotate(135deg);
-            right: -18px;
-            top: 50%;
-            margin-top: -16px;
-            border-radius: 50%;
-        }
-
-        .ticket--start {
-            position: relative;
-            border-right: 1px dashed #e0e0e0;
-        }
-
-        .ticket--start:before {
-            content: '';
-            width: 32px;
-            height: 32px;
-            background-color: #fff;
-            border: 1px solid #e0e0e0;
-            border-top-color: transparent;
-            border-left-color: transparent;
-            border-right-color: transparent;
-            position: absolute;
-            transform: rotate(-45deg);
-            left: -18px;
-            top: -2px;
-            margin-top: -16px;
-            border-radius: 50%;
-        }
-
-        .ticket--start:after {
-            content: '';
-            width: 32px;
-            height: 32px;
-            background-color: #fff;
-            border: 1px solid #e0e0e0;
-            border-top-color: transparent;
-            border-left-color: transparent;
-            border-bottom-color: transparent;
-            position: absolute;
-            transform: rotate(-45deg);
-            left: -18px;
-            top: 100%;
-            margin-top: -16px;
-            border-radius: 50%;
-        }
-
-        .ticket--start>img {
-            display: block;
-            padding: 24px;
-            height: 270px;
-        }
-
-        .ticket--center {
-            padding: 24px;
-            flex: 1;
-        }
-
-        .ticket--center--row {
-            display: flex;
-        }
-
-        .ticket--center--row:not(:last-child) {
-            padding-bottom: 48px;
-        }
-
-        .ticket--center--row:first-child span {
-            color: #4872b0;
-            text-transform: uppercase;
-            line-height: 24px;
-            font-size: 13px;
-            font-weight: 500;
-        }
-
-        .ticket--center--row:first-child strong {
-            font-size: 20px;
-            font-weight: 400;
-            text-transform: uppercase;
-        }
-
-        .ticket--center--col {
-            display: flex;
-            flex: 1;
-            width: 50%;
+        * {
+            margin: 0;
+            padding: 0;
             box-sizing: border-box;
-            flex-direction: column;
         }
 
-        .ticket--center--col:not(:last-child) {
-            padding-right: 16px;
+        body,
+        html {
+            height: 100vh;
+            display: grid;
+            font-family: "Staatliches", cursive;
+            background: #d83565;
+            color: black;
+            font-size: 14px;
+            letter-spacing: 0.1em;
         }
 
-        .ticket--end {
-            padding: 24px;
-            background-color: #4872b0;
+        .ticket {
+            margin: auto;
+            display: flex;
+            background: white;
+            box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+        }
+
+        .left {
+            display: flex;
+        }
+
+        .image {
+            height: 250px;
+            width: 250px;
+            background-image: url("https://media.pitchfork.com/photos/60db53e71dfc7ddc9f5086f9/1:1/w_1656,h_1656,c_limit/Olivia-Rodrigo-Sour-Prom.jpg");
+            background-size: contain;
+            opacity: 0.85;
+        }
+
+        .admit-one {
+            position: absolute;
+            color: darkgray;
+            height: 250px;
+            padding: 0 10px;
+            letter-spacing: 0.15em;
+            display: flex;
+            text-align: center;
+            justify-content: space-around;
+            writing-mode: vertical-rl;
+            transform: rotate(-180deg);
+        }
+
+        .admit-one span:nth-child(2) {
+            color: white;
+            font-weight: 700;
+        }
+
+        .left .ticket-number {
+            height: 250px;
+            width: 250px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-end;
+            padding: 5px;
+        }
+
+        .ticket-info {
+            padding: 10px 30px;
             display: flex;
             flex-direction: column;
-            position: relative;
+            text-align: center;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .ticket--end:before {
-            content: '';
-            width: 32px;
-            height: 32px;
-            background-color: #fff;
-            border: 1px solid #e0e0e0;
-            border-top-color: transparent;
-            border-right-color: transparent;
-            border-bottom-color: transparent;
-            position: absolute;
-            transform: rotate(-45deg);
-            right: -18px;
-            top: -2px;
-            margin-top: -16px;
-            border-radius: 50%;
+        .date {
+            border-top: 1px solid gray;
+            border-bottom: 1px solid gray;
+            padding: 5px 0;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
         }
 
-        .ticket--end:after {
-            content: '';
-            width: 32px;
-            height: 32px;
-            background-color: #fff;
-            border: 1px solid #e0e0e0;
-            border-right-color: transparent;
-            border-left-color: transparent;
-            border-bottom-color: transparent;
-            position: absolute;
-            transform: rotate(-45deg);
-            right: -18px;
-            top: 100%;
-            margin-top: -16px;
-            border-radius: 50%;
+        .date span {
+            width: 100px;
         }
 
-        .ticket--end>div:first-child {
-            flex: 1;
+        .date span:first-child {
+            text-align: left;
         }
 
-        .ticket--end>div:first-child>img {
-            width: 128px;
-            padding: 4px;
-            background-color: #fff;
+        .date span:last-child {
+            text-align: right;
         }
 
-        .ticket--end>div:last-child>img {
-            display: block;
-            margin: 0 auto;
-            filter: brightness(0) invert(1);
-            opacity: 0.64;
+        .date .june-29 {
+            color: #d83565;
+            font-size: 20px;
         }
 
-        .ticket--info--title {
-            text-transform: uppercase;
-            color: #757575;
-            font-size: 13px;
-            line-height: 24px;
-            font-weight: 600;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+        .show-name {
+            font-size: 32px;
+            font-family: "Nanum Pen Script", cursive;
+            color: #d83565;
         }
 
-        .ticket--info--subtitle {
+        .show-name h1 {
+            font-size: 48px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            color: #4a437e;
+        }
+
+        .time {
+            padding: 10px 0;
+            color: #4a437e;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            font-weight: 700;
+        }
+
+        .time span {
+            font-weight: 400;
+            color: gray;
+        }
+
+        .left .time {
             font-size: 16px;
-            line-height: 24px;
-            font-weight: 500;
-            color: #4872b0;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
 
-        .ticket--info--content {
-            font-size: 13px;
-            line-height: 24px;
-            font-weight: 500;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+
+        .location {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 100%;
+            padding-top: 8px;
+            border-top: 1px solid gray;
+        }
+
+        .location .separator {
+            font-size: 20px;
+        }
+
+        .right {
+            width: 180px;
+            border-left: 1px dashed #404040;
+        }
+
+        .right .admit-one {
+            color: darkgray;
+        }
+
+        .right .admit-one span:nth-child(2) {
+            color: gray;
+        }
+
+        .right .right-info-container {
+            height: 250px;
+            padding: 10px 10px 10px 35px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .right .show-name h1 {
+            font-size: 18px;
+        }
+
+        .barcode {
+            height: 100px;
+        }
+
+        .barcode img {
+            height: 100%;
+        }
+
+        .right .ticket-number {
+            color: gray;
         }
     </style>
 </head>
 
 <body class="ticket">
 
-    <div class="ticket--center">
-        <div class="ticket--center--row">
-            <div class="ticket--center--col">
-                <span>Your ticket for</span>
-                <strong>
-                    <%=name%>
-                </strong>
+    <div class="left">
+        <div class="image">
+            <p class="admit-one">
+                <span>ADMIT ONE</span>
+                <span>ADMIT ONE</span>
+                <span>ADMIT ONE</span>
+            </p>
+            <div class="ticket-number">
+                <p>
+                    #20030220
+                </p>
             </div>
         </div>
-        <div class="ticket--center--row">
-            <div class="ticket--center--col">
-                <span class="ticket--info--title">Date and time</span>
-                <span class="ticket--info--subtitle">
-                    <%=date%>
-                </span>
-                <span class="ticket--info--content">
-                    At <%=time%>
-                </span>
+        <div class="ticket-info">
+            <p class="date">
+                <span>TUESDAY</span>
+                <span class="june-29">JUNE 29TH</span>
+                <span>2021</span>
+            </p>
+            <div class="show-name">
+                <h1>SOUR Prom</h1>
+                <h2>Olivia Rodrigo</h2>
             </div>
-            <div class="ticket--center--col">
-                <span class="ticket--info--title">Location</span>
-                <span class="ticket--info--content">
-                    <%=location%>
-                </span>
+            <div class="time">
+                <p>8:00 PM <span>TO</span> 11:00 PM</p>
+                <p>DOORS <span>@</span> 7:00 PM</p>
             </div>
-        </div>
-        <div class="ticket--center--row">
-            <div class="ticket--center--col">
-                <span class="ticket--info--title">Ticket type</span>
-                <span class="ticket--info--content">
-                    type
-                </span>
-            </div>
-            <div class="ticket--center--col">
-                <span class="ticket--info--title">Order info</span>
-                <span class="ticket--info--content">Order #<%=transaction_id%>.</span>
-            </div>
+            <p class="location"><span>East High School</span>
+                <span class="separator"><i class="far fa-smile"></i></span><span>Salt Lake City, Utah</span>
+            </p>
         </div>
     </div>
-    <div class="ticket--end">
-        <div><img src="<%=qr_code%>"></div>
+    <div class="right">
+        <p class="admit-one">
+            <span>ADMIT ONE</span>
+            <span>ADMIT ONE</span>
+            <span>ADMIT ONE</span>
+        </p>
+        <div class="right-info-container">
+            <div class="show-name">
+                <h1>SOUR Prom</h1>
+            </div>
+            <div class="time">
+                <p>8:00 PM <span>TO</span> 11:00 PM</p>
+                <p>DOORS <span>@</span> 7:00 PM</p>
+            </div>
+            <div class="barcode">
+                <img src="https://external-preview.redd.it/cg8k976AV52mDvDb5jDVJABPrSZ3tpi1aXhPjgcDTbw.png?auto=webp&s=1c205ba303c1fa0370b813ea83b9e1bddb7215eb"
+                    alt="QR code">
+            </div>
+            <p class="ticket-number">
+                #20030220
+            </p>
+        </div>
     </div>
 </body>
 
