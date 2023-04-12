@@ -3,6 +3,7 @@ const { Event } = require("../models/models");
 const pdf = require("pdf-creator-node");
 const ejs = require("ejs");
 const moment = require("moment");
+const uuid = require('uuid');
 
 module.exports = async (accountId, eventId, transaction_id) => {
     try {
@@ -34,7 +35,7 @@ module.exports = async (accountId, eventId, transaction_id) => {
                     },
                 },
             };
-            const fileName = __dirname + "/file.pdf";
+            const fileName = __dirname + `/${uuid.v4()}.pdf`;
 
             pdf.create({ html, path: fileName, data: {}, type: "" }, options)
                 .catch((error) => {
