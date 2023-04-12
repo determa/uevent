@@ -75,48 +75,53 @@
 </head>
 
 <body class="ticket">
-
-    <div class="ticket--center" style="flex: 1;">
-        <div class="ticket--center--row" style="padding-bottom: 48px;">
-            <div class="ticket--center--col">
-                <span style="color: #4872b0; text-transform: uppercase; line-height: 24px; font-size: 13px; font-weight: 500;">Your ticket for</span>
-                <strong style="font-size: 20px; font-weight: 400; text-transform: uppercase;">
-                    <%=name%>
-                </strong>
+    <div>
+        <div class="ticket--center" style="flex: 1;">
+            <div class="ticket--center--row" style="padding-bottom: 48px;">
+                <div class="ticket--center--col">
+                    <span
+                        style="color: #4872b0; text-transform: uppercase; line-height: 24px; font-size: 13px; font-weight: 500;">Your
+                        ticket for</span>
+                    <strong style="font-size: 20px; font-weight: 400; text-transform: uppercase;">
+                        <%=name%>
+                    </strong>
+                </div>
+            </div>
+            <div class="ticket--center--row" style="padding-bottom: 48px;">
+                <div class="ticket--center--col">
+                    <span class="ticket--info--title">Date and time</span>
+                    <span class="ticket--info--subtitle">
+                        <%=date%>
+                    </span>
+                    <span class="ticket--info--content">
+                        At <%=time%>
+                    </span>
+                </div>
+                <div class="ticket--center--col">
+                    <span class="ticket--info--title">Location</span>
+                    <span class="ticket--info--content">
+                        <%=location%>
+                    </span>
+                </div>
+            </div>
+            <div class="ticket--center--row">
+                <div class="ticket--center--col">
+                    <span class="ticket--info--title">Ticket type</span>
+                    <span class="ticket--info--content">
+                        type
+                    </span>
+                </div>
+                <div class="ticket--center--col" style="padding-right: 0px;">
+                    <span class="ticket--info--title">Order info</span>
+                    <span class="ticket--info--content">Order #<%=transaction_id%>.</span>
+                </div>
             </div>
         </div>
-        <div class="ticket--center--row" style="padding-bottom: 48px;">
-            <div class="ticket--center--col">
-                <span class="ticket--info--title">Date and time</span>
-                <span class="ticket--info--subtitle">
-                    <%=date%>
-                </span>
-                <span class="ticket--info--content">
-                    At <%=time%>
-                </span>
-            </div>
-            <div class="ticket--center--col">
-                <span class="ticket--info--title">Location</span>
-                <span class="ticket--info--content">
-                    <%=location%>
-                </span>
+        <div class="ticket--end">
+            <div><img src="<%=qr_code%>"
+                    style="width: 128px; padding: 4px; background-color: #fff; display: block; margin: 0 auto; filter: brightness(0) invert(1); opacity: 0.64;">
             </div>
         </div>
-        <div class="ticket--center--row">
-            <div class="ticket--center--col">
-                <span class="ticket--info--title">Ticket type</span>
-                <span class="ticket--info--content">
-                    type
-                </span>
-            </div>
-            <div class="ticket--center--col" style="padding-right: 0px;">
-                <span class="ticket--info--title">Order info</span>
-                <span class="ticket--info--content">Order #<%=transaction_id%>.</span>
-            </div>
-        </div>
-    </div>
-    <div class="ticket--end">
-        <div><img src="<%=qr_code%>" style="width: 128px; padding: 4px; background-color: #fff; display: block; margin: 0 auto; filter: brightness(0) invert(1); opacity: 0.64;"></div>
     </div>
 </body>
 
