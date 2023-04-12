@@ -10,7 +10,7 @@ const ProfileImg = ({ data }) => {
         <>
             {data && (
                 <img
-                    className="rounded-full object-cover object-center w-12 h-12"
+                    className="rounded-full object-cover object-center backdrop-blur-sm w-12 h-12"
                     src={`${process.env.REACT_APP_SERVER_DOMEN}/${data.picture}`}
                 />
             )}
