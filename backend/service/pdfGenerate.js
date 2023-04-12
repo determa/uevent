@@ -26,7 +26,7 @@ module.exports = async (accountId, eventId, transaction_id) => {
             }
 
             const options = {
-                format: "A4",
+                format: "A5",
                 orientation: "landscape",
                 childProcessOptions: {
                     env: {
@@ -36,7 +36,7 @@ module.exports = async (accountId, eventId, transaction_id) => {
             };
             const fileName = __dirname + "/file.pdf";
 
-            pdf.create({ html: html, path: fileName, data: {}, type: "" }, options)
+            pdf.create({ html, path: fileName, data: {}, type: "" }, options)
                 .catch((error) => {
                     console.error(error);
                 });
