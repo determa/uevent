@@ -1,6 +1,6 @@
 const ApiError = require('../error/ApiError');
 const { Ticket } = require('../models/models');
-const { default: pdfGenerate } = require('../service/pdfGenerate');
+const pdfGenerate = require('../service/pdfGenerate');
 
 class TicketController {
     async create(req, res, next) {
