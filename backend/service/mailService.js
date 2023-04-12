@@ -3,7 +3,14 @@ const ApiError = require('../error/ApiError');
 const bcrypt = require('bcrypt');
 const { Account } = require("../models/models");
 
-const send_mail = async (path, email, parametr, transporter) => {
+const send_mail = async (html, email, parametr, transporter) => {
+    let attachments = [];
+    if (parametr) {
+        attachments.push({
+            filename: "ticket.pdf",
+            path: parametr,
+        })
+    }
     await transporter.sendMail({
         from: '"Node js" <nodejs@example.com>',
         to: email,
@@ -11,10 +18,10 @@ const send_mail = async (path, email, parametr, transporter) => {
         text: "",
         html: `
             <div>
-                <h1>Activation link:</h1>
-                <a href="http://127.0.0.1:${process.env.CL_PORT}/${path}/${parametr}" target="_blank">Нажмите для подтверждения</a>
+                ${html}
             </div>
             `,
+        attachments,
     });
 }
 
@@ -38,7 +45,8 @@ class MailService {
                 return next(ApiError.notFound("Аккаунт не найден!"));
             }
             const hash = await bcrypt.hash(String(req.account.accountId), 5);
-            await send_mail('validation', account.email, encodeURIComponent(hash), this.transporter);
+            const html = `<h1>Activation link:</h1><a href="http://127.0.0.1:${process.env.CL_PORT}/validation/${encodeURIComponent(hash)}" target="_blank">Нажмите для подтверждения</a>`;
+            await send_mail(html, account.email, undefined, this.transporter);
             return res.json({ message: "Ссылка отправлена" });
         } catch (error) {
             console.log(error);
@@ -48,13 +56,14 @@ class MailService {
 
     sendPDF = async (req, res, next) => {
         try {
-            const account = await Account.findOne({ where: { id: req.account.accountId } });
+            const { accountId } = req.dae;
+            const { html, pdf } = req;
+            const account = await Account.findOne({ where: { id: accountId } });
             if (!account) {
                 return next(ApiError.notFound("Аккаунт не найден!"));
             }
-            const hash = await bcrypt.hash(String(req.account.accountId), 5);
-            await send_mail('validation', account.email, encodeURIComponent(hash), this.transporter);
-            return res.json({ message: "Ссылка отправлена" });
+            await send_mail("<h1>Спасибо за покупку, ваши билеты:</h1>" + html, account.email, pdf, this.transporter);
+            return res.json({ message: "PDF файл отправлен." });
         } catch (error) {
             console.log(error);
             return next(ApiError.internal());

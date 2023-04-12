@@ -7,12 +7,14 @@ class TicketController {
         try {
             const { accountId, eventId } = req.dae;
             const { transaction_id } = req.answer;
-            const ticket = await Ticket.create({ accountId: accountId, eventId: eventId, transaction_id: transaction_id });
-            await pdfGenerate(accountId, eventId, transaction_id)
-            return res.json(ticket);
+            await Ticket.create({ accountId: accountId, eventId: eventId, transaction_id: transaction_id });
+            const { fileName, html } = await pdfGenerate.create(accountId, eventId, transaction_id);
+            req.html = html;
+            req.pdf = fileName;
+            return next();
         } catch (error) {
             console.log(error)
-            return next(ApiError.badRequest(error.message));
+            return next(ApiError.internal(error.message));
         }
     }
 }
