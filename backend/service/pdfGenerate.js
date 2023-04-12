@@ -16,7 +16,7 @@ module.exports = async (accountId, eventId, transaction_id) => {
         time,
         location: event.location, //change to event.location.name
         transaction_id,
-        qr_code: `file://${__dirname}/qr.png`,
+        qr_code: `${__dirname}/qr.png`,
     };
 
     ejs.renderFile(__dirname + '/template.ejs', params, (err, html) => {
