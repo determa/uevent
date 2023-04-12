@@ -32,7 +32,14 @@ const UserData = () => {
 
 const LinkComp = ({ id, type, confirmed }) => {
     if (type === "NONE" || !confirmed)
-        return <Link to={"/auth"}>Авторизация</Link>;
+        return (
+            <Link
+                to={"/auth"}
+                className="text-gray-700 px-4 py-2 text-sm cursor-pointer"
+            >
+                Продолжить регистрацию
+            </Link>
+        );
     if (type === "USER")
         return (
             <>
