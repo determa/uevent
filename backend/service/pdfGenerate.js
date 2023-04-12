@@ -1,6 +1,6 @@
 const qrGenerate = require('./qrGenerate');
 const { Event } = require('../models/models');
-const htmlPdf = require('html-pdf');
+const pdf = require("pdf-creator-node");
 const ejs = require('ejs');
 const moment = require('moment');
 
@@ -26,17 +26,16 @@ module.exports = async (accountId, eventId, transaction_id) => {
 
         const options = { format: 'A4' };
         const fileName = __dirname + '/file.pdf';
-        console.log(fileName)
 
         const renderHtml = html.replace(/img src=\"\//g, 'img src="file://' + __dirname + "/");
 
-        htmlPdf.create(renderHtml, options).toFile(fileName, (err) => {
-
-            if (err) {
-                console.log('Ошибка конвертации', err)
-            }
-
-        });
+        pdf.create({ html: renderHtml, path: fileName }, options)
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
 
     })
 }
