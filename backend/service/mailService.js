@@ -2,6 +2,7 @@ const nodemailer = require("nodemailer");
 const ApiError = require('../error/ApiError');
 const bcrypt = require('bcrypt');
 const { Account } = require("../models/models");
+const pdfGenerate = require("./pdfGenerate");
 
 const send_mail = async (html, email, parametr, transporter) => {
     let attachments = [];
@@ -63,6 +64,7 @@ class MailService {
                 return next(ApiError.notFound("Аккаунт не найден!"));
             }
             await send_mail("<h1>Спасибо за покупку, ваши билеты:</h1>" + html, account.email, pdf, this.transporter);
+            await pdfGenerate.delete(pdf);
             return res.json({ message: "PDF файл отправлен." });
         } catch (error) {
             console.log(error);
