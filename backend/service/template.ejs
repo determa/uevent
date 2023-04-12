@@ -149,7 +149,42 @@
             position: relative;
         }
 
+
         .ticket--end:before {
+            content: '';
+            width: 32px;
+            height: 32px;
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-top-color: transparent;
+            border-left-color: transparent;
+            border-right-color: transparent;
+            position: absolute;
+            transform: rotate(-45deg);
+            left: -18px;
+            top: -2px;
+            margin-top: -16px;
+            border-radius: 50%;
+        }
+
+        .ticket--end:after {
+            content: '';
+            width: 32px;
+            height: 32px;
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-top-color: transparent;
+            border-left-color: transparent;
+            border-bottom-color: transparent;
+            position: absolute;
+            transform: rotate(-45deg);
+            left: -18px;
+            top: 100%;
+            margin-top: -16px;
+            border-radius: 50%;
+        }
+
+        /* .ticket--end:before {
             content: '';
             width: 32px;
             height: 32px;
@@ -181,7 +216,7 @@
             top: 100%;
             margin-top: -16px;
             border-radius: 50%;
-        }
+        } */
 
         .ticket--end>div:first-child {
             -webkit-box-flex: 1;
