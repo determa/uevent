@@ -1,6 +1,6 @@
-import { Event } from '../models/models';
 import qrGenerate from './qrGenerate';
 
+const { Event } = require('../models/models');
 const htmlPdf = require('html-pdf');
 const ejs = require('ejs');
 const moment = require('moment');
