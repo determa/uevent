@@ -1,5 +1,4 @@
-import qrGenerate from './qrGenerate';
-
+const qrGenerate = require('./qrGenerate');
 const { Event } = require('../models/models');
 const htmlPdf = require('html-pdf');
 const ejs = require('ejs');
