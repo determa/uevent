@@ -14,7 +14,7 @@ module.exports = async (accountId, eventId, transaction_id) => {
             name: event.title,
             date,
             time,
-            location: event.location, //change to event.location.name
+            location: event.location.name, //change to event.location.name
             transaction_id,
             qr_code: await qrGenerate(),
         };
