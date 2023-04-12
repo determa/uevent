@@ -26,6 +26,7 @@ module.exports = async (accountId, eventId, transaction_id) => {
 
         const options = { format: 'A4' };
         const fileName = __dirname + '/file.pdf';
+        console.log(fileName)
 
         const renderHtml = html.replace(/img src=\"\//g, 'img src="file://' + __dirname + "/");
 
