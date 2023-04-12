@@ -20,6 +20,9 @@ module.exports = async (accountId, eventId, transaction_id) => {
     };
 
     ejs.renderFile(__dirname + '/template.ejs', params, (err, html) => {
+        if (err) {
+            console.log(err);
+        }
 
         const options = { format: 'A4' };
         const fileName = __dirname + '/file.pdf';
