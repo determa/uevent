@@ -5,7 +5,7 @@ const ejs = require('ejs');
 const moment = require('moment');
 
 module.exports = async (accountId, eventId, transaction_id) => {
-    const event = Event.findOne({ where: { id: eventId } });
+    const event = await Event.findOne({ where: { id: eventId } });
     let date = moment(event.date).format('dddd, MMMM Do YYYY');
     let time = `At ${moment(event.date).format('LT')}`;
     qrGenerate();
@@ -24,7 +24,16 @@ module.exports = async (accountId, eventId, transaction_id) => {
             console.log(err);
         }
 
-        const options = { format: 'A4' };
+        const options = {
+            format: "A5",
+            orientation: "landscape",
+            border: "5mm",
+            childProcessOptions: {
+                env: {
+                    OPENSSL_CONF: '/dev/null',
+                },
+            }
+        };
         const fileName = __dirname + '/file.pdf';
 
         const renderHtml = html.replace(/img src=\"\//g, 'img src="file://' + __dirname + "/");
