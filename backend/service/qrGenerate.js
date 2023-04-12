@@ -2,9 +2,7 @@ const QRCode = require('qrcode');
 
 module.exports = async () => {
     try {
-        QRCode.toDataURL('I am a pony!', function (err, url) {
-            console.log(url)
-        })
+        return await QRCode.toDataURL("process.env.CL_URL");
     } catch (error) {
         console.log(error);
     }
