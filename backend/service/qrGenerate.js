@@ -1,5 +1,9 @@
 const QRCode = require('qrcode');
 
 module.exports = () => {
-    return QRCode.toString(__dirname + '/qr.png', process.env.CL_URL);
+    try {
+        return QRCode.toString(process.env.CL_URL);
+    } catch (error) {
+        console.log(error);
+    }
 }
