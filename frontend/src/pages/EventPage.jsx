@@ -4,6 +4,7 @@ import { GoogleMapComponent } from "../components/GoogleMapComponent";
 import { eventAPI } from "../services/EventService";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import dayjs from "dayjs";
 
 const PaymentButton = ({ id }) => {
     const { data, error } = eventAPI.useGetPaymentDataQuery(id);
@@ -54,13 +55,12 @@ const EventPage = () => {
                         />
                         <div className="flex flex-1 flex-col p-4 gap-3 min-w-[14rem]">
                             <p className="text-sm text-gray-500 font-semibold">
-                                {data.date}
+                                {dayjs(data.date).format("dddd, DD MMMM YYYY HH:mm")}
                             </p>
                             <div className="flex-1">
                                 <h1 className="py-4 text-4xl font-medium">
                                     {data.title}
                                 </h1>
-                                <p className="text-sm">{data.location}</p>
                             </div>
                             <div className="flex gap-3">
                                 {/* {data.categories.map((category, index) => (
@@ -86,7 +86,7 @@ const EventPage = () => {
                         </div>
                         <div className="flex w-full lg:w-2/5 h-80 min-w-[20rem]">
                             <GoogleMapComponent
-                                center={{ lat: 48.45, lng: 35.04 }}
+                                center={JSON.parse(data.location).location}
                             />
                         </div>
                     </div>

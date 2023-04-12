@@ -1,9 +1,11 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import dayjs from "dayjs";
 
 function Event({ event }) {
-    console.log(event);
     return (
-        <div
+        <Link
+            to={`/events/${event.id}`}
             key={event.id}
             className="group relative rounded-lg bg-white drop-shadow-[0_19px_47px_rgba(119,115,170,0.1)]"
         >
@@ -15,16 +17,24 @@ function Event({ event }) {
                 />
             </div>
             <div className="flex p-6 gap-2 justify-between flex-wrap">
-                <div className="flex flex-col gap-2">
-                    <p className="text-xs">{event.date}</p>
+                <div className="flex flex-col gap-3">
+                    <div className="flex justify-between items-end">
+                        <p className="text-xs font-medium">
+                            {dayjs(event.date).format("ddd, DD-MMM-YYYY")}
+                        </p>
+                        <p className="text-sm font-semibold">
+                            {dayjs(event.date).format("HH:mm")}
+                        </p>
+                    </div>
+
                     <h3 className="text-xl font-semibold text-gray-700">
-                        <a href={`/events/${event.id}`}>{event.title}</a>
+                        {event.title}
                     </h3>
-                    <p className="text-sm">{event.location}</p>
+                    <p className="text-sm">{JSON.parse(event.location).name}</p>
                 </div>
                 <p className="font-bold text-base">{event.price} грн</p>
             </div>
-        </div>
+        </Link>
     );
 }
 
