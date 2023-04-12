@@ -25,7 +25,7 @@ module.exports = async (accountId, eventId, transaction_id) => {
         }
 
         const options = {
-            format: "A5",
+            format: "A4",
             orientation: "landscape",
             border: "5mm",
             childProcessOptions: {
@@ -38,7 +38,7 @@ module.exports = async (accountId, eventId, transaction_id) => {
 
         const renderHtml = html.replace(/img src=\"\//g, 'img src="file://' + __dirname + "/");
 
-        pdf.create({ html: renderHtml, path: fileName }, options)
+        pdf.create({ html: renderHtml, path: fileName, data: {}, type: "" }, options)
             .then((res) => {
                 console.log(res);
             })
