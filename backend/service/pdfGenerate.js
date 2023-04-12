@@ -38,7 +38,7 @@ module.exports = async (accountId, eventId, transaction_id) => {
         // const renderHtml = html.replace(/img src=\"\//g, 'img src="file://' + __dirname + "/");
         console.log(renderHtml);
 
-        pdf.create({ html: renderHtml, path: fileName, data: {}, type: "" }, options)
+        pdf.create({ html: html, path: fileName, data: {}, type: "" }, options)
             .then((res) => {
                 console.log(res);
             })
