@@ -4,7 +4,7 @@ const htmlPdf = require('html-pdf');
 const ejs = require('ejs');
 const moment = require('moment');
 
-export default async (accountId, eventId, transaction_id) => {
+module.exports = async (accountId, eventId, transaction_id) => {
     const event = Event.findOne({ where: { id: eventId } });
     let date = moment(event.date).format('dddd, MMMM Do YYYY');
     let time = `At ${moment(event.date).format('LT')}`;
