@@ -145,9 +145,9 @@ const Header = () => {
     return (
         <header className="select-none bg-gradient-to-r from-[#ED4690]/70 to-[#5522CC]/70 w-full h-full border-gray-200 px-4 lg:px-6 py-3 dark:bg-gray-800">
             <nav>
-                <ul className="flex font-serif font-semibold text-white flex-wrap items-center justify-between mx-auto max-w-7xl">
+                <ul className="flex font-semibold text-white flex-wrap items-center justify-between mx-auto max-w-7xl">
                     <li>
-                        <Link className="logo text-2xl" to="/">
+                        <Link className="logo text-2xl font-serif" to="/">
                             uevent
                         </Link>
                     </li>
@@ -158,7 +158,7 @@ const Header = () => {
                     ) : (
                         <li>
                             <Link
-                                className="px-3 py-2.5 border-gray-300 border rounded-lg hover:bg-white/10"
+                                className="px-3 py-2.5 font-serif border-gray-300 border rounded-lg hover:bg-white/10"
                                 to="/auth"
                             >
                                 Войти
