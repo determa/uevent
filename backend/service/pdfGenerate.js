@@ -5,12 +5,7 @@ const ejs = require("ejs");
 const moment = require("moment");
 
 module.exports = async (accountId, eventId, transaction_id) => {
-    const event = {
-        title: "asd",
-        location: "dnipro",
-        date: "2023-04-08 19:07:41.109+00",
-    };
-    // const event = await Event.findOne({ where: { id: eventId } });
+    const event = await Event.findOne({ where: { id: eventId } });
     let date = moment(event.date).format("dddd, MMMM Do YYYY");
     let time = `At ${moment(event.date).format("LT")}`;
 
@@ -22,7 +17,7 @@ module.exports = async (accountId, eventId, transaction_id) => {
         transaction_id,
         qr_code: await qrGenerate(),
     };
-    console.log(params.qr_code);
+
     ejs.renderFile(__dirname + "/template.ejs", params, (err, html) => {
         if (err) {
             console.log(err);
@@ -38,7 +33,6 @@ module.exports = async (accountId, eventId, transaction_id) => {
             },
         };
         const fileName = __dirname + "/file.pdf";
-        console.log(html);
 
         pdf.create({ html: html, path: fileName, data: {}, type: "" }, options)
             .then((res) => {

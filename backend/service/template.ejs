@@ -184,40 +184,6 @@
             border-radius: 50%;
         }
 
-        /* .ticket--end:before {
-            content: '';
-            width: 32px;
-            height: 32px;
-            background-color: #fff;
-            border: 1px solid #e0e0e0;
-            border-top-color: transparent;
-            border-right-color: transparent;
-            border-bottom-color: transparent;
-            position: absolute;
-            transform: rotate(-45deg);
-            right: -18px;
-            top: -2px;
-            margin-top: -16px;
-            border-radius: 50%;
-        }
-
-        .ticket--end:after {
-            content: '';
-            width: 32px;
-            height: 32px;
-            background-color: #fff;
-            border: 1px solid #e0e0e0;
-            border-right-color: transparent;
-            border-left-color: transparent;
-            border-bottom-color: transparent;
-            position: absolute;
-            transform: rotate(-45deg);
-            right: -18px;
-            top: 100%;
-            margin-top: -16px;
-            border-radius: 50%;
-        } */
-
         .ticket--end>div:first-child {
             -webkit-box-flex: 1;
             -webkit-flex: 1;
@@ -279,19 +245,27 @@
             <div class="ticket--center--row">
                 <div class="ticket--center--col">
                     <span>Your ticket for</span>
-                    <strong>The event name</strong>
+                    <strong>
+                        <%=name%>
+                    </strong>
                 </div>
             </div>
             <div class="ticket--center--row">
                 <div class="ticket--center--col">
                     <span class="ticket--info--title">Date and time</span>
-                    <span class="ticket--info--subtitle">Thursday, May 14 2020</span>
-                    <span class="ticket--info--content">7:00 am to 9:00 pm (GMT+1)</span>
+                    <span class="ticket--info--subtitle">
+                        <%=date%>
+                    </span>
+                    <span class="ticket--info--content">
+                        <%=time%>
+                    </span>
                 </div>
                 <div class="ticket--center--col">
                     <span class="ticket--info--title">Location</span>
                     <span class="ticket--info--subtitle">Location name</span>
-                    <span class="ticket--info--content">Location complete address, Town, COUNTRY</span>
+                    <span class="ticket--info--content">
+                        <%=location%>
+                    </span>
                 </div>
             </div>
             <div class="ticket--center--row">
@@ -301,12 +275,12 @@
                 </div>
                 <div class="ticket--center--col">
                     <span class="ticket--info--title">Order info</span>
-                    <span class="ticket--info--content">Order #0123456789. Ordered By Jhon DOE</span>
+                    <span class="ticket--info--content">Order #<%=transaction_id%>.</span>
                 </div>
             </div>
         </div>
         <div class="ticket--end">
-            <div><img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Qrcode_wikipedia_fr_v2clean.png"></div>
+            <div><img src="<%=qr_code%>"></div>
             <div><span>uevent</span></div>
         </div>
     </div>
