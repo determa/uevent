@@ -5,14 +5,12 @@ import { logOut } from "../store/reducers/UserSlice";
 import { userAPI } from "../services/UserService";
 import { companyAPI } from "../services/CompanyService";
 
-const CompanyData = () => {
-    const { id } = useSelector((state) => state.userReducer);
-    const { data } = companyAPI.useGetOneCompanyQuery(id);
+const ProfileImg = ({ data }) => {
     return (
         <>
             {data && (
                 <img
-                    className="rounded-full object-cover object-center w-8 h-8"
+                    className="rounded-full object-cover object-center w-12 h-12"
                     src={`${process.env.REACT_APP_SERVER_DOMEN}/${data.picture}`}
                 />
             )}
@@ -20,19 +18,16 @@ const CompanyData = () => {
     );
 };
 
+const CompanyData = () => {
+    const { id } = useSelector((state) => state.userReducer);
+    const { data } = companyAPI.useGetOneCompanyQuery(id);
+    return <ProfileImg data={data} />;
+};
+
 const UserData = () => {
     const { id } = useSelector((state) => state.userReducer);
     const { data } = userAPI.useGetOneUserQuery(id);
-    return (
-        <>
-            {data && (
-                <img
-                    className="rounded-full w-8 h-8 object-cover object-center backdrop-blur-sm"
-                    src={`${process.env.REACT_APP_SERVER_DOMEN}/${data.picture}`}
-                />
-            )}
-        </>
-    );
+    return <ProfileImg data={data} />;
 };
 
 const LinkComp = ({ id, type, confirmed }) => {
@@ -141,11 +136,11 @@ const Header = () => {
     const { isAuth } = useSelector((state) => state.userReducer);
 
     return (
-        <header className="bg-gradient-to-r from-[#ED4690]/70 to-[#5522CC]/70 w-full h-full border-gray-200 px-4 lg:px-6 py-3 dark:bg-gray-800">
+        <header className="select-none bg-gradient-to-r from-[#ED4690]/70 to-[#5522CC]/70 w-full h-full border-gray-200 px-4 lg:px-6 py-3 dark:bg-gray-800">
             <nav>
-                <ul className="flex h-8 text-white flex-wrap items-center justify-between mx-auto max-w-7xl">
+                <ul className="flex font-serif font-semibold text-white flex-wrap items-center justify-between mx-auto max-w-7xl">
                     <li>
-                        <Link className="logo" to="/">
+                        <Link className="logo text-2xl" to="/">
                             uevent
                         </Link>
                     </li>
@@ -155,7 +150,12 @@ const Header = () => {
                         </li>
                     ) : (
                         <li>
-                            <Link to="/auth">Create account</Link>
+                            <Link
+                                className="px-3 py-2.5 border-gray-300 border rounded-lg hover:bg-white/10"
+                                to="/auth"
+                            >
+                                Войти
+                            </Link>
                         </li>
                     )}
                 </ul>
