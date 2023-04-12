@@ -27,11 +27,11 @@ module.exports = async (accountId, eventId, transaction_id) => {
             const options = {
                 format: "A5",
                 orientation: "landscape",
-                // childProcessOptions: {
-                //     env: {
-                //         OPENSSL_CONF: "/dev/null",
-                //     },
-                // },
+                childProcessOptions: {
+                    env: {
+                        OPENSSL_CONF: "/dev/null",
+                    },
+                },
             };
             const fileName = __dirname + "/file.pdf";
 
