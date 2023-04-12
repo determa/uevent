@@ -16,7 +16,7 @@ module.exports = async (accountId, eventId, transaction_id) => {
         time,
         location: event.location, //change to event.location.name
         transaction_id,
-        qr_code: `${__dirname}/qr.png`,
+        qr_code: `file://${__dirname}/qr.png`,
     };
 
     ejs.renderFile(__dirname + '/template.ejs', params, (err, html) => {
@@ -34,8 +34,6 @@ module.exports = async (accountId, eventId, transaction_id) => {
             }
         };
         const fileName = __dirname + '/file.pdf';
-
-        // const renderHtml = html.replace(/img src=\"\//g, 'img src="file://' + __dirname + "/");
         console.log(html);
 
         pdf.create({ html: html, path: fileName, data: {}, type: "" }, options)
