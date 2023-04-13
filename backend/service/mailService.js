@@ -63,6 +63,7 @@ class MailService {
             if (!account) {
                 return next(ApiError.notFound("Аккаунт не найден!"));
             }
+            console.log(pdf, '!!!!!!!!!!!!!!!!!!!!!!!!!')
             await send_mail("<h1>Спасибо за покупку, ваши билеты:</h1>" + html, account.email, pdf, this.transporter);
             await pdfGenerate.delete(pdf);
             return res.json({ message: "PDF файл отправлен." });
