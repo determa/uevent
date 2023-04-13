@@ -117,7 +117,7 @@ try {
             type: 'USER',
             confirmed: true,
         }
-    ]);
+    ], { ignoreDuplicates: false });
 
     User.bulkCreate([
         {
