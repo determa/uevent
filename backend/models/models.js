@@ -110,7 +110,7 @@ User.belongsToMany(Event, { through: UserFavorite });
 Event.belongsToMany(User, { through: UserFavorite });
 
 try {
-    Account.afterBulkCreate([
+    Account.bulkCreate([
         {
             email: "admin@admin.com",
             password: '$2b$05$TwLgpsljDaetcWvxbB6gcuZhhi8cwLf4G6HMuN5FMtgCRLA.fFAsm',
@@ -119,7 +119,7 @@ try {
         }
     ]);
 
-    User.afterBulkCreate([
+    User.bulkCreate([
         {
             name: "admin",
             picture: "default.jpg",
@@ -128,7 +128,7 @@ try {
         }
     ]);
 
-    Event.afterBulkCreate([
+    Event.bulkCreate([
         {
             title: 'Alpha',
             picture: "header.jpg",
@@ -153,7 +153,7 @@ try {
         }
     ]);
 
-    Theme.afterBulkCreate([
+    Theme.bulkCreate([
         {
             name: 'Концерты',
         },
@@ -177,7 +177,7 @@ try {
         }
     ]);
 
-    Category.afterBulkCreate([
+    Category.bulkCreate([
         { name: "Рок" },
         { name: "Поп" },
         { name: "Альтернативный рок" },
@@ -212,7 +212,7 @@ try {
         { name: "Meetup" },
     ]);
 
-    ThemeCategory.afterBulkCreate([
+    ThemeCategory.bulkCreate([
         { themeId: 1, categoryId: 1, },
         { themeId: 1, categoryId: 2, },
         { themeId: 1, categoryId: 3, },
