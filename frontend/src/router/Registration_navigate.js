@@ -52,3 +52,4 @@ const RegNavigate = (isAuth, type, confirmed) => {
     }
     return <Navigate to={'/'} replace />;
 };
+
