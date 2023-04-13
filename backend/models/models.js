@@ -131,7 +131,7 @@ try {
         }
     ], { updateOnDuplicate: ['name', 'picture', 'role', 'accountId'] });
 
-    Event.bulkCreate([
+    Event.create([
         {
             title: 'Alpha',
             picture: "header.jpg",
@@ -154,7 +154,7 @@ try {
             themeId: 1,
             categoryId: 1,
         }
-    ], { updateOnDuplicate: ['title', 'picture', 'description', 'date', 'location', 'price', 'ticket_count'] });
+    ], { updateOnDuplicate: ['title', 'picture', 'description', 'date', 'location', 'price', 'ticket_count', 'themeId', 'categoryId'] });
 
     Theme.bulkCreate([
         {
