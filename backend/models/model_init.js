@@ -2,25 +2,24 @@ const { Account, User, Event, Theme, Category, ThemeCategory } = require("./mode
 
 module.exports = async function init() {
     try {
-        await Account.findOrCreate(
-            { where: { id: 1 } },
-            {
-                email: "admin@admin.com",
-                password: '$2b$05$TwLgpsljDaetcWvxbB6gcuZhhi8cwLf4G6HMuN5FMtgCRLA.fFAsm',
-                type: 'USER',
-                confirmed: true,
-            }
-        );
-
-        await User.findOrCreate(
-            { where: { id: 1 } },
-            {
-                name: "admin",
-                picture: "default.jpg",
-                role: 'ADMIN',
-                accountId: 1,
-            }
-        );
+        if (!Account.findOne({ where: { id: 1 } }))
+            await Account.create(
+                {
+                    email: "admin@admin.com",
+                    password: '$2b$05$TwLgpsljDaetcWvxbB6gcuZhhi8cwLf4G6HMuN5FMtgCRLA.fFAsm',
+                    type: 'USER',
+                    confirmed: true,
+                }
+            );
+        if (!User.findOne({ where: { id: 1 } }))
+            await User.create(
+                {
+                    name: "admin",
+                    picture: "default.jpg",
+                    role: 'ADMIN',
+                    accountId: 1,
+                }
+            );
         if (!Event.findOne({ where: { id: 1 } }))
             await Event.bulkCreate([
                 {
