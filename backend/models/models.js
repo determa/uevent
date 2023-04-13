@@ -41,9 +41,14 @@ const Media = sequelize.define('media', {
     type: { type: DataTypes.ENUM('video', 'photo'), allowNull: false }
 })
 
+const Theme = sequelize.define('theme', {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    name: { type: DataTypes.STRING, allowNull: false },
+})
+
 const Category = sequelize.define('category', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    title: { type: DataTypes.STRING, allowNull: false },
+    name: { type: DataTypes.STRING, allowNull: false },
 })
 
 const Comment = sequelize.define('comment', {
@@ -62,7 +67,7 @@ const CompanyMedia = sequelize.define('company_media');
 
 const EventMedia = sequelize.define('event_media');
 
-const EventCategory = sequelize.define('event_category');
+const ThemeCategory = sequelize.define('theme_category');
 
 const UserFavorite = sequelize.define('user_favorite');
 
@@ -84,8 +89,11 @@ Media.belongsToMany(Company, { through: CompanyMedia });
 Event.belongsToMany(Media, { through: EventMedia });
 Media.belongsToMany(Event, { through: EventMedia });
 
-Event.belongsToMany(Category, { through: EventCategory });
-Category.belongsToMany(Event, { through: EventCategory });
+Theme.belongsToMany(Category, { through: ThemeCategory });
+Category.belongsToMany(Theme, { through: ThemeCategory });
+
+Theme.hasMany(Event);
+Category.hasMany(Event);
 
 Account.hasMany(Comment);
 Comment.belongsTo(Account);
