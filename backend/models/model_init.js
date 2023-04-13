@@ -34,7 +34,7 @@ module.exports = async function init() {
             );
         let company = null;
         if (!await Company.findOne({ where: { name: 'company' } }))
-            company = await User.create(
+            company = await Company.create(
                 {
                     name: "company",
                     picture: "default.jpg",
