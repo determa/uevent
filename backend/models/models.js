@@ -131,7 +131,7 @@ try {
         }
     ], { updateOnDuplicate: ['name', 'picture', 'role', 'accountId'] });
 
-    Event.create([
+    Event.bulkCreate([
         {
             title: 'Alpha',
             picture: "header.jpg",
