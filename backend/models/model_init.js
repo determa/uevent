@@ -108,7 +108,7 @@ module.exports = async function init() {
             ], { updateOnDuplicate: ['name'] });
 
         if (await ThemeCategory.count() < 1)
-            await ThemeCategory.bulkCreate([
+            ThemeCategory.afterBulkCreate([
                 { themeId: 1, categoryId: 1, },
                 { themeId: 1, categoryId: 2, },
                 { themeId: 1, categoryId: 3, },
