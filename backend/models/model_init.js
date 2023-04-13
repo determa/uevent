@@ -1,8 +1,8 @@
 const { Account, User, Event, Theme, Category, ThemeCategory } = require("./models");
 
-export default init = async () => {
+export default async function () {
     try {
-        Account.bulkCreate([
+        await Account.bulkCreate([
             {
                 email: "admin@admin.com",
                 password: '$2b$05$TwLgpsljDaetcWvxbB6gcuZhhi8cwLf4G6HMuN5FMtgCRLA.fFAsm',
@@ -11,7 +11,7 @@ export default init = async () => {
             }
         ], { updateOnDuplicate: ['email', 'password', 'type', 'confirmed'] });
 
-        User.bulkCreate([
+        await User.bulkCreate([
             {
                 name: "admin",
                 picture: "default.jpg",
@@ -20,7 +20,7 @@ export default init = async () => {
             }
         ], { updateOnDuplicate: ['name', 'picture', 'role', 'accountId'] });
 
-        Event.bulkCreate([
+        await Event.bulkCreate([
             {
                 title: 'Alpha',
                 picture: "header.jpg",
@@ -47,7 +47,7 @@ export default init = async () => {
             }
         ], { updateOnDuplicate: ['title', 'picture', 'description', 'date', 'location', 'price', 'ticket_count', 'companyId', 'themeId', 'categoryId'] });
 
-        Theme.bulkCreate([
+        await Theme.bulkCreate([
             {
                 name: 'Концерты',
             },
@@ -71,7 +71,7 @@ export default init = async () => {
             }
         ], { updateOnDuplicate: ['name'] });
 
-        Category.bulkCreate([
+        await Category.bulkCreate([
             { name: "Рок" },
             { name: "Поп" },
             { name: "Альтернативный рок" },
@@ -106,7 +106,7 @@ export default init = async () => {
             { name: "Meetup" },
         ], { updateOnDuplicate: ['name'] });
 
-        ThemeCategory.bulkCreate([
+        await ThemeCategory.bulkCreate([
             { themeId: 1, categoryId: 1, },
             { themeId: 1, categoryId: 2, },
             { themeId: 1, categoryId: 3, },
