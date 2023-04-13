@@ -38,7 +38,7 @@ const PaymentButton = ({ id }) => {
 };
 
 const EventPage = () => {
-    const { isAuth } = useSelector((state) => state.userReducer);
+    const { isAuth, confirmed } = useSelector((state) => state.userReducer);
     const { id } = useParams();
     const { data } = eventAPI.useGetOneEventQuery(id);
 
@@ -55,7 +55,9 @@ const EventPage = () => {
                         />
                         <div className="flex flex-1 flex-col p-4 gap-3 min-w-[14rem]">
                             <p className="text-sm text-gray-500 font-semibold">
-                                {dayjs(data.date).format("dddd, DD MMMM YYYY HH:mm")}
+                                {dayjs(data.date).format(
+                                    "dddd, DD MMMM YYYY HH:mm"
+                                )}
                             </p>
                             <div className="flex-1">
                                 <h1 className="py-4 text-4xl font-medium">
@@ -73,7 +75,7 @@ const EventPage = () => {
                                 {data.price} грн
                             </p>
 
-                            {isAuth ? (
+                            {isAuth && confirmed ? (
                                 <PaymentButton id={id} />
                             ) : (
                                 <Link
