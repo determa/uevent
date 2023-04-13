@@ -151,7 +151,7 @@ try {
             themeId: 1,
             categoryId: 1,
         }
-    ], { updateOnDuplicate: ['title', 'picture', 'description', 'date', 'location', 'price', 'ticket_count', 'themeId', 'categoryId'] });
+    ], { updateOnDuplicate: ['title', 'picture', 'description', 'date', 'location', 'price', 'ticket_count'] });
 
     Theme.bulkCreate([
         {
