@@ -1,4 +1,4 @@
-import { Account, User, Event, Theme, Category, ThemeCategory } from "./models";
+const { Account, User, Event, Theme, Category, ThemeCategory } = require("./models");
 
 export default async () => {
     try {
