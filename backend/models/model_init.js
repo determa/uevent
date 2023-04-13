@@ -2,14 +2,14 @@ const { Account, User, Event, Theme, Category, ThemeCategory } = require("./mode
 
 module.exports = async function init() {
     try {
-        await Account.create([
+        await Account.create(
             {
                 email: "admin@admin.com",
                 password: '$2b$05$TwLgpsljDaetcWvxbB6gcuZhhi8cwLf4G6HMuN5FMtgCRLA.fFAsm',
                 type: 'USER',
                 confirmed: true,
             }
-        ], { updateOnDuplicate: ['email', 'password', 'type', 'confirmed'] });
+            , { updateOnDuplicate: ['email', 'password', 'type', 'confirmed'] });
 
         await User.bulkCreate([
             {
