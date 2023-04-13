@@ -1,9 +1,10 @@
-const { Account, User, Event, Theme, Category, ThemeCategory } = require("./models");
+const { Account, User, Event, Theme, Category, ThemeCategory, Company } = require("./models");
 
 module.exports = async function init() {
     try {
+        let account = null;
         if (!await Account.findOne({ where: { email: "admin@admin.com" } }))
-            await Account.create(
+            account = await Account.create(
                 {
                     email: "admin@admin.com",
                     password: '$2b$05$TwLgpsljDaetcWvxbB6gcuZhhi8cwLf4G6HMuN5FMtgCRLA.fFAsm',
@@ -11,18 +12,40 @@ module.exports = async function init() {
                     confirmed: true,
                 }
             );
+        let account_2 = null;
+        if (!await Account.findOne({ where: { email: "com@com.com" } }))
+            account_2 = await Account.create(
+                {
+                    email: "com@com.com",
+                    password: '$2b$05$TwLgpsljDaetcWvxbB6gcuZhhi8cwLf4G6HMuN5FMtgCRLA.fFAsm',
+                    type: 'COMPANY',
+                    confirmed: true,
+                }
+            );
+        let user = null;
         if (!await User.findOne({ where: { name: 'admin' } }))
-            await User.create(
+            user = await User.create(
                 {
                     name: "admin",
                     picture: "default.jpg",
                     role: 'ADMIN',
-                    accountId: 1,
+                    accountId: account.id,
                 }
             );
-
+        let company = null;
+        if (!await Company.findOne({ where: { name: 'company' } }))
+            company = await User.create(
+                {
+                    name: "company",
+                    picture: "default.jpg",
+                    location: JSON.stringify({ name: 'Dnipro, dnipro obl, Ukraine', location: { lat: -34.397, lng: 150.644 } }),
+                    description: "Company",
+                    accountId: account_2.id,
+                }
+            );
+        let theme = null;
         if (await Theme.count() < 1)
-            await Theme.bulkCreate([
+            theme = await Theme.bulkCreate([
                 {
                     name: 'Концерты',
                 },
@@ -45,9 +68,9 @@ module.exports = async function init() {
                     name: 'Психология'
                 }
             ]);
-
+        let category = null;
         if (await Category.count() < 1)
-            await Category.bulkCreate([
+            category = await Category.bulkCreate([
                 { name: "Рок" },
                 { name: "Поп" },
                 { name: "Альтернативный рок" },
@@ -92,9 +115,9 @@ module.exports = async function init() {
                     location: JSON.stringify({ name: 'Dnipro, dnipro obl, Ukraine', location: { lat: -34.397, lng: 150.644 } }),
                     price: 1000,
                     tickets_count: 250,
-                    companyId: null,
-                    themeId: 1,
-                    categoryId: 1,
+                    companyId: company.companyId,
+                    themeId: theme[0].id,
+                    categoryId: category[0].id,
                 },
                 {
                     title: 'Omega',
@@ -104,9 +127,9 @@ module.exports = async function init() {
                     location: JSON.stringify({ name: 'Dnipro, dnipro obl, Ukraine', location: { lat: -34.397, lng: 150.644 } }),
                     price: 1000,
                     tickets_count: 250,
-                    companyId: null,
-                    themeId: 1,
-                    categoryId: 1,
+                    companyId: company.companyId,
+                    themeId: theme[0].id,
+                    categoryId: category[0].id,
                 }
             ]);
 
