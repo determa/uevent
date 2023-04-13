@@ -121,8 +121,7 @@ const DropDown = () => {
                             />
                         </div>
                         <div className="py-1 flex flex-col border-t border-gray-400">
-                            <Link
-                                to="/"
+                            <p
                                 onClick={() => {
                                     dispatch(logOut());
                                     logout();
@@ -130,7 +129,7 @@ const DropDown = () => {
                                 className="text-gray-700 px-4 py-2 text-sm cursor-pointer"
                             >
                                 Выйти
-                            </Link>
+                            </p>
                         </div>
                     </div>
                 )}
