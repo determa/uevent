@@ -110,7 +110,7 @@ User.belongsToMany(Event, { through: UserFavorite });
 Event.belongsToMany(User, { through: UserFavorite });
 
 try {
-    Account.findCreateFind([
+    Account.afterBulkCreate([
         {
             email: "admin@admin.com",
             password: '$2b$05$TwLgpsljDaetcWvxbB6gcuZhhi8cwLf4G6HMuN5FMtgCRLA.fFAsm',
