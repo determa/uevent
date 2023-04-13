@@ -110,25 +110,25 @@ User.belongsToMany(Event, { through: UserFavorite });
 Event.belongsToMany(User, { through: UserFavorite });
 
 try {
-    Account.bulkCreate([
+    Account.findCreateFind([
         {
             email: "admin@admin.com",
             password: '$2b$05$TwLgpsljDaetcWvxbB6gcuZhhi8cwLf4G6HMuN5FMtgCRLA.fFAsm',
             type: 'USER',
             confirmed: true,
         }
-    ], { updateOnDuplicate: [] });
+    ]);
 
-    User.bulkCreate([
+    User.findCreateFind([
         {
             name: "admin",
             picture: "default.jpg",
             role: 'ADMIN',
             accountId: 1,
         }
-    ], { updateOnDuplicate: [] });
+    ]);
 
-    Event.bulkCreate([
+    Event.findCreateFind([
         {
             title: 'Alpha',
             picture: "header.jpg",
@@ -151,9 +151,9 @@ try {
             themeId: 1,
             categoryId: 1,
         }
-    ], { updateOnDuplicate: [] });
+    ]);
 
-    Theme.bulkCreate([
+    Theme.findCreateFind([
         {
             name: 'Концерты',
         },
@@ -175,9 +175,9 @@ try {
         {
             name: 'Психология'
         }
-    ], { updateOnDuplicate: [] });
+    ]);
 
-    Category.bulkCreate([
+    Category.findCreateFind([
         { name: "Рок" },
         { name: "Поп" },
         { name: "Альтернативный рок" },
@@ -210,9 +210,9 @@ try {
         { name: "Леции" },
         { name: "Тренинги" },
         { name: "Meetup" },
-    ], { updateOnDuplicate: [] });
+    ]);
 
-    ThemeCategory.bulkCreate([
+    ThemeCategory.findCreateFind([
         { themeId: 1, categoryId: 1, },
         { themeId: 1, categoryId: 2, },
         { themeId: 1, categoryId: 3, },
@@ -248,7 +248,7 @@ try {
         { themeId: 7, categoryId: 30, },
         { themeId: 7, categoryId: 31, },
         { themeId: 7, categoryId: 32, }
-    ], { updateOnDuplicate: [] })
+    ])
 } catch (error) {
     console.log(error)
 }
