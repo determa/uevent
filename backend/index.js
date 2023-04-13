@@ -8,6 +8,7 @@ const fileUpload = require("express-fileupload");
 const errorHandler = require("./middleware/ErrorHandler");
 const path = require("path");
 const cookieParser = require("cookie-parser");
+const model_init = require("./models/model_init");
 
 const PORT = process.env.PORT || 5000;
 const HOST = process.env.HOST || "localhost";
@@ -31,6 +32,7 @@ const start = async () => {
     try {
         await sequelize.authenticate();
         await sequelize.sync();
+        await model_init();
         app.listen(PORT, () => console.log(`http://${HOST}:${PORT}`));
     } catch (e) {
         console.log(e);
