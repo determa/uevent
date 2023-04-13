@@ -117,7 +117,7 @@ try {
             type: 'USER',
             confirmed: true,
         }
-    ], { updateOnDuplicate: ['email'] });
+    ], { updateOnDuplicate: ['email', 'password', 'type', 'confirmed'] });
 
     User.bulkCreate([
         {
@@ -126,7 +126,7 @@ try {
             role: 'ADMIN',
             accountId: 1,
         }
-    ], { updateOnDuplicate });
+    ], { updateOnDuplicate: ['name', 'picture', 'role', 'accountId'] });
 
     Event.bulkCreate([
         {
@@ -151,7 +151,7 @@ try {
             themeId: 1,
             categoryId: 1,
         }
-    ], { updateOnDuplicate });
+    ], { updateOnDuplicate: ['title', 'picture', 'description', 'date', 'location', 'price', 'ticket_count', 'themeId', 'categoryId'] });
 
     Theme.bulkCreate([
         {
@@ -175,7 +175,7 @@ try {
         {
             name: 'Психология'
         }
-    ], { updateOnDuplicate });
+    ], { updateOnDuplicate: ['name'] });
 
     Category.bulkCreate([
         { name: "Рок" },
@@ -210,7 +210,7 @@ try {
         { name: "Леции" },
         { name: "Тренинги" },
         { name: "Meetup" },
-    ], { updateOnDuplicate });
+    ], { updateOnDuplicate: ['name'] });
 
     ThemeCategory.bulkCreate([
         { themeId: 1, categoryId: 1, },
@@ -248,7 +248,7 @@ try {
         { themeId: 7, categoryId: 30, },
         { themeId: 7, categoryId: 31, },
         { themeId: 7, categoryId: 32, }
-    ], { updateOnDuplicate })
+    ], { updateOnDuplicate: ['themeId', 'categoryId'] })
 } catch (error) {
     console.log(error)
 }
