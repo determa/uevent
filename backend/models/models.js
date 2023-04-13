@@ -117,7 +117,7 @@ try {
             type: 'USER',
             confirmed: true,
         }
-    ], { updateOnDuplicate });
+    ], { updateOnDuplicate: ['email', "password", "type", "confirmed"] });
 
     User.bulkCreate([
         {
