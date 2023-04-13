@@ -20,15 +20,11 @@ export const publicRoutes = [
     { path: "/tickets", component: <Container component={<TicketsPage />} /> },
     { path: "/test", component: <Test /> },
     { path: "/validation/:id", component: <ConfirmEmail /> },
-    // {path: "/password-reset", component: passwordResetPage, exact: true},
-    // {path: "/password-reset/:token", component: passwordResetStep2Page, exact: true},
-    // {path: "/", component: mainPage, exact: true},
-    // {path: "/events", component: EventsPage, exact: true},
-    // {path: "/events/:id", component: EventPage, exact: true},
-    // {path: "/organizations", component: Organizations, exact: true},
-    // {path: "/organizations/:id", component: OrgPage, exact: true},
-    // {path: "/error", component: registrationPage, exact: true}
 ];
+
+export const confirmedAccountRoutes = [
+    { path: "/tickets", component: <Container component={<TicketsPage />} /> },
+]
 
 // export const privateRoutes = [
 //     {path: "/", component: mainPage, exact: true},

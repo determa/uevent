@@ -49,12 +49,6 @@ const LinkComp = ({ id, type, confirmed }) => {
                 >
                     Ваш профиль
                 </Link>
-                <Link
-                    to={`/tickets`}
-                    className="text-gray-700 px-4 py-2 text-sm cursor-pointer"
-                >
-                    Ваши билеты
-                </Link>
                 <Link className="text-gray-700 px-4 py-2 text-sm cursor-pointer">
                     Понравившиеся
                 </Link>
@@ -81,7 +75,9 @@ const LinkComp = ({ id, type, confirmed }) => {
 
 const DropDown = () => {
     const dispatch = useDispatch();
-    const { type, id, confirmed } = useSelector((state) => state.userReducer);
+    const { isAuth, type, id, confirmed } = useSelector(
+        (state) => state.userReducer
+    );
     const [logout] = userAPI.useLogoutMutation();
     // const { data } = userAPI.useGetOneUserQuery(id);
     const [isOpen, setIsOpen] = useState(false);
@@ -119,7 +115,17 @@ const DropDown = () => {
                                 type={type}
                                 confirmed={confirmed}
                             />
+
+                            {isAuth && confirmed && (
+                                <Link
+                                    to={`/tickets`}
+                                    className="text-gray-700 px-4 py-2 text-sm cursor-pointer"
+                                >
+                                    Ваши билеты
+                                </Link>
+                            )}
                         </div>
+
                         <div className="py-1 flex flex-col border-t border-gray-400">
                             <p
                                 onClick={() => {
