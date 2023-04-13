@@ -93,7 +93,10 @@ Theme.belongsToMany(Category, { through: ThemeCategory });
 Category.belongsToMany(Theme, { through: ThemeCategory });
 
 Theme.hasMany(Event);
+Event.belongsTo(Theme);
+
 Category.hasMany(Event);
+Event.belongsTo(Category);
 
 Account.hasMany(Comment);
 Comment.belongsTo(Account);
