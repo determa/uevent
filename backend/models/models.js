@@ -140,6 +140,7 @@ try {
             location: JSON.stringify({ name: 'Dnipro, dnipro obl, Ukraine', location: { lat: -34.397, lng: 150.644 } }),
             price: 1000,
             tickets_count: 250,
+            companyId: null,
             themeId: 1,
             categoryId: 1,
         },
@@ -151,10 +152,11 @@ try {
             location: JSON.stringify({ name: 'Dnipro, dnipro obl, Ukraine', location: { lat: -34.397, lng: 150.644 } }),
             price: 1000,
             tickets_count: 250,
+            companyId: null,
             themeId: 1,
             categoryId: 1,
         }
-    ], { updateOnDuplicate: ['title', 'picture', 'description', 'date', 'location', 'price', 'ticket_count', 'themeId', 'categoryId'] });
+    ], { updateOnDuplicate: ['title', 'picture', 'description', 'date', 'location', 'price', 'ticket_count', 'companyId', 'themeId', 'categoryId'] });
 
     Theme.bulkCreate([
         {
