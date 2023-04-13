@@ -20,33 +20,7 @@ module.exports = async function init() {
                     accountId: 1,
                 }
             );
-        if (await Event.count() < 1)
-            Event.afterBulkCreate([
-                {
-                    title: 'Alpha',
-                    picture: "header.jpg",
-                    description: 'Lorem Ipsum - это текст-"рыба", часто используемый в печати и вэб-дизайне. Lorem Ipsum является стандартной "рыбой" для текстов на латинице с начала XVI века. В то время некий безымянный печатник создал большую коллекцию размеров и форм шрифтов, используя Lorem Ipsum для распечатки образцов. Lorem Ipsum не только успешно пережил без заметных изменений пять веков, но и перешагнул в электронный дизайн. Его популяризации в новое время послужили публикация листов Letraset с образцами Lorem Ipsum в 60-х годах и, в более недавнее время, программы электронной вёрстки типа Aldus PageMaker, в шаблонах которых используется Lorem Ipsum.',
-                    date: Date.now(),
-                    location: JSON.stringify({ name: 'Dnipro, dnipro obl, Ukraine', location: { lat: -34.397, lng: 150.644 } }),
-                    price: 1000,
-                    tickets_count: 250,
-                    companyId: null,
-                    themeId: 1,
-                    categoryId: 1,
-                },
-                {
-                    title: 'Omega',
-                    picture: "header.jpg",
-                    description: 'Lorem Ipsum - это текст-"рыба", часто используемый в печати и вэб-дизайне. Lorem Ipsum является стандартной "рыбой" для текстов на латинице с начала XVI века. В то время некий безымянный печатник создал большую коллекцию размеров и форм шрифтов, используя Lorem Ipsum для распечатки образцов. Lorem Ipsum не только успешно пережил без заметных изменений пять веков, но и перешагнул в электронный дизайн. Его популяризации в новое время послужили публикация листов Letraset с образцами Lorem Ipsum в 60-х годах и, в более недавнее время, программы электронной вёрстки типа Aldus PageMaker, в шаблонах которых используется Lorem Ipsum.',
-                    date: Date.now(),
-                    location: JSON.stringify({ name: 'Dnipro, dnipro obl, Ukraine', location: { lat: -34.397, lng: 150.644 } }),
-                    price: 1000,
-                    tickets_count: 250,
-                    companyId: null,
-                    themeId: 1,
-                    categoryId: 1,
-                }
-            ]);
+
         if (await Theme.count() < 1)
             await Theme.bulkCreate([
                 {
@@ -70,7 +44,8 @@ module.exports = async function init() {
                 {
                     name: 'Психология'
                 }
-            ], { updateOnDuplicate: ['name'] });
+            ]);
+
         if (await Category.count() < 1)
             await Category.bulkCreate([
                 { name: "Рок" },
@@ -105,10 +80,38 @@ module.exports = async function init() {
                 { name: "Леции" },
                 { name: "Тренинги" },
                 { name: "Meetup" },
-            ], { updateOnDuplicate: ['name'] });
+            ]);
+
+        if (await Event.count() < 1)
+            await Event.bulkCreate([
+                {
+                    title: 'Alpha',
+                    picture: "header.jpg",
+                    description: 'Lorem Ipsum - это текст-"рыба", часто используемый в печати и вэб-дизайне. Lorem Ipsum является стандартной "рыбой" для текстов на латинице с начала XVI века. В то время некий безымянный печатник создал большую коллекцию размеров и форм шрифтов, используя Lorem Ipsum для распечатки образцов. Lorem Ipsum не только успешно пережил без заметных изменений пять веков, но и перешагнул в электронный дизайн. Его популяризации в новое время послужили публикация листов Letraset с образцами Lorem Ipsum в 60-х годах и, в более недавнее время, программы электронной вёрстки типа Aldus PageMaker, в шаблонах которых используется Lorem Ipsum.',
+                    date: Date.now(),
+                    location: JSON.stringify({ name: 'Dnipro, dnipro obl, Ukraine', location: { lat: -34.397, lng: 150.644 } }),
+                    price: 1000,
+                    tickets_count: 250,
+                    companyId: null,
+                    themeId: 1,
+                    categoryId: 1,
+                },
+                {
+                    title: 'Omega',
+                    picture: "header.jpg",
+                    description: 'Lorem Ipsum - это текст-"рыба", часто используемый в печати и вэб-дизайне. Lorem Ipsum является стандартной "рыбой" для текстов на латинице с начала XVI века. В то время некий безымянный печатник создал большую коллекцию размеров и форм шрифтов, используя Lorem Ipsum для распечатки образцов. Lorem Ipsum не только успешно пережил без заметных изменений пять веков, но и перешагнул в электронный дизайн. Его популяризации в новое время послужили публикация листов Letraset с образцами Lorem Ipsum в 60-х годах и, в более недавнее время, программы электронной вёрстки типа Aldus PageMaker, в шаблонах которых используется Lorem Ipsum.',
+                    date: Date.now(),
+                    location: JSON.stringify({ name: 'Dnipro, dnipro obl, Ukraine', location: { lat: -34.397, lng: 150.644 } }),
+                    price: 1000,
+                    tickets_count: 250,
+                    companyId: null,
+                    themeId: 1,
+                    categoryId: 1,
+                }
+            ]);
 
         if (await ThemeCategory.count() < 1)
-            ThemeCategory.afterBulkCreate([
+            await ThemeCategory.bulkCreate([
                 { themeId: 1, categoryId: 1, },
                 { themeId: 1, categoryId: 2, },
                 { themeId: 1, categoryId: 3, },
