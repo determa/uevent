@@ -2,7 +2,7 @@ const { Account, User, Event, Theme, Category, ThemeCategory } = require("./mode
 
 module.exports = async function init() {
     try {
-        if (!Account.findOne({ where: { id: 1 } }))
+        if (!await Account.findOne({ where: { email: "admin@admin.com" } }))
             await Account.create(
                 {
                     email: "admin@admin.com",
@@ -11,7 +11,7 @@ module.exports = async function init() {
                     confirmed: true,
                 }
             );
-        if (!User.findOne({ where: { id: 1 } }))
+        if (!await User.findOne({ where: { name: 'admin' } }))
             await User.create(
                 {
                     name: "admin",
@@ -20,7 +20,7 @@ module.exports = async function init() {
                     accountId: 1,
                 }
             );
-        if (!Event.findOne({ where: { id: 1 } }))
+        if (await Event.count() < 1)
             await Event.bulkCreate([
                 {
                     title: 'Alpha',
@@ -47,7 +47,7 @@ module.exports = async function init() {
                     categoryId: 1,
                 }
             ]);
-        if (!Theme.findOne({ where: { id: 1 } }))
+        if (await Theme.count() < 1)
             await Theme.bulkCreate([
                 {
                     name: 'Концерты',
@@ -71,7 +71,7 @@ module.exports = async function init() {
                     name: 'Психология'
                 }
             ], { updateOnDuplicate: ['name'] });
-        if (!Category.findOne({ where: { id: 1 } }))
+        if (await Category.count() < 1)
             await Category.bulkCreate([
                 { name: "Рок" },
                 { name: "Поп" },
@@ -107,7 +107,7 @@ module.exports = async function init() {
                 { name: "Meetup" },
             ], { updateOnDuplicate: ['name'] });
 
-        if (!ThemeCategory.findOne({ where: { themeId: 1, categoryId: 1 } }))
+        if (await ThemeCategory.count() < 1)
             await ThemeCategory.bulkCreate([
                 { themeId: 1, categoryId: 1, },
                 { themeId: 1, categoryId: 2, },
