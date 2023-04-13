@@ -37,7 +37,7 @@ const Stepper = ({ step }) => {
     return (
         <div className="w-[28rem]">
             <ul className="flex justify-between duration-200 ease-in-out">
-                <Link to={'/auth'} className="flex-auto">
+                <Link to={null} className="flex-auto ">
                     <div className="flex cursor-pointer items-center pl-2 after:ml-2 after:h-px after:w-full after:flex-1 after:bg-gray-400 after:content-[''] hover:bg-black/5">
                         <span
                             className={`${colorStyle(
@@ -51,7 +51,7 @@ const Stepper = ({ step }) => {
                         </span>
                     </div>
                 </Link>
-                <Link to={'/account-modification'} className="flex-auto">
+                <Link to={isAuth && type === "NONE" ? '/account-modification' : null} className="flex-auto">
                     <div className="flex cursor-pointer items-center before:mr-2 before:h-px before:w-full before:flex-1 before:bg-gray-400 before:content-[''] after:ml-2 after:h-px after:w-full after:flex-1 after:bg-gray-400 after:content-[''] hover:bg-black/5">
                         <span
                             className={`${colorStyle(
@@ -65,7 +65,7 @@ const Stepper = ({ step }) => {
                         </span>
                     </div>
                 </Link>
-                <Link to={'/email-confirmation'} className="flex-auto">
+                <Link to={isAuth && !confirmed ? '/email-confirmation' : null} className="flex-auto">
                     <div className="flex cursor-pointer items-center pr-2 before:mr-2 before:h-px before:w-full before:flex-1 before:bg-gray-400 before:content-[''] hover:bg-black/5">
                         <span
                             className={`${colorStyle(
