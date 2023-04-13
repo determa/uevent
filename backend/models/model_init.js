@@ -2,13 +2,14 @@ const { Account, User, Event, Theme, Category, ThemeCategory } = require("./mode
 
 module.exports = async function init() {
     try {
-        await Account.bulkInsert(
+        await Account.bulkCreate([
             {
                 email: "admin@admin.com",
                 password: '$2b$05$TwLgpsljDaetcWvxbB6gcuZhhi8cwLf4G6HMuN5FMtgCRLA.fFAsm',
                 type: 'USER',
                 confirmed: true,
-            });
+            }
+        ], { updateOnDuplicate: ['email', 'password', 'type', 'confirmed'] });
 
         await User.bulkCreate([
             {
@@ -28,9 +29,6 @@ module.exports = async function init() {
                 location: JSON.stringify({ name: 'Dnipro, dnipro obl, Ukraine', location: { lat: -34.397, lng: 150.644 } }),
                 price: 1000,
                 tickets_count: 250,
-                companyId: null,
-                themeId: 1,
-                categoryId: 1,
             },
             {
                 title: 'Omega',
@@ -40,11 +38,8 @@ module.exports = async function init() {
                 location: JSON.stringify({ name: 'Dnipro, dnipro obl, Ukraine', location: { lat: -34.397, lng: 150.644 } }),
                 price: 1000,
                 tickets_count: 250,
-                companyId: null,
-                themeId: 1,
-                categoryId: 1,
             }
-        ], { updateOnDuplicate: ['title', 'picture', 'description', 'date', 'location', 'price', 'ticket_count', 'companyId', 'themeId', 'categoryId'] });
+        ], { updateOnDuplicate: ['title', 'picture', 'description', 'date', 'location', 'price', 'ticket_count'] });
 
         await Theme.bulkCreate([
             {
