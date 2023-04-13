@@ -119,7 +119,7 @@ try {
         }
     ]);
 
-    User.findCreateFind([
+    User.afterBulkCreate([
         {
             name: "admin",
             picture: "default.jpg",
@@ -128,7 +128,7 @@ try {
         }
     ]);
 
-    Event.findCreateFind([
+    Event.afterBulkCreate([
         {
             title: 'Alpha',
             picture: "header.jpg",
@@ -153,7 +153,7 @@ try {
         }
     ]);
 
-    Theme.findCreateFind([
+    Theme.afterBulkCreate([
         {
             name: 'Концерты',
         },
@@ -177,7 +177,7 @@ try {
         }
     ]);
 
-    Category.findCreateFind([
+    Category.afterBulkCreate([
         { name: "Рок" },
         { name: "Поп" },
         { name: "Альтернативный рок" },
@@ -212,7 +212,7 @@ try {
         { name: "Meetup" },
     ]);
 
-    ThemeCategory.findCreateFind([
+    ThemeCategory.afterBulkCreate([
         { themeId: 1, categoryId: 1, },
         { themeId: 1, categoryId: 2, },
         { themeId: 1, categoryId: 3, },
