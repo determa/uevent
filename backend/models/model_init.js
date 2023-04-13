@@ -21,7 +21,7 @@ module.exports = async function init() {
                 }
             );
         if (await Event.count() < 1)
-            await Event.bulkCreate([
+            Event.afterBulkCreate([
                 {
                     title: 'Alpha',
                     picture: "header.jpg",
