@@ -13,9 +13,9 @@ const send_mail = async (html, email, parametr, transporter) => {
         })
     }
     await transporter.sendMail({
-        from: '"Node js" <nodejs@example.com>',
+        from: '"uevent" <nodejs@example.com>',
         to: email,
-        subject: 'Message from Node js',
+        subject: 'Message from Uevent',
         text: "",
         html: `
             <div>
@@ -31,7 +31,7 @@ class MailService {
         this.transporter = nodemailer.createTransport({
             host: process.env.SMTP_HOST,
             port: process.env.SMTP_PORT,
-            secure: true,
+            secure: false,
             auth: {
                 user: process.env.SMTP_USER,
                 pass: process.env.SMTP_PASSWORD,
