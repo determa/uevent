@@ -1,43 +1,28 @@
 const ApiError = require("../error/ApiError");
-const { User, Company, Account, Category, Event, Theme, ThemeCategory } = require("../models/models");
+const { User, Company, Account, Category, Event, Theme } = require("../models/models");
 
-class CategoryController {
-    async get_all_categories(req, res) {
+class ThemeController {
+    async get_all_themes(req, res) {
         try {
-            let { id } = req.query;
-            const categories = await ThemeCategory.findAll({ where: { themeId: id }, include: { model: Category } });
-            return res.json(categories.categories);
+            const themes = await Theme.findAll();
+            return res.json(themes);
         } catch (error) {
             console.log(error);
             return next(ApiError.internal("Server error! Try again later!"));
         }
     }
 
-    async get_categories_by_event(req, res, next) {
-        try {
-            let { id } = req.params;
-            const event = await Event.findOne({
-                where: { id },
-                include: { model: Category },
-            });
-            if (!event) return next(ApiError.notFound("Event not found"));
-            return res.json(event.categories);
-        } catch (e) {
-            return next(ApiError.badRequest(e.message));
-        }
-    }
-
     async create(req, res, next) {
         try {
-            const { title } = req.body;
-            if (!title) {
+            const { name } = req.body;
+            if (!name) {
                 return next(ApiError.badRequest("Некорректное поле!"));
             }
-            const category = await Category.findOne({ where: { title } })
-            if (category) {
+            const theme = await Theme.findOne({ where: { title } })
+            if (theme) {
                 return next(ApiError.badRequest("Категория уже создана!"));
             }
-            await Category.create({ title });
+            await Theme.create({ name });
             return res.json({ message: "Создание успешно!" });
         } catch (error) {
             console.log(error);
@@ -48,12 +33,12 @@ class CategoryController {
     async update(req, res, next) {
         try {
             const { id } = req.params;
-            const { title } = req.body;
-            if (!title) {
+            const { name } = req.body;
+            if (!name) {
                 return next(ApiError.badRequest("Некорректное поле!"));
             }
-            const category = await Category.update({ title }, { where: { id } });
-            if (!category) {
+            const theme = await Theme.update({ name }, { where: { id } });
+            if (!theme) {
                 return next(ApiError.badRequest("Категории не существует!"));
             }
             return res.json({ message: "Обновление успешно!" });
@@ -66,7 +51,7 @@ class CategoryController {
     async delete(req, res, next) {
         try {
             const { id } = req.params;
-            await Category.destroy({ where: { id } });
+            await Theme.destroy({ where: { id } });
             return res.json({ message: "Категория удалена!" });
         } catch (error) {
             return next(ApiError.badRequest("Delete category error!"));
@@ -74,4 +59,4 @@ class CategoryController {
     }
 }
 
-module.exports = new CategoryController();
+module.exports = new ThemeController();
