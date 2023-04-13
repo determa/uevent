@@ -1,6 +1,6 @@
 const { Account, User, Event, Theme, Category, ThemeCategory } = require("./models");
 
-export default async function init() {
+module.exports = async function init() {
     try {
         await Account.bulkCreate([
             {
