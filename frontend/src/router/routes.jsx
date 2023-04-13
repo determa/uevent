@@ -1,4 +1,3 @@
-import AuthPage from '../pages/AuthPage';
 import MainPage from '../pages/MainPage';
 import EventPage from '../pages/EventPage';
 import Test from '../components/Test';
@@ -12,12 +11,13 @@ import TicketsPage from '../pages/TicketsPage';
 
 export const publicRoutes = [
     { path: "/", component: <MainPage /> },
-    { path: "/auth", component: <RegisterSteps /> },
+    { path: "/auth", component: <RegisterSteps step_init={1} /> },
+    { path: "/account-modification", component: <RegisterSteps step_init={2} /> },
+    { path: "/email-confirmation", component: <RegisterSteps step_init={3} /> },
     { path: "/profile/user/:id", component: <Container component={<ProfilePage />} /> },
     { path: "/profile/company/:id", component: <Container component={<PorileCompanyPage />} /> },
     { path: "/events/:id", component: <Container component={<EventPage />} /> },
     { path: "/events/create", component: <CreateEvent /> },
-    { path: "/tickets", component: <Container component={<TicketsPage />} /> },
     { path: "/test", component: <Test /> },
     { path: "/validation/:id", component: <ConfirmEmail /> },
 ];

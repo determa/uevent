@@ -1,22 +1,43 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Stepper = ({ step }) => {
+    const { isAuth, type, confirmed } = useSelector(
+        (state) => state.userReducer
+    );
     const colorStyle = (num) => {
-        if (num < step) {
-            return "bg-green-500";
-        }
-        if (num == step) {
+        if (num === step) {
             return "bg-yellow-200";
         }
-        if (num > step) {
-            return "bg-gray-100";
+        if (num === 1) {
+            if (!isAuth) {
+                return "bg-gray-100";
+            } else {
+                return "bg-green-500";
+            }
         }
+        if (num === 2) {
+            if (type === 'NONE' || !type) {
+                return "bg-gray-100";
+            } else {
+                return "bg-green-500";
+            }
+        }
+        if (num === 3) {
+            if (!confirmed) {
+                return "bg-gray-100";
+            } else {
+                return "bg-green-500";
+            }
+        }
+
     };
 
     return (
         <div className="w-[28rem]">
             <ul className="flex justify-between duration-200 ease-in-out">
-                <li className="flex-auto">
+                <Link to={'/auth'} className="flex-auto">
                     <div className="flex cursor-pointer items-center pl-2 after:ml-2 after:h-px after:w-full after:flex-1 after:bg-gray-400 after:content-[''] hover:bg-black/5">
                         <span
                             className={`${colorStyle(
@@ -29,8 +50,8 @@ const Stepper = ({ step }) => {
                             step1
                         </span>
                     </div>
-                </li>
-                <li className="flex-auto">
+                </Link>
+                <Link to={'/account-modification'} className="flex-auto">
                     <div className="flex cursor-pointer items-center before:mr-2 before:h-px before:w-full before:flex-1 before:bg-gray-400 before:content-[''] after:ml-2 after:h-px after:w-full after:flex-1 after:bg-gray-400 after:content-[''] hover:bg-black/5">
                         <span
                             className={`${colorStyle(
@@ -43,8 +64,8 @@ const Stepper = ({ step }) => {
                             step2
                         </span>
                     </div>
-                </li>
-                <li className="flex-auto">
+                </Link>
+                <Link to={'/email-confirmation'} className="flex-auto">
                     <div className="flex cursor-pointer items-center pr-2 before:mr-2 before:h-px before:w-full before:flex-1 before:bg-gray-400 before:content-[''] hover:bg-black/5">
                         <span
                             className={`${colorStyle(
@@ -57,7 +78,7 @@ const Stepper = ({ step }) => {
                             step3
                         </span>
                     </div>
-                </li>
+                </Link>
             </ul>
         </div>
     );
