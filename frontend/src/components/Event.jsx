@@ -20,7 +20,7 @@ function Event({ event }) {
                 <div className="flex flex-col gap-3">
                     <div className="flex justify-between items-end">
                         <p className="text-xs font-medium">
-                            {dayjs(event.date).format("ddd, DD-MMM-YYYY")}
+                            {dayjs(event.date).format("ddd, DD MMM YYYY")}
                         </p>
                         <p className="text-sm font-semibold">
                             {dayjs(event.date).format("HH:mm")}
