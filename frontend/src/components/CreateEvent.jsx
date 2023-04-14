@@ -4,11 +4,13 @@ import dayjs from "dayjs";
 import { FormControl, TextField } from "@mui/material";
 import { PlaceComponent } from "./GoogleMapComponent";
 import { eventAPI } from "../services/EventService";
+import { themeAPI } from "../services/ThemeService";
+import { categoryAPI } from "../services/CategoryService";
 
 const SelectTheme = ({ option, setOption }) => {
+    const { data } = themeAPI.useGetAllQuery();
     const selectHandler = (e) => {
         e.preventDefault();
-        console.log(e.target.value);
         setOption(e.target.value);
     };
     return (
@@ -19,29 +21,30 @@ const SelectTheme = ({ option, setOption }) => {
             value={option}
             onChange={selectHandler}
         >
-            <option value={1}>One</option>
-            <option value={2}>Two</option>
-            <option value={3}>Three</option>
-            <option value={4}>Four</option>
-            <option value={5}>Five</option>
-            <option value={6}>Six</option>
-            <option value={7}>Seven</option>
-            <option value={8}>Eight</option>
+            {data &&
+                data.map((data) => (
+                    <option key={data.id} value={data.id}>
+                        {data.name}
+                    </option>
+                ))}
         </select>
     );
 };
 
 const SelectTags = ({ id }) => {
-    //query
-
+    const { data } = categoryAPI.useGetAllCategoriesByThemeQuery(id);
+    console.log(id, data);
     return (
         <select
             name="theme"
             className="border border-black border-opacity-25 text-gray-900 p-2.5 placeholder:text-gray-950/60 outline-none outline-offset-0 hover:border-indigo-400 focus:border-indigo-600 rounded-[4px] sm:text-sm sm:leading-6"
         >
-            <option value={1}>One</option>
-            <option value={2}>Two</option>
-            <option value={3}>Three</option>
+            {data &&
+                data.map((data) => (
+                    <option key={data.id} value={data.id}>
+                        {data.name}
+                    </option>
+                ))}
         </select>
     );
 };
@@ -56,12 +59,6 @@ function CreateEvent({ setShowModal }) {
 
     const handleChangeDate = (newValue) => {
         setSelectedDate(newValue);
-    };
-
-    const selectHandler = (e) => {
-        e.preventDefault();
-        console.log(e.target.value);
-        setOption(e.target.value);
     };
 
     async function handler(e) {
@@ -82,7 +79,9 @@ function CreateEvent({ setShowModal }) {
 
     return (
         <div className="flex flex-col gap-3 p-4 relative max-w-7xl mx-auto w-full">
-            <h1 className="font-medium text-xl">Create Event</h1>
+            <h1 className="text-black text-center font-medium text-xl">
+                Create Event
+            </h1>
             <form
                 className="flex flex-col gap-3"
                 method="POST"

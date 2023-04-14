@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function Modal({ Component }) {
+function Modal({ button_name, Component }) {
     const [showModal, setShowModal] = useState(false);
 
     const handler = (e) => {
@@ -10,15 +10,15 @@ function Modal({ Component }) {
     return (
         <>
             <button
-                className="rounded-md bg-indigo-600 py-2 px-3 text-sm font-semibold text-white hover:bg-indigo-500"
+                className="text-gray-700 px-4 py-2 text-sm"
                 onClick={() => setShowModal(true)}
             >
-                Modal
+                {button_name}
             </button>
             {showModal ? (
                 <div
                     id="modal"
-                    className="fixed inset-0 flex justify-center items-center bg-black/40"
+                    className="cursor-default fixed inset-0 flex justify-center items-center bg-black/40"
                     onClick={handler}
                 >
                     <div className="relative bg-white rounded-lg flex flex-col min-w-[20rem]">

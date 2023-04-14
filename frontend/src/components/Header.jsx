@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { logOut } from "../store/reducers/UserSlice";
 import { userAPI } from "../services/UserService";
 import { companyAPI } from "../services/CompanyService";
+import CreateEvent from "./CreateEvent";
+import Modal from "./Modal";
 
 const ProfileImg = ({ data }) => {
     return (
@@ -63,9 +65,9 @@ const LinkComp = ({ id, type, confirmed }) => {
                 >
                     Ваш профиль
                 </Link>
-                <Link className="text-gray-700 px-4 py-2 text-sm cursor-pointer">
-                    Ваши события
-                </Link>
+                <p>
+                    <Modal button_name="Создать событие" Component={CreateEvent} />
+                </p>
                 <Link className="text-gray-700 px-4 py-2 text-sm cursor-pointer">
                     Понравившиеся
                 </Link>
