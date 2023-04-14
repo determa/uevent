@@ -61,6 +61,7 @@ class EventController {
     async get_all(req, res, next) {
         try {
             // let { limit, page, categories, locations, startDate, endDate, sort } = req.query;
+            console.log(req.query, req.params)
 
             // page = page || 1;
             // limit = limit || 10;

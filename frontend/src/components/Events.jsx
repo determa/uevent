@@ -24,7 +24,7 @@ const SortDropDown = ({ sort, setSort }) => {
         <>
             <div
                 className="h-fit leading-none relative border cursor-pointer border-black border-opacity-25 text-gray-900 placeholder:text-gray-950/60 outline-none outline-offset-0 hover:border-indigo-400 focus:border-indigo-600 rounded-[4px]"
-                onClick={() => {}}
+                onClick={() => { }}
             >
                 <div
                     className="flex items-center justify-between gap-2 px-3 py-2.5 min-w-[135px]"
@@ -68,20 +68,8 @@ const SortDropDown = ({ sort, setSort }) => {
     );
 };
 
-const MultipleSelectThemes = () => {
+const MultipleSelectThemes = ({ handler, setter, value }) => {
     const { data } = themeAPI.useGetAllQuery();
-    const [valueName, setValueName] = React.useState([]);
-
-    const handleChange = (event) => {
-        const {
-            target: { value },
-        } = event;
-        setValueName(
-            // On autofill we get a stringified value.
-            typeof value === "string" ? value.split(",") : value
-        );
-        console.log(valueName);
-    };
 
     return (
         <>
@@ -93,15 +81,15 @@ const MultipleSelectThemes = () => {
                         id="themes"
                         name="themes"
                         multiple
-                        value={valueName}
+                        value={value}
                         label="Темы"
-                        onChange={handleChange}
+                        onChange={(e) => handler(e, setter)}
                         renderValue={(selected) => selected.join(", ")}
                     >
                         {data.map((data) => (
                             <MenuItem key={data.id} value={data.name}>
                                 <Checkbox
-                                    checked={valueName.indexOf(data.name) > -1}
+                                    checked={value.indexOf(data.name) > -1}
                                 />
                                 <ListItemText primary={data.name} />
                             </MenuItem>
@@ -113,20 +101,8 @@ const MultipleSelectThemes = () => {
     );
 };
 
-const MultipleSelectCategories = () => {
+const MultipleSelectCategories = ({ handler, setter, value }) => {
     const { data } = categoryAPI.useGetAllCategoriesQuery();
-    const [valueName, setValueName] = React.useState([]);
-
-    const handleChange = (event) => {
-        const {
-            target: { value },
-        } = event;
-        setValueName(
-            // On autofill we get a stringified value.
-            typeof value === "string" ? value.split(",") : value
-        );
-        console.log(valueName);
-    };
 
     return (
         <>
@@ -138,15 +114,15 @@ const MultipleSelectCategories = () => {
                         id="categories"
                         name="categories"
                         multiple
-                        value={valueName}
+                        value={value}
                         label="Категории"
-                        onChange={handleChange}
+                        onChange={(e) => handler(e, setter)}
                         renderValue={(selected) => selected.join(", ")}
                     >
                         {data.map((data) => (
                             <MenuItem key={data.id} value={data.name}>
                                 <Checkbox
-                                    checked={valueName.indexOf(data.name) > -1}
+                                    checked={value.indexOf(data.name) > -1}
                                 />
                                 <ListItemText primary={data.name} />
                             </MenuItem>
@@ -159,50 +135,28 @@ const MultipleSelectCategories = () => {
 };
 
 const Events = () => {
-    const { data: events } = eventAPI.useGetAllEventsQuery();
-
-    const themeHandler = (e) => {
-        e.preventDefault();
-        // const form = new FormData(e.target);
-        console.log(e.target.value);
-    };
-
-    const categoryHandler = (e) => {
-        e.preventDefault();
-    };
-
-    const allTags = [
-        { id: 1, title: "Рок" },
-        { id: 2, title: "Поп" },
-        { id: 3, title: "Джаз" },
-    ];
-
-    // const [limit] = useState(10);
-    // const [page, setPage] = useState(1); // for pagination
+    const [valueTheme, setValueTheme] = React.useState([]);
+    const [valueCategory, setValueCategory] = React.useState([]);
     const [sort, setSort] = useState("date");
-    const [tags, setTags] = useState([]);
-    // const { data: posts, error } = API.useFetchAllPostsQuery({
-    //     limit,
-    //     page,
-    //     sort,
-    // });
+    const [page, setPage] = useState(1); // for pagination
+    const { data: events } = eventAPI.useGetAllEventsQuery({ themes: valueTheme, categories: valueCategory, sort, page });
 
-    const handler = (e) => {
-        e.preventDefault();
-        const form = new FormData(e.target);
-        const tag = Object.keys(Object.fromEntries(form));
-        setTags(tag);
-        console.log(tag, sort);
+
+    const handler = (event, setter) => {
+        const {
+            target: { value },
+        } = event;
+        setter(
+            // On autofill we get a stringified value.
+            typeof value === "string" ? value.split(",") : value
+        );
+        console.log(value);
     };
 
     return (
         <>
             <div className="flex flex-col gap-6 mx-auto max-w-2xl md:max-w-4xl lg:max-w-7xl">
-                <form
-                    method="POST"
-                    onSubmit={handler}
-                    className="flex gap-3 select-none items-center"
-                >
+                <div className="flex gap-3 select-none items-center">
                     {/* <FormControl className="flex gap-5"> */}
                     <div className="flex gap-2 items-center">
                         <span>Сортировать по: </span>
@@ -210,8 +164,8 @@ const Events = () => {
                     </div>
 
                     {/* <TagsDropDown allTags={allTags} tags={tags} /> */}
-                    <MultipleSelectThemes />
-                    <MultipleSelectCategories />
+                    <MultipleSelectThemes handler={handler} setter={setValueTheme} value={valueTheme} />
+                    <MultipleSelectCategories handler={handler} setter={setValueCategory} value={valueCategory} />
 
                     <button
                         // onClick={sortHandler}
@@ -220,7 +174,7 @@ const Events = () => {
                         применить
                     </button>
                     {/* </FormControl> */}
-                </form>
+                </div>
                 <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)]">
                     {events &&
                         events.map((event, index) => (

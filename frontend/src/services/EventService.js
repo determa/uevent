@@ -14,9 +14,10 @@ export const eventAPI = createApi({
             // providesTags: result => ['User']
         }),
         getAllEvents: build.query({
-            query: () => ({
+            query: (data) => ({
                 url: `/events`,
                 method: "GET",
+                params: data,
             }),
             // providesTags: result => ['User']
         }),
