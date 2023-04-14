@@ -4,9 +4,9 @@ const { User, Company, Account, Category, Event, Theme, ThemeCategory } = requir
 class CategoryController {
     async get_all_categories(req, res) {
         try {
-            let { id } = req.query;
-            const categories = await ThemeCategory.findAll({ where: { themeId: id }, include: { model: Category } });
-            return res.json(categories.categories);
+            let { id } = req.params;
+            const theme = await Theme.findOne({ where: { id }, include: { model: Category } });
+            return res.json(theme.categories);
         } catch (error) {
             console.log(error);
             return next(ApiError.internal("Server error! Try again later!"));
