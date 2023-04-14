@@ -13,7 +13,6 @@ class EventController {
                 picture = imageUpload(req.files.avatar)
             }
             notification ? notification = true : notification = false;
-            console.log(req.body, req.files.picture)
             if (!title || !description || !date || !location || !price || !tickets_count || !theme || !category || !members_visibility || !datePublish)
                 return next(ApiError.badRequest("Некорректное поле!"));
 
@@ -26,6 +25,7 @@ class EventController {
             });
             return res.json(event);
         } catch (e) {
+            console.log(e);
             return next(ApiError.badRequest(e.message));
         }
     }
@@ -107,6 +107,7 @@ class EventController {
             });
             return res.json(event);
         } catch (e) {
+            console.log(e);
             return next(ApiError.badRequest(e.message));
         }
     }
