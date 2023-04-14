@@ -70,8 +70,8 @@ class EventController {
             themes_array = themes_array[0] == 0 ? [] : themes_array;
 
             let eventObj = {};
-            eventObj.categoryId = categories_array;
-            eventObj.themeId = themes_array;
+            if (categories_array[0]) eventObj.categoryId = categories_array;
+            if (themes_array[0]) eventObj.themeId = themes_array;
             // let catObj = { where: {} };
 
             // if (categories) catObj.where.id = categories.split(",");

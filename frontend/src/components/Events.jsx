@@ -85,7 +85,7 @@ const MultipleSelectThemes = ({ handler, setter, value, IdSetter }) => {
                         value={value}
                         label="Темы"
                         onChange={(e) => handler(e, setter, IdSetter)}
-                        renderValue={(selected) => selected.join(", ")}
+                        renderValue={(selected) => selected.map((value) => value.name).join(", ")}
                     >
                         {data.map((data) => (
                             <MenuItem key={data.id} value={data}>
