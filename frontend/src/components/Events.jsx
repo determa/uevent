@@ -69,7 +69,7 @@ const SortDropDown = ({ sort, setSort }) => {
     );
 };
 
-const MultipleSelectThemes = ({ handler, setter, value }) => {
+const MultipleSelectThemes = ({ handler, setter, value, IdSetter }) => {
     const { data } = themeAPI.useGetAllQuery();
 
     return (
@@ -84,21 +84,17 @@ const MultipleSelectThemes = ({ handler, setter, value }) => {
                         multiple
                         value={value}
                         label="Темы"
-                        onChange={(e) => handler(e, setter)}
+                        onChange={(e) => handler(e, setter, IdSetter)}
                         renderValue={(selected) => selected.join(", ")}
                     >
                         {data.map((data) => (
-                            <MenuItem key={data.id} value={data.id}>
-                                <FormControlLabel
-                                    control={
-                                        <Checkbox
-                                            checked={
-                                                value.indexOf(data.id) > -1
-                                            }
-                                        />
+                            <MenuItem key={data.id} value={data}>
+                                <Checkbox
+                                    checked={
+                                        value.indexOf(data) > -1
                                     }
-                                    label={data.name}
                                 />
+                                <ListItemText primary={data.name} />
                             </MenuItem>
                         ))}
                     </Select>
@@ -108,7 +104,7 @@ const MultipleSelectThemes = ({ handler, setter, value }) => {
     );
 };
 
-const MultipleSelectCategories = ({ handler, setter, value }) => {
+const MultipleSelectCategories = ({ handler, setter, value, IdSetter }) => {
     const { data } = categoryAPI.useGetAllCategoriesQuery();
 
     return (
@@ -123,21 +119,17 @@ const MultipleSelectCategories = ({ handler, setter, value }) => {
                         multiple
                         value={value}
                         label="Категории"
-                        onChange={(e) => handler(e, setter)}
-                        renderValue={(selected) => selected.join(", ")}
+                        onChange={(e) => handler(e, setter, IdSetter)}
+                        renderValue={(selected) => selected.map((value) => value.name).join(", ")}
                     >
                         {data.map((data) => (
-                            <MenuItem key={data.id} value={data.id}>
-                                <FormControlLabel
-                                    control={
-                                        <Checkbox
-                                            checked={
-                                                value.indexOf(data.id) > -1
-                                            }
-                                        />
+                            <MenuItem key={data.id} value={data}>
+                                <Checkbox
+                                    checked={
+                                        value.indexOf(data) > -1
                                     }
-                                    label={data.name}
                                 />
+                                <ListItemText primary={data.name} />
                             </MenuItem>
                         ))}
                     </Select>
@@ -150,12 +142,14 @@ const MultipleSelectCategories = ({ handler, setter, value }) => {
 const Events = () => {
     const [valueTheme, setValueTheme] = React.useState([]);
     const [valueCategory, setValueCategory] = React.useState([]);
+    const [idTheme, setIdTheme] = React.useState([]);
+    const [idCategory, setIdCategoryd] = React.useState([]);
     const [sort, setSort] = useState("date");
     const [page, setPage] = useState(1); // for pagination
-    const { data: events } = eventAPI.useGetAllEventsQuery({ themes: valueTheme, categories: valueCategory, sort, page });
+    const { data: events } = eventAPI.useGetAllEventsQuery({ themes: idTheme, categories: idCategory, sort, page });
 
 
-    const handler = (event, setter) => {
+    const handler = (event, setter, IdSetter) => {
         const {
             target: { value },
         } = event;
@@ -163,6 +157,7 @@ const Events = () => {
             // On autofill we get a stringified value.
             typeof value === "string" ? value.split(",") : value
         );
+        IdSetter(value.map((value) => value.id))
         console.log(value);
     };
 
@@ -177,8 +172,8 @@ const Events = () => {
                     </div>
 
                     {/* <TagsDropDown allTags={allTags} tags={tags} /> */}
-                    <MultipleSelectThemes handler={handler} setter={setValueTheme} value={valueTheme} />
-                    <MultipleSelectCategories handler={handler} setter={setValueCategory} value={valueCategory} />
+                    <MultipleSelectThemes handler={handler} setter={setValueTheme} value={valueTheme} IdSetter={setIdTheme} />
+                    <MultipleSelectCategories handler={handler} setter={setValueCategory} value={valueCategory} IdSetter={setIdCategoryd} />
 
                     <button
                         // onClick={sortHandler}
