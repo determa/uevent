@@ -31,7 +31,7 @@ const SelectTheme = ({ option, setOption }) => {
     );
 };
 
-const SelectTags = ({ id }) => {
+const SelectTags = ({ id, setTags }) => {
     const { data } = categoryAPI.useGetAllCategoriesByThemeQuery(id);
     console.log(id, data);
     return (
@@ -53,12 +53,20 @@ function CreateEvent({ setShowModal }) {
     const [create_event, { data, error }] = eventAPI.useCreateMutation();
     let [location, setLocation] = useState(undefined);
     let [option, setOption] = useState(1);
+    let [tags, setTags] = useState(1);
     const [selectedDate, setSelectedDate] = useState(
         dayjs().add(1, "day").startOf("day")
+    );
+    const [selectedDatePublish, setSelectedDatePublish] = useState(
+        dayjs().startOf("day")
     );
 
     const handleChangeDate = (newValue) => {
         setSelectedDate(newValue);
+    };
+
+    const handleChangeDatePublish = (newValue) => {
+        setSelectedDatePublish(newValue);
     };
 
     async function handler(e) {
@@ -108,6 +116,14 @@ function CreateEvent({ setShowModal }) {
                         label={"Дата"}
                         handleChange={handleChangeDate}
                         value={selectedDate}
+                        minDate={dayjs().add(1, "day").startOf("day")}
+                    />
+                    <MaterialUIPickers
+                        label={"Дата публикации"}
+                        handleChange={handleChangeDatePublish}
+                        value={selectedDatePublish}
+                        minDate={dayjs()}
+                        maxDate={selectedDate}
                     />
 
                     <PlaceComponent setLocation={setLocation} />

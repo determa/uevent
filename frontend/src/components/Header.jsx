@@ -65,9 +65,9 @@ const LinkComp = ({ id, type, confirmed }) => {
                 >
                     Ваш профиль
                 </Link>
-                <p>
+                <div>
                     <Modal button_name="Создать событие" Component={CreateEvent} />
-                </p>
+                </div>
                 <Link className="text-gray-700 px-4 py-2 text-sm cursor-pointer">
                     Понравившиеся
                 </Link>

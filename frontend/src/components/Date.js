@@ -6,7 +6,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { MobileDateTimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 
-export default function MaterialUIPickers({ label, value, handleChange }) {
+export default function MaterialUIPickers({ label, value, minDate, maxDate, handleChange }) {
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <Stack spacing={3}>
@@ -17,7 +17,9 @@ export default function MaterialUIPickers({ label, value, handleChange }) {
                     size={"small"}
                     onChange={handleChange}
                     ampm={false}
-                    minDate={dayjs().add(1, "day").startOf("day")}
+                    minDate={minDate}
+                    maxDateTime={maxDate}
+                    // componentsProps={{ textField: { variant: 'outlined' } }}
                     renderInput={(params) => <TextField {...params} />}
                 />
             </Stack>
