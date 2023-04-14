@@ -7,18 +7,22 @@ const LiqPay = require('../service/liqpay');
 class EventController {
     async create(req, res, next) {
         try {
-            let { title, description, date, location, price, tickets_count, theme, category, members_visibility, datePublish } = req.body;
+            let { title, description, date, location, price, tickets_count, theme, category, members_visibility, datePublish, notification } = req.body;
             let picture = 'header.jpg';
             if (req.files?.avatar) {
                 picture = imageUpload(req.files.avatar)
             }
+            notification ? notification = true : notification = false;
             console.log(req.body, req.files.picture)
             if (!title || !description || !date || !location || !price || !tickets_count || !theme || !category || !members_visibility || !datePublish)
                 return next(ApiError.badRequest("Некорректное поле!"));
 
             let event = await Event.create({
                 title, picture, description,
-                date, location, price, tickets_count, companyId: req.account.id, themeId: theme, categoryId: category
+                date, location, price, tickets_count,
+                companyId: req.account.id, themeId: theme,
+                categoryId: category, members_visibility,
+                date_publish: datePublish, notification
             });
             return res.json(event);
         } catch (e) {
