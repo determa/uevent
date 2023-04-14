@@ -30,9 +30,12 @@ const Event = sequelize.define('event', {
     picture: { type: DataTypes.STRING, defaultValue: "header.jpg" },
     description: { type: DataTypes.TEXT, allowNull: false },
     date: { type: DataTypes.DATE, allowNull: false },
+    date_publish: { type: DataTypes.DATE, allowNull: false },
     location: { type: DataTypes.STRING, unique: false, allowNull: false },
     price: { type: DataTypes.INTEGER, defaultValue: 0 },
     tickets_count: { type: DataTypes.INTEGER, allowNull: false },
+    members_visibility: { type: DataTypes.ENUM('all', 'members'), allowNull: false },
+    notification: {type: DataTypes.BOOLEAN, allowNull: false},
 });
 
 const Media = sequelize.define('media', {
