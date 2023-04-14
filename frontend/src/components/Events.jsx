@@ -3,6 +3,18 @@ import Event from "./Event";
 import { eventAPI } from "../services/EventService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
+import {
+    Checkbox,
+    FormControl,
+    InputLabel,
+    ListItemText,
+    MenuItem,
+    OutlinedInput,
+    Select,
+    TextField,
+} from "@mui/material";
+import { themeAPI } from "../services/ThemeService";
+import { categoryAPI } from "../services/CategoryService";
 // import Pagination from "./Pagination";
 
 const SortDropDown = ({ sort, setSort }) => {
@@ -56,60 +68,108 @@ const SortDropDown = ({ sort, setSort }) => {
     );
 };
 
-const TagsDropDown = ({ allTags, tags }) => {
-    const [isOpen, setIsOpen] = useState(false);
+const MultipleSelectThemes = () => {
+    const { data } = themeAPI.useGetAllQuery();
+    const [valueName, setValueName] = React.useState([]);
+
+    const handleChange = (event) => {
+        const {
+            target: { value },
+        } = event;
+        setValueName(
+            // On autofill we get a stringified value.
+            typeof value === "string" ? value.split(",") : value
+        );
+        console.log(valueName);
+    };
+
     return (
         <>
-            <div
-                className="h-fit leading-none relative border cursor-pointer border-black border-opacity-25 text-gray-900 placeholder:text-gray-950/60 outline-none outline-offset-0 hover:border-indigo-400 focus:border-indigo-600 rounded-[4px]"
-                onClick={() => {}}
-            >
-                <div
-                    className="flex items-center justify-between gap-2 px-3 py-2.5 min-w-[120px]"
-                    onClick={() => setIsOpen(!isOpen)}
-                >
-                    <p>{tags.length} Категории</p>
-                    {isOpen ? (
-                        <FontAwesomeIcon icon={faChevronUp} size="xs" />
-                    ) : (
-                        <FontAwesomeIcon icon={faChevronDown} size="xs" />
-                    )}
-                </div>
-
-                {isOpen && (
-                    <div
-                        id="sett"
-                        className="flex flex-col p-3 gap-3 overflow-auto max-h-40 absolute right-0 z-10 mt-1 cursor-pointer min-w-[8rem] rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5"
+            {data && (
+                <FormControl sx={{ width: 250 }} size="small">
+                    <InputLabel id="theme-label">Темы</InputLabel>
+                    <Select
+                        labelId="theme-label"
+                        id="themes"
+                        name="themes"
+                        multiple
+                        value={valueName}
+                        label="Темы"
+                        onChange={handleChange}
+                        renderValue={(selected) => selected.join(", ")}
                     >
-                        {allTags &&
-                            allTags.map((data) => (
-                                <div
-                                    key={data.id}
-                                    className="flex items-center"
-                                >
-                                    <input
-                                        id={data.title}
-                                        type="checkbox"
-                                        name={data.title}
-                                        className="w-4 h-4 bg-gray-100 border-gray-300 rounded"
-                                    />
-                                    <label
-                                        htmlFor={data.title}
-                                        className="ml-1.5 flex-1 text-sm font-medium text-gray-900"
-                                    >
-                                        {data.title}
-                                    </label>
-                                </div>
-                            ))}
-                    </div>
-                )}
-            </div>
+                        {data.map((data) => (
+                            <MenuItem key={data.id} value={data.name}>
+                                <Checkbox
+                                    checked={valueName.indexOf(data.name) > -1}
+                                />
+                                <ListItemText primary={data.name} />
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+            )}
+        </>
+    );
+};
+
+const MultipleSelectCategories = () => {
+    const { data } = categoryAPI.useGetAllCategoriesQuery();
+    const [valueName, setValueName] = React.useState([]);
+
+    const handleChange = (event) => {
+        const {
+            target: { value },
+        } = event;
+        setValueName(
+            // On autofill we get a stringified value.
+            typeof value === "string" ? value.split(",") : value
+        );
+        console.log(valueName);
+    };
+
+    return (
+        <>
+            {data && (
+                <FormControl sx={{ width: 250 }} size="small">
+                    <InputLabel id="categories-label">Категории</InputLabel>
+                    <Select
+                        labelId="categories-label"
+                        id="categories"
+                        name="categories"
+                        multiple
+                        value={valueName}
+                        label="Категории"
+                        onChange={handleChange}
+                        renderValue={(selected) => selected.join(", ")}
+                    >
+                        {data.map((data) => (
+                            <MenuItem key={data.id} value={data.name}>
+                                <Checkbox
+                                    checked={valueName.indexOf(data.name) > -1}
+                                />
+                                <ListItemText primary={data.name} />
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+            )}
         </>
     );
 };
 
 const Events = () => {
     const { data: events } = eventAPI.useGetAllEventsQuery();
+
+    const themeHandler = (e) => {
+        e.preventDefault();
+        // const form = new FormData(e.target);
+        console.log(e.target.value);
+    };
+
+    const categoryHandler = (e) => {
+        e.preventDefault();
+    };
 
     const allTags = [
         { id: 1, title: "Рок" },
@@ -143,12 +203,15 @@ const Events = () => {
                     onSubmit={handler}
                     className="flex gap-3 select-none items-center"
                 >
+                    {/* <FormControl className="flex gap-5"> */}
                     <div className="flex gap-2 items-center">
                         <span>Сортировать по: </span>
                         <SortDropDown sort={sort} setSort={setSort} />
                     </div>
 
-                    <TagsDropDown allTags={allTags} tags={tags} />
+                    {/* <TagsDropDown allTags={allTags} tags={tags} /> */}
+                    <MultipleSelectThemes />
+                    <MultipleSelectCategories />
 
                     <button
                         // onClick={sortHandler}
@@ -156,6 +219,7 @@ const Events = () => {
                     >
                         применить
                     </button>
+                    {/* </FormControl> */}
                 </form>
                 <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)]">
                     {events &&

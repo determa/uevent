@@ -6,6 +6,13 @@ export const categoryAPI = createApi({
     baseQuery: baseQueryWithReauth,
     tagTypes: ["Category"],
     endpoints: (build) => ({
+        getAllCategories: build.query({
+            query: () => ({
+                url: `/categories`,
+                method: "GET",
+            }),
+            // providesTags: result => ['User']
+        }),
         getAllCategoriesByTheme: build.query({
             query: (data) => ({
                 url: `/categories/${data}`,
