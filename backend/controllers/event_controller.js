@@ -15,13 +15,6 @@ class EventController {
                 title, picture, description,
                 date, location, price, tickets_count, companyId: req.account.id, theme, category
             });
-
-            const db_categories = await Category.findAll({
-                where: { id: categories },
-            });
-            if (!db_categories[0])
-                return next(ApiError.notFound("Категории не найдено!"));
-            await event.addCategory(db_categories);
             return res.json(event);
         } catch (e) {
             return next(ApiError.badRequest(e.message));

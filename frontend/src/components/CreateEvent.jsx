@@ -36,7 +36,7 @@ const SelectTags = ({ id, setTags }) => {
     console.log(id, data);
     return (
         <select
-            name="theme"
+            name="category"
             className="border border-black border-opacity-25 text-gray-900 p-2.5 placeholder:text-gray-950/60 outline-none outline-offset-0 hover:border-indigo-400 focus:border-indigo-600 rounded-[4px] sm:text-sm sm:leading-6"
         >
             {data &&
@@ -73,16 +73,17 @@ function CreateEvent({ setShowModal }) {
         e.preventDefault();
         const form = new FormData(e.target);
         form.append("date", selectedDate);
+        form.append("datePublish", selectedDatePublish);
         form.set(
             "location",
             JSON.stringify({ name: form.get("location"), location })
         );
         console.log(Object.fromEntries(form));
-        // const res = await create_event(form);
-        // if (data) {
-        //     console.log(res);
-        //     setShowModal(true);
-        // }
+        const res = await create_event(form);
+        if (data) {
+            console.log(res);
+            setShowModal(true);
+        }
     }
 
     return (
