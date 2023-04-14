@@ -13,55 +13,64 @@ import { eventAPI } from "../services/EventService";
 import { themeAPI } from "../services/ThemeService";
 import { categoryAPI } from "../services/CategoryService";
 
-const SelectTheme = ({ option, setOption }) => {
+const SelectTheme = ({ setOption }) => {
     const { data } = themeAPI.useGetAllQuery();
     const selectHandler = (e) => {
         e.preventDefault();
         setOption(e.target.value);
     };
     return (
-        <TextField
-            required
-            label="Тема"
-            name="theme"
-            select
-            size="small"
-            value={option}
-            onChange={selectHandler}
-            className="w-full"
-        >
-            {data &&
-                data.map((data) => (
-                    <MenuItem key={data.id} value={data.id}>
-                        {data.name}
-                    </MenuItem>
-                ))}
-        </TextField>
-    );
-};
-
-const SelectTags = ({ id }) => {
-    const { data } = categoryAPI.useGetAllCategoriesByThemeQuery(id);
-    console.log(id, data);
-    return (
         <>
-            {data && (
+            {data &&
                 <TextField
                     required
-                    label="Категория"
-                    name="category"
+                    label="Тема"
+                    name="theme"
                     select
                     size="small"
+                    onChange={selectHandler}
                     className="w-full"
-                    defaultValue={data[0].id}
+                    defaultValue={''}
                 >
-                    {data && data.map((data) => (
+                    {data.map((data) => (
                         <MenuItem key={data.id} value={data.id}>
                             {data.name}
                         </MenuItem>
                     ))}
                 </TextField>
-            )}
+            }
+        </>
+    );
+};
+
+const GetCategories = ({ id }) => {
+    const { data } = categoryAPI.useGetAllCategoriesByThemeQuery(id);
+    return (
+        <>
+            {data && data.map((data) => (
+                <MenuItem key={data.id} value={data.id}>
+                    {data.name}
+                </MenuItem>
+            ))}
+        </>
+    )
+}
+
+const SelectTags = ({ id, disabled }) => {
+    return (
+        <>
+            <TextField
+                required
+                label="Категория"
+                name="category"
+                select={!disabled}
+                size="small"
+                className="w-full"
+                defaultValue={''}
+                disabled={disabled}
+            >
+                {!disabled && <GetCategories id={id} />}
+            </TextField>
         </>
     );
 };
@@ -69,8 +78,7 @@ const SelectTags = ({ id }) => {
 function CreateEvent({ setShowModal }) {
     const [create_event, { isError, error }] = eventAPI.useCreateMutation();
     let [location, setLocation] = useState(undefined);
-    let [option, setOption] = useState(1);
-    let [tags, setTags] = useState(1);
+    let [option, setOption] = useState(undefined);
     const [selectedDate, setSelectedDate] = useState(
         dayjs().add(1, "day").startOf("day")
     );
@@ -157,13 +165,12 @@ function CreateEvent({ setShowModal }) {
                         <PlaceComponent setLocation={setLocation} />
                         <div className="flex gap-3">
                             <SelectTheme
-                                option={option}
                                 setOption={setOption}
                             />
-                            <SelectTags id={option} />
+                            <SelectTags id={option} disabled={option ? false : true} />
                         </div>
 
-                        <TextField
+                        {/* <TextField
                             required
                             label="Кто может видеть список участников"
                             name="select"
@@ -174,7 +181,7 @@ function CreateEvent({ setShowModal }) {
                             <MenuItem value="members">
                                 Участники события
                             </MenuItem>
-                        </TextField>
+                        </TextField> */}
 
                         {/* <select
                             name="view"
