@@ -21,7 +21,7 @@ const SelectTheme = ({ setOption }) => {
     };
     return (
         <>
-            {data &&
+            {data && (
                 <TextField
                     required
                     label="Тема"
@@ -30,7 +30,7 @@ const SelectTheme = ({ setOption }) => {
                     size="small"
                     onChange={selectHandler}
                     className="w-1/2"
-                    defaultValue={''}
+                    defaultValue={""}
                 >
                     {data.map((data) => (
                         <MenuItem key={data.id} value={data.id}>
@@ -38,16 +38,23 @@ const SelectTheme = ({ setOption }) => {
                         </MenuItem>
                     ))}
                 </TextField>
-            }
+            )}
         </>
     );
 };
 
 const SelectTags = ({ id }) => {
     const { data } = categoryAPI.useGetAllCategoriesByThemeQuery(id);
+    const [tags, setTags] = useState('');
+
+    const selectHandler = (e) => {
+        e.preventDefault();
+        setTags(e.target.value);
+    };
+
     return (
         <>
-            {data &&
+            {data && (
                 <TextField
                     required
                     label="Категория"
@@ -55,7 +62,8 @@ const SelectTags = ({ id }) => {
                     select
                     size="small"
                     className="w-1/2"
-                    defaultValue={''}
+                    value={tags}
+                    onChange={selectHandler}
                 >
                     {data.map((data) => (
                         <MenuItem key={data.id} value={data.id}>
@@ -63,7 +71,7 @@ const SelectTags = ({ id }) => {
                         </MenuItem>
                     ))}
                 </TextField>
-            }
+            )}
         </>
     );
 };
@@ -71,11 +79,22 @@ const SelectTags = ({ id }) => {
 const SelectorInput = ({ option }) => {
     return (
         <>
-            {option ? <SelectTags id={option} />
-                : <TextField required label="Категория" name="category" size="small" className="w-1/2" defaultValue={''} disabled />}
+            {option ? (
+                <SelectTags id={option} />
+            ) : (
+                <TextField
+                    required
+                    label="Категория"
+                    name="category"
+                    size="small"
+                    className="w-1/2"
+                    defaultValue={""}
+                    disabled
+                />
+            )}
         </>
-    )
-}
+    );
+};
 
 function CreateEvent({ setShowModal }) {
     const [create_event, { isError, error }] = eventAPI.useCreateMutation();
@@ -166,9 +185,7 @@ function CreateEvent({ setShowModal }) {
 
                         <PlaceComponent setLocation={setLocation} />
                         <div className="flex gap-3">
-                            <SelectTheme
-                                setOption={setOption}
-                            />
+                            <SelectTheme setOption={setOption} />
                             {<SelectorInput option={option} />}
                         </div>
 
