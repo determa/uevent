@@ -60,12 +60,12 @@ class EventController {
 
     async get_all(req, res, next) {
         try {
-            let { page, categories, themes, sort } = req.query;
-            limit = 10;
-            categories = categories.split(",");
-            themes = themes.split(",");
-            let offset = page * limit - limit;
-            console.log(categories, themes)
+            const { page, categories, themes, sort } = req.query;
+            const limit = 10;
+            const categories_array = categories.split(",");
+            const themes_array = themes.split(",");
+            const offset = page * limit - limit;
+            console.log(categories_array, themes_array)
 
             // let eventObj = {};
             // let catObj = { where: {} };
