@@ -1,5 +1,5 @@
 const ApiError = require("../error/ApiError");
-const { User, Company, Account, Category, Event } = require("../models/models");
+const { User, Company, Account, Category, Event, Theme } = require("../models/models");
 const imageUpload = require("../service/imageUpload");
 const LiqPay = require('../service/liqpay');
 
@@ -35,7 +35,7 @@ class EventController {
             let { id } = req.params;
             const event = await Event.findOne({
                 where: { id },
-                include: { model: Category },
+                include: [{ model: Category }, { model: Theme }],
             });
             return res.json(event);
         } catch (e) {
