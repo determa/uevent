@@ -8,12 +8,12 @@ class EventController {
         try {
             let { title, picture, description, date, location, price, tickets_count, theme, category } = req.body;
 
-            if (!title || !description || !date || !location || !price || !tickets_count || !theme || category)
+            if (!title || !description || !date || !location || !price || !tickets_count || !theme || !category)
                 return next(ApiError.badRequest("Некорректное поле!"));
 
             let event = await Event.create({
                 title, picture, description,
-                date, location, price, tickets_count, companyId: req.account.id, theme, category
+                date, location, price, tickets_count, companyId: req.account.id, themeId: theme, categoryId: category
             });
             return res.json(event);
         } catch (e) {
