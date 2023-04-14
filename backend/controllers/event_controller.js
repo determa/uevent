@@ -60,12 +60,12 @@ class EventController {
 
     async get_all(req, res, next) {
         try {
-            // let { limit, page, categories, locations, startDate, endDate, sort } = req.query;
-            console.log(req.query, req.params)
-
-            // page = page || 1;
-            // limit = limit || 10;
-            // let offset = page * limit - limit;
+            let { page, categories, themes, sort } = req.query;
+            limit = 10;
+            categories = categories.split(",");
+            themes = themes.split(",");
+            let offset = page * limit - limit;
+            console.log(categories, themes)
 
             // let eventObj = {};
             // let catObj = { where: {} };
@@ -90,8 +90,8 @@ class EventController {
             // if (sort === "-date") sortArr = [['"createdAt"', "ASC"]];
 
             const event = await Event.findAll({
-                // limit,
-                // offset,
+                limit,
+                offset,
                 // where: eventObj,
                 // include: [{ model: Category, catObj }],
                 // attributes: {
