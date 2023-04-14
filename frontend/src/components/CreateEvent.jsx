@@ -2,17 +2,19 @@ import React, { useState } from "react";
 import MaterialUIPickers from "./Date";
 import dayjs from "dayjs";
 import {
+    Checkbox,
     FormControl,
-    InputLabel,
+    FormControlLabel,
     MenuItem,
-    Select,
     TextField,
+    Typography,
 } from "@mui/material";
 import { PlaceComponent } from "./GoogleMapComponent";
 import { eventAPI } from "../services/EventService";
 import { themeAPI } from "../services/ThemeService";
 import { categoryAPI } from "../services/CategoryService";
 import previewImage from "../utils/previewImage";
+import { indigo } from "@mui/material/colors";
 
 const SelectTheme = ({ setOption, setTags }) => {
     const { data } = themeAPI.useGetAllQuery();
@@ -137,7 +139,7 @@ function CreateEvent({ setShowModal }) {
     }
 
     return (
-        <div className="flex flex-col gap-3 p-4 relative max-w-7xl mx-auto w-full">
+        <div className="flex flex-col text-gray-800 gap-3 p-4 relative max-w-7xl mx-auto w-full">
             <h1 className="text-black text-center font-medium text-xl">
                 Create Event
             </h1>
@@ -147,15 +149,15 @@ function CreateEvent({ setShowModal }) {
                 onSubmit={handler}
             >
                 <div className="flex gap-3">
-                    <div className="flex flex-col gap-3">
+                    <div className="flex flex-col gap-3 w-52">
                         <label
                             htmlFor="avatar"
-                            className="relative flex items-center justify-center w-40 h-40 rounded-lg bg-gray-400 text-gray-800 cursor-pointer hover:bg-gray-500"
+                            className="relative flex items-center justify-center h-52 rounded-lg bg-gray-400 text-gray-800 cursor-pointer hover:bg-gray-500"
                         >
                             <img
                                 src={`${process.env.REACT_APP_SERVER_DOMEN}/header.jpg`}
                                 alt="img"
-                                className="h-40 w-40 rounded-lg object-cover object-center"
+                                className="h-52 rounded-lg object-cover object-center"
                             />
                             <input
                                 type="file"
@@ -169,7 +171,30 @@ function CreateEvent({ setShowModal }) {
                                 className="absolute inset-0 rounded-lg overflow-hidden hidden"
                             ></div>
                         </label>
-                        
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    defaultChecked
+                                    sx={{
+                                        "&.Mui-checked": {
+                                            color: indigo[600],
+                                        },
+                                    }}
+                                />
+                            }
+                            label={
+                                <Typography
+                                    className="text-justify"
+                                    sx={{
+                                        fontWeight: 600,
+                                        fontSize: "13.5px",
+                                    }}
+                                >
+                                    Получать уведомления о новых участниках?
+                                </Typography>
+                            }
+                            name="notification"
+                        />
                     </div>
                     <FormControl className="flex flex-1 flex-col gap-5">
                         <TextField
