@@ -5,8 +5,8 @@ class CategoryController {
     async get_all_categories(req, res) {
         try {
             let { id } = req.params;
-            const theme = await Theme.findAll({ where: { id }, include: { model: Category } });
-            return res.json(theme);
+            const theme = await Theme.findOne({ where: { id }, include: { model: Category } });
+            return res.json(theme.categories);
         } catch (error) {
             console.log(error);
             return next(ApiError.internal("Server error! Try again later!"));
