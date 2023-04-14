@@ -2,9 +2,9 @@ const ApiError = require("../error/ApiError");
 const { User, Company, Account, Category, Event, Theme, ThemeCategory } = require("../models/models");
 
 class CategoryController {
-    async get_all_categories(req, res) {
+    async get_all_categories_by_themes(req, res) {
         try {
-            let { id } = req.query;
+            let { id } = req.params;
             const categories = await ThemeCategory.findAll({ where: { themeId: id }, include: { model: Category } });
             return res.json(categories.categories);
         } catch (error) {
