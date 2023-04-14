@@ -13,11 +13,12 @@ import { eventAPI } from "../services/EventService";
 import { themeAPI } from "../services/ThemeService";
 import { categoryAPI } from "../services/CategoryService";
 
-const SelectTheme = ({ setOption }) => {
+const SelectTheme = ({ setOption, setTags }) => {
     const { data } = themeAPI.useGetAllQuery();
     const selectHandler = (e) => {
         e.preventDefault();
         setOption(e.target.value);
+        setTags("")
     };
     return (
         <>
@@ -43,9 +44,8 @@ const SelectTheme = ({ setOption }) => {
     );
 };
 
-const SelectTags = ({ id }) => {
+const SelectTags = ({ id, tags, setTags }) => {
     const { data } = categoryAPI.useGetAllCategoriesByThemeQuery(id);
-    const [tags, setTags] = useState('');
 
     const selectHandler = (e) => {
         e.preventDefault();
@@ -76,11 +76,11 @@ const SelectTags = ({ id }) => {
     );
 };
 
-const SelectorInput = ({ option }) => {
+const SelectorInput = ({ option, tags, setTags }) => {
     return (
         <>
             {option ? (
-                <SelectTags id={option} />
+                <SelectTags id={option} tags={tags} setTags={setTags} />
             ) : (
                 <TextField
                     required
@@ -100,6 +100,8 @@ function CreateEvent({ setShowModal }) {
     const [create_event, { isError, error }] = eventAPI.useCreateMutation();
     let [location, setLocation] = useState(undefined);
     let [option, setOption] = useState(undefined);
+    const [tags, setTags] = useState("");
+
     const [selectedDate, setSelectedDate] = useState(
         dayjs().add(1, "day").startOf("day")
     );
@@ -185,8 +187,14 @@ function CreateEvent({ setShowModal }) {
 
                         <PlaceComponent setLocation={setLocation} />
                         <div className="flex gap-3">
-                            <SelectTheme setOption={setOption} />
-                            {<SelectorInput option={option} />}
+                            <SelectTheme setOption={setOption} setTags={setTags} />
+                            {
+                                <SelectorInput
+                                    option={option}
+                                    tags={tags}
+                                    setTags={setTags}
+                                />
+                            }
                         </div>
 
                         {/* <TextField
