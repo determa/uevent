@@ -2,8 +2,7 @@ const ApiError = require('../error/ApiError');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { User, Company, Account } = require('../models/models');
-const uuid = require('uuid');
-const path = require('path');
+const imageUpload = require('../service/imageUpload');
 
 const generateJwt = (accountId, id, type, confirmed, time, key) => {
     return jwt.sign({ accountId, id, type, confirmed },
@@ -29,12 +28,6 @@ const cookieOptions = {
     sameSite: 'None',
     maxAge: 24 * 60 * 60 * 1000,
 };
-
-const image_upload = (file) => {
-    let fileName = uuid.v4() + '.jpg';
-    file.mv(path.resolve(__dirname, '..', 'static', fileName));
-    return fileName;
-}
 
 class AuthController {
     async register_account(req, res, next) {
@@ -70,7 +63,7 @@ class AuthController {
                 return next(ApiError.badRequest("Некорректное поле!"));
             }
             if (req.files?.avatar) {
-                picture = image_upload(req.files.avatar)
+                picture = imageUpload(req.files.avatar)
             }
             const user = await User.create({ name, picture, accountId: req.account.accountId });
             await Account.update({ type: "USER" }, { where: { id: req.account.accountId } });
@@ -89,7 +82,7 @@ class AuthController {
                 return next(ApiError.badRequest("Некорректное поле!"));
             }
             if (req.files?.avatar) {
-                picture = image_upload(req.files.avatar)
+                picture = imageUpload(req.files.avatar)
             }
             const company = await Company.create({ name, picture, location, description, accountId: req.account.accountId });
             await Account.update({ type: "COMPANY" }, { where: { id: req.account.accountId } });

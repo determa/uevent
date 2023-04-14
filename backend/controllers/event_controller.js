@@ -1,13 +1,18 @@
 const ApiError = require("../error/ApiError");
 const { User, Company, Account, Category, Event } = require("../models/models");
+const imageUpload = require("../service/imageUpload");
 const LiqPay = require('../service/liqpay');
 
 
 class EventController {
     async create(req, res, next) {
         try {
-            let { title, picture, description, date, location, price, tickets_count, theme, category } = req.body;
-
+            let { title, description, date, location, price, tickets_count, theme, category } = req.body;
+            let picture = 'default.jpg';
+            if (req.files?.picture) {
+                picture = imageUpload(req.files.picture)
+            }
+            console.log(req.body)
             if (!title || !description || !date || !location || !price || !tickets_count || !theme || !category)
                 return next(ApiError.badRequest("Некорректное поле!"));
 
