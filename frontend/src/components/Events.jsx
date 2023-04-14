@@ -6,6 +6,7 @@ import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import {
     Checkbox,
     FormControl,
+    FormControlLabel,
     InputLabel,
     ListItemText,
     MenuItem,
@@ -87,11 +88,17 @@ const MultipleSelectThemes = ({ handler, setter, value }) => {
                         renderValue={(selected) => selected.join(", ")}
                     >
                         {data.map((data) => (
-                            <MenuItem key={data.id} value={data.name}>
-                                <Checkbox
-                                    checked={value.indexOf(data.name) > -1}
+                            <MenuItem key={data.id} value={data.id}>
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            checked={
+                                                value.indexOf(data.id) > -1
+                                            }
+                                        />
+                                    }
+                                    label={data.name}
                                 />
-                                <ListItemText primary={data.name} />
                             </MenuItem>
                         ))}
                     </Select>
@@ -120,11 +127,17 @@ const MultipleSelectCategories = ({ handler, setter, value }) => {
                         renderValue={(selected) => selected.join(", ")}
                     >
                         {data.map((data) => (
-                            <MenuItem key={data.id} value={data.name}>
-                                <Checkbox
-                                    checked={value.indexOf(data.name) > -1}
+                            <MenuItem key={data.id} value={data.id}>
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            checked={
+                                                value.indexOf(data.id) > -1
+                                            }
+                                        />
+                                    }
+                                    label={data.name}
                                 />
-                                <ListItemText primary={data.name} />
                             </MenuItem>
                         ))}
                     </Select>
