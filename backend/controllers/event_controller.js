@@ -62,12 +62,16 @@ class EventController {
         try {
             const { page, categories, themes, sort } = req.query;
             const limit = 10;
-            const categories_array = categories.split(",");
-            const themes_array = themes.split(",");
+            let categories_array = categories.split(",");
+            let themes_array = themes.split(",");
             const offset = page * limit - limit;
-            console.log(categories_array, themes_array)
+            
+            categories_array = categories_array[0] == 0 ? [] : categories_array;
+            themes_array = themes_array[0] == 0 ? [] : themes_array;
 
-            // let eventObj = {};
+            let eventObj = {};
+            eventObj.categoryId = categories_array;
+            eventObj.themeId = themes_array;
             // let catObj = { where: {} };
 
             // if (categories) catObj.where.id = categories.split(",");
@@ -92,7 +96,7 @@ class EventController {
             const event = await Event.findAll({
                 limit,
                 offset,
-                // where: eventObj,
+                where: eventObj,
                 // include: [{ model: Category, catObj }],
                 // attributes: {
                 //     include: [
