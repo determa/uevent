@@ -8,7 +8,7 @@ class EventController {
         try {
             let { title, picture, description, date, location, price, tickets_count, theme, category } = req.body;
 
-            if (!title || !description || !date || !location || !price || !tickets_count || !theme || category)
+            if (!title || !description || !date || !location || !price || !tickets_count || !theme || !category)
                 return next(ApiError.badRequest("Некорректное поле!"));
 
             let event = await Event.create({
