@@ -29,7 +29,7 @@ const SelectTheme = ({ setOption }) => {
                     select
                     size="small"
                     onChange={selectHandler}
-                    className="w-full"
+                    className="w-1/2"
                     defaultValue={''}
                 >
                     {data.map((data) => (
@@ -43,37 +43,39 @@ const SelectTheme = ({ setOption }) => {
     );
 };
 
-const GetCategories = ({ id }) => {
+const SelectTags = ({ id }) => {
     const { data } = categoryAPI.useGetAllCategoriesByThemeQuery(id);
     return (
         <>
-            {data && data.map((data) => (
-                <MenuItem key={data.id} value={data.id}>
-                    {data.name}
-                </MenuItem>
-            ))}
-        </>
-    )
-}
-
-const SelectTags = ({ id, disabled }) => {
-    return (
-        <>
-            <TextField
-                required
-                label="Категория"
-                name="category"
-                select={!disabled}
-                size="small"
-                className="w-full"
-                defaultValue={''}
-                disabled={disabled}
-            >
-                {!disabled && <GetCategories id={id} />}
-            </TextField>
+            {data &&
+                <TextField
+                    required
+                    label="Категория"
+                    name="category"
+                    select
+                    size="small"
+                    className="w-1/2"
+                    defaultValue={''}
+                >
+                    {data.map((data) => (
+                        <MenuItem key={data.id} value={data.id}>
+                            {data.name}
+                        </MenuItem>
+                    ))}
+                </TextField>
+            }
         </>
     );
 };
+
+const SelectorInput = ({ option }) => {
+    return (
+        <>
+            {option ? <SelectTags id={option} />
+                : <TextField required label="Категория" name="category" size="small" className="w-1/2" defaultValue={''} disabled />}
+        </>
+    )
+}
 
 function CreateEvent({ setShowModal }) {
     const [create_event, { isError, error }] = eventAPI.useCreateMutation();
@@ -103,7 +105,7 @@ function CreateEvent({ setShowModal }) {
             "location",
             JSON.stringify({ name: form.get("location"), location })
         );
-        // console.log(Object.fromEntries(form));
+        console.log(Object.fromEntries(form));
         const res = await create_event(form);
         console.log(res);
         if (!res.error) {
@@ -167,7 +169,7 @@ function CreateEvent({ setShowModal }) {
                             <SelectTheme
                                 setOption={setOption}
                             />
-                            <SelectTags id={option} disabled={option ? false : true} />
+                            {<SelectorInput option={option} />}
                         </div>
 
                         {/* <TextField
