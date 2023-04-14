@@ -8,7 +8,7 @@ class EventController {
     async create(req, res, next) {
         try {
             let { title, description, date, location, price, tickets_count, theme, category, members_visibility, datePublish } = req.body;
-            let picture = 'header.jpg';
+            let picture = null;
             if (req.files?.avatar) {
                 picture = imageUpload(req.files.avatar)
             }
