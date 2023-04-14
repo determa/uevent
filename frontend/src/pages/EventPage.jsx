@@ -23,7 +23,7 @@ const PaymentButton = ({ id }) => {
                         name="signature"
                         value={data.signature}
                     />
-                    <button className="mt-3 relative flex w-fit justify-center rounded-md bg-indigo-600 py-2 px-3 text-sm font-semibold text-white hover:bg-indigo-500">
+                    <button className="mt-3 relative flex w-fit justify-center rounded-md bg-indigo-600 py-3 px-4 text-sm font-semibold text-white hover:bg-indigo-500">
                         Оплатить
                     </button>
                 </form>
@@ -53,7 +53,7 @@ const EventPage = () => {
                             alt="afisha"
                             src={`${process.env.REACT_APP_SERVER_DOMEN}/${data.picture}`}
                         />
-                        <div className="flex flex-1 flex-col p-4 gap-3 min-w-[14rem]">
+                        <div className="flex flex-1 flex-col px-4 gap-5 min-w-[14rem]">
                             <p className="text-sm text-gray-500 font-semibold">
                                 {dayjs(data.date).format(
                                     "dddd, DD MMMM YYYY HH:mm"
@@ -65,26 +65,30 @@ const EventPage = () => {
                                 </h1>
                             </div>
                             <div className="flex gap-3">
-                                {/* {data.categories.map((category, index) => (
-                            <p key={index} className="px-3 py-1 bg-black/20">
-                                {category}
-                            </p>
-                        ))} */}
+                                <p className="px-3 py-1 bg-black/20">
+                                    {data.theme.name}
+                                </p>
+                                <p className="px-3 py-1 bg-black/20">
+                                    {data.category.name}
+                                </p>
                             </div>
-                            <p className="font-bold text-gray-700">
-                                {data.price} грн
-                            </p>
+                            <div className="flex flex-col gap-1">
+                                <p className="font-bold text-3xl text-gray-700">
+                                    {data.price}
+                                    <span className="text-lg"> грн</span>
+                                </p>
 
-                            {isAuth && confirmed ? (
-                                <PaymentButton id={id} />
-                            ) : (
-                                <Link
-                                    to="/auth"
-                                    className="mt-3 relative flex w-fit justify-center rounded-md bg-indigo-600 py-2 px-3 text-sm font-semibold text-white hover:bg-indigo-500"
-                                >
-                                    Авторизоваться
-                                </Link>
-                            )}
+                                {isAuth && confirmed ? (
+                                    <PaymentButton id={id} />
+                                ) : (
+                                    <Link
+                                        to="/auth"
+                                        className="mt-3 relative flex w-fit justify-center rounded-md bg-indigo-600 py-3 px-4 text-sm font-semibold text-white hover:bg-indigo-500"
+                                    >
+                                        Авторизоваться
+                                    </Link>
+                                )}
+                            </div>
                         </div>
                         <div className="flex w-full lg:w-2/5 h-80 min-w-[20rem]">
                             <GoogleMapComponent
