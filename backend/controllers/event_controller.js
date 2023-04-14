@@ -13,7 +13,7 @@ class EventController {
 
             let event = await Event.create({
                 title, picture, description,
-                date, location, price, tickets_count, companyId: req.account.id, theme, category
+                date, location, price, tickets_count, companyId: req.account.id, themeId: theme, categoryId: category
             });
             return res.json(event);
         } catch (e) {
