@@ -31,7 +31,7 @@ const SortDropDown = ({ sort, setSort }) => {
                     className="flex items-center justify-between gap-2 px-3 py-2.5 min-w-[135px]"
                     onClick={() => setIsOpen(!isOpen)}
                 >
-                    <p>{sort === "date" ? "Ближайшим" : "Популярным"}</p>
+                    <p>{sort === "-date" ? "Ближайшим" : "Популярным"}</p>
                     {isOpen ? (
                         <FontAwesomeIcon icon={faChevronUp} size="xs" />
                     ) : (
@@ -46,7 +46,7 @@ const SortDropDown = ({ sort, setSort }) => {
                     >
                         <p
                             onClick={() => {
-                                setSort("date");
+                                setSort("-date");
                                 setIsOpen(!isOpen);
                             }}
                             className="p-3 flex flex-col"
@@ -55,7 +55,7 @@ const SortDropDown = ({ sort, setSort }) => {
                         </p>
                         <p
                             onClick={() => {
-                                setSort("-date");
+                                setSort("date");
                                 setIsOpen(!isOpen);
                             }}
                             className="p-3 flex flex-col border-t border-gray-400"
