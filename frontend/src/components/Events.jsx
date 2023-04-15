@@ -51,7 +51,7 @@ const SortDropDown = ({ sort, setSort }) => {
                             }}
                             className="p-3 flex flex-col"
                         >
-                            Популярным
+                            Ближайшим
                         </p>
                         <p
                             onClick={() => {
@@ -60,7 +60,7 @@ const SortDropDown = ({ sort, setSort }) => {
                             }}
                             className="p-3 flex flex-col border-t border-gray-400"
                         >
-                            Ближайшим
+                            Популярным
                         </p>
                     </div>
                 )}
