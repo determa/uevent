@@ -108,6 +108,7 @@ Event.hasMany(Comment);
 Comment.belongsTo(Event);
 
 Comment.hasMany(Comment, { as: 'replies', foreignKey: 'parent_comment_id' });
+Comment.belongsTo(Comment, {as: 'parent', foreignKey: 'parent_comment_id'})
 
 Account.hasMany(Ticket);
 Ticket.belongsTo(Account);
