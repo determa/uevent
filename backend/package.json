@@ -20,6 +20,7 @@
     "express-fileupload": "^1.4.0",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.4",
+    "node-cron": "^3.0.2",
     "nodemailer": "^6.8.0",
     "pdf-creator-node": "^2.3.5",
     "pg": "^8.8.0",

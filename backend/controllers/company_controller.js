@@ -1,5 +1,5 @@
 const ApiError = require('../error/ApiError');
-const { Company } = require('../models/models');
+const { Company, Account } = require('../models/models');
 const uuid = require('uuid');
 const path = require('path');
 
@@ -21,7 +21,7 @@ class CompanyController {
     async get_one_company(req, res, next) {
         try {
             const { id } = req.params;
-            let company = await Company.findOne({ where: { id } });
+            let company = await Company.findOne({ where: { id }, include: [{ model: Account, attributes: ['email'] }] });
             if (!company) {
                 return next(ApiError.badRequest("Пользователь не найден!"));
             }
