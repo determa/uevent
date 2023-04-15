@@ -49,7 +49,7 @@ class CommentController {
             const comments = await Comment.findAll({
                 limit, offset,
                 include: [
-                    { model: User, where: { id } }
+                    { model: Account, attributes: [], include: [{ model: User, where: id }] }
                 ]
             });
             if (!comments[0]) return next(ApiError.notFound("Комментарии не найдены!"));
