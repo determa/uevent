@@ -5,6 +5,8 @@ import { eventAPI } from "../services/EventService";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
+import CommentComponent from "../components/CommentComponent";
+import { comments } from "../components/dataList";
 
 const PaymentButton = ({ id }) => {
     const { data, error } = eventAPI.useGetPaymentDataQuery(id);
@@ -41,7 +43,10 @@ const EventPage = () => {
     const { isAuth, confirmed } = useSelector((state) => state.userReducer);
     const { id } = useParams();
     const { data } = eventAPI.useGetOneEventQuery(id);
-
+    const commentHandler = (e) => {
+        e.preventDefault();
+        console.log(e.target);
+    };
     return (
         <>
             {data && (
@@ -101,6 +106,51 @@ const EventPage = () => {
                         <p className="text-justify text-gray-800">
                             {data.description}
                         </p>
+                    </div>
+                    <div className="mt-4 flex flex-col shadow-sm gap-4 max-w-7xl mx-auto p-6 bg-slate-100 border border-gray-200 rounded-lg flex-wrap">
+                        <form
+                            className="flex flex-col gap-3"
+                            method="POST"
+                            onSubmit={commentHandler}
+                        >
+                            <h2 className="text-lg lg:text-2xl font-bold text-gray-900">
+                                Discussion (20)
+                            </h2>
+                            <div className="py-2 px-4 bg-white rounded-lg border border-gray-200">
+                                <textarea
+                                    id="comment"
+                                    rows="6"
+                                    className="w-full text-sm  bg-white text-gray-900 focus:outline-none"
+                                    placeholder="Write a comment..."
+                                    required
+                                ></textarea>
+                            </div>
+                            <div className="flex justify-end">
+                                <button className="flex w-fit rounded-md bg-indigo-600 py-3 px-4 text-sm font-semibold text-white hover:bg-indigo-500">
+                                    Post comment
+                                </button>
+                            </div>
+                        </form>
+                        {comments &&
+                            comments.map((data) => (
+                                <div
+                                    className="flex flex-col gap-2"
+                                    key={data.id}
+                                >
+                                    <CommentComponent data={data} />
+                                    {data.replies &&
+                                        data.replies.map((reply) => (
+                                            <div
+                                                key={reply.id}
+                                                className="ml-12"
+                                            >
+                                                <CommentComponent
+                                                    data={reply}
+                                                />
+                                            </div>
+                                        ))}
+                                </div>
+                            ))}
                     </div>
                 </>
             )}

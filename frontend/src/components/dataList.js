@@ -95,4 +95,172 @@ const companyProfile = [
     },
 ];
 
-export { evnts, userProfile, companyProfile };
+const userComments = [
+    {
+        id: 1,
+        content: "Крутой блог!",
+        accountId: 1,
+        createdAt: "2023-04-15T12:30:00Z",
+        event: {
+            id: 1,
+            title: "Alpha",
+        },
+        user: {
+            id: 1,
+            name: "Jeka",
+            picture: "e2aed0de-1b24-49b7-817d-fdff35310704.jpg",
+        },
+    },
+    {
+        id: 2,
+        content: "Чучквл!",
+        accountId: 1,
+        createdAt: "2023-04-15T12:30:00Z",
+        event: {
+            id: 2,
+            title: "Omega",
+        },
+        user: {
+            id: 1,
+            name: "Jeka",
+            picture: "e2aed0de-1b24-49b7-817d-fdff35310704.jpg",
+        },
+    },
+    {
+        id: 3,
+        content: "Тестовый комментарий для поста",
+        accountId: 1,
+        createdAt: "2023-04-15T12:30:00Z",
+        event: {
+            id: 3,
+            title: "asd",
+        },
+        user: {
+            id: 1,
+            name: "Jeka",
+            picture: "e2aed0de-1b24-49b7-817d-fdff35310704.jpg",
+        },
+    },
+    {
+        id: 4,
+        content: "Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает сосредоточиться. Lorem Ipsum используют потому, что тот обеспечивает более или менее стандартное заполнение шаблона.",
+        accountId: 1,
+        createdAt: "2023-04-15T12:30:00Z",
+        event: {
+            id: 4,
+            title: "Tyasfka",
+        },
+        user: {
+            id: 1,
+            name: "Jeka",
+            picture: "e2aed0de-1b24-49b7-817d-fdff35310704.jpg",
+        },
+    },
+];
+
+const comments = [
+    {
+        id: 1,
+        content: "Крутой блог!",
+        accountId: 1,
+        parentId: null,
+        createdAt: "2023-04-15T12:30:00Z",
+        user: {
+            id: 1,
+            name: "Jeka",
+            picture: "e2aed0de-1b24-49b7-817d-fdff35310704.jpg",
+        },
+        replies: [
+            {
+                id: 2,
+                content: "Спасибо, рад, что вам понравилось!",
+                accountId: 2,
+                parentId: 1,
+                createdAt: "2023-04-15T13:00:00Z",
+                user: {
+                    id: 2,
+                    name: "Den4ik",
+                    picture: "d4a8fe2f-f681-43dc-9a8b-0f4af7cfb091.jpg",
+                },
+            },
+            {
+                id: 3,
+                content: "Не согласен, нужно больше работать над контентом",
+                accountId: 3,
+                parentId: 1,
+                createdAt: "2023-04-15T14:00:00Z",
+                user: {
+                    id: 3,
+                    name: "Bogdan",
+                    picture: "bc01fe5e-ac03-4128-a839-ac9bc7e246aa.jpg",
+                },
+            },
+        ],
+    },
+    {
+        id: 4,
+        content: "Какой интересный пост!",
+        accountId: 2,
+        parentId: null,
+        createdAt: "2023-04-15T15:00:00Z",
+        user: {
+            id: 1,
+            name: "Vladick",
+            picture: "4f93204a-b9c0-4c2f-a95a-51b867d85cfb.jpg",
+        },
+        replies: [],
+    },
+    {
+        id: 5,
+        content: "Крутой блог!",
+        accountId: 1,
+        parentId: null,
+        createdAt: "2023-04-15T12:30:00Z",
+        user: {
+            id: 1,
+            name: "Jeka",
+            picture: "e2aed0de-1b24-49b7-817d-fdff35310704.jpg",
+        },
+        replies: [
+            {
+                id: 6,
+                content: "Спасибо, рад, что вам понравилось!",
+                accountId: 2,
+                parentId: 1,
+                createdAt: "2023-04-15T13:00:00Z",
+                user: {
+                    id: 2,
+                    name: "Den4ik",
+                    picture: "d4a8fe2f-f681-43dc-9a8b-0f4af7cfb091.jpg",
+                },
+            },
+            {
+                id: 7,
+                content: "Не согласен, нужно больше работать над контентом",
+                accountId: 3,
+                parentId: 1,
+                createdAt: "2023-04-15T14:00:00Z",
+                user: {
+                    id: 3,
+                    name: "Bogdan",
+                    picture: "bc01fe5e-ac03-4128-a839-ac9bc7e246aa.jpg",
+                },
+            },
+        ],
+    },
+    {
+        id: 8,
+        content: "Какой интересный пост!",
+        accountId: 2,
+        parentId: null,
+        createdAt: "2023-04-15T15:00:00Z",
+        user: {
+            id: 1,
+            name: "Vladick",
+            picture: "4f93204a-b9c0-4c2f-a95a-51b867d85cfb.jpg",
+        },
+        replies: [],
+    },
+];
+
+export { evnts, userProfile, companyProfile, comments, userComments };
