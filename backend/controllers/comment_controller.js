@@ -56,12 +56,15 @@ class CommentController {
     async create(req, res, next) {
         try {
             let { eventId, parentId = null } = req.query;
-            console.log(typeof parentId)
             const { content } = req.body;
             if (!content) return next(ApiError.badRequest("Некорректное поле!"));
 
             const event = await Event.findOne({ where: { id: eventId } });
             if (!event) return next(ApiError.notFound("Событие не найдено!"));
+
+            if (typeof parentId == 'string') {
+                parentId = null;
+            }
 
             let comment = await Comment.create({
                 content,
