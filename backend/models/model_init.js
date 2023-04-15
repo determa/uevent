@@ -139,39 +139,44 @@ module.exports = async function init() {
                 }
             ]);
 
-        if (await Comment.count() < 1)
+        if (await Comment.count() < 1) {
+            let parents = await Comment.bulkCreate([
+                {
+                    content: "My comment",
+                    accountId: 1,
+                    eventId: 1,
+                    parentId: null,
+                },
+                {
+                    content: "My comment",
+                    accountId: 2,
+                    eventId: 1,
+                    parentId: null,
+                },
+            ])
             await Comment.bulkCreate([
                 {
                     content: "My comment",
                     accountId: 1,
                     eventId: 1,
-                    parent_comment_id: null,
-                },
-                {
-                    content: "My comment",
-                    accountId: 1,
-                    eventId: 1,
-                    parent_comment_id: 1,
+                    parentId: 1,
                 },
                 {
                     content: "My comment",
                     accountId: 2,
                     eventId: 1,
-                    parent_comment_id: null,
-                },
-                {
-                    content: "My comment",
-                    accountId: 2,
-                    eventId: 1,
-                    parent_comment_id: 3,
-                },
-                {
-                    content: "My comment",
-                    accountId: 2,
-                    eventId: 1,
-                    parent_comment_id: 2,
+                    parentId: 2,
                 },
             ])
+            await Comment.bulkCreate([
+                {
+                    content: "My comment",
+                    accountId: 2,
+                    eventId: 1,
+                    parentId: 3,
+                },
+            ])
+        }
 
         if (await ThemeCategory.count() < 1)
             await ThemeCategory.bulkCreate([

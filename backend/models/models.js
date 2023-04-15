@@ -35,7 +35,7 @@ const Event = sequelize.define('event', {
     price: { type: DataTypes.INTEGER, defaultValue: 0 },
     tickets_count: { type: DataTypes.INTEGER, allowNull: false },
     members_visibility: { type: DataTypes.ENUM('all', 'members'), allowNull: false },
-    notification: {type: DataTypes.BOOLEAN, allowNull: false},
+    notification: { type: DataTypes.BOOLEAN, allowNull: false },
 });
 
 const Media = sequelize.define('media', {
@@ -57,7 +57,7 @@ const Category = sequelize.define('category', {
 const Comment = sequelize.define('comment', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     content: { type: DataTypes.STRING, allowNull: false },
-});
+}, { hierarchy: true });
 
 const Ticket = sequelize.define('ticket', {
     seat: { type: DataTypes.INTEGER },
@@ -107,7 +107,8 @@ Comment.belongsTo(Account);
 Event.hasMany(Comment);
 Comment.belongsTo(Event);
 
-Comment.hasMany(Comment, { as: 'replies', foreignKey: 'parent_comment_id' });
+// Comment.hasMany(Comment, { as: 'replies', foreignKey: 'parent_comment_id' });
+// Comment.belongsTo(Comment, {as: 'parent', foreignKey: 'parent_comment_id'})
 
 Account.hasMany(Ticket);
 Ticket.belongsTo(Account);

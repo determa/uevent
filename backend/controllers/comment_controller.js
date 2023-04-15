@@ -4,37 +4,32 @@ const { User, Company, Account, Category, Event, Comment } = require("../models/
 class CommentController {
     async get_comments_by_event(req, res, next) {
         try {
-            let { limit, page, id } = req.query;
+            let { page, id, sort = 'date' } = req.query;
             page = page || 1;
-            limit = limit || 10;
-            let offset = page * limit - limit;
+            const limit = 10;
+            const offset = page * limit - limit;
+            let sortArr = [];
+
+            if (sort === "date") sortArr = [['"createdAt"', "DESC"]];
+            if (sort === "-date") sortArr = [['"createdAt"', "ASC"]];
+
             const comments = await Comment.findAll({
                 limit, offset, where: { eventId: id },
-                attributes: ['id', 'content', 'createdAt'],
+                hierarchy: true,
+                attributes: ['id', 'content', 'createdAt', 'parentId'],
                 include: [
-                    {
-                        model: Comment, as: 'replies',
-                        attributes: ['id', 'content', 'createdAt'],
-                        hierarchy: true,
-                        include: [
-                            {
-                                model: Account,
-                                attributes: ['type', 'email'],
-                                include: [
-                                    { model: User, attributes: ['id', 'name', 'picture'] },
-                                    { model: Company, attributes: ['id', 'name', 'picture'] }]
-                            }]
-                    },
                     {
                         model: Account,
                         attributes: ['type', 'email'],
                         include: [
                             { model: User, attributes: ['id', 'name', 'picture'] },
                             { model: Company, attributes: ['id', 'name', 'picture'] }]
-                    }]
+                    }],
+                order: sortArr,
             });
+            const count = await Comment.count();
             if (!comments[0]) return next(ApiError.notFound("Комментарии не найдены!"));
-            return res.json(comments);
+            return res.json({ comments, count });
         } catch (e) {
             console.log(e);
             return next(ApiError.badRequest(e.message));
@@ -67,25 +62,24 @@ class CommentController {
 
     async create(req, res, next) {
         try {
-            let { id, comment_id } = req.params;
+            let { eventId, parentId = null } = req.query;
             const { content } = req.body;
             if (!content) return next(ApiError.badRequest("Некорректное поле!"));
 
-            const event = await Event.findOne({ where: { id } });
+            const event = await Event.findOne({ where: { id: eventId } });
             if (!event) return next(ApiError.notFound("Событие не найдено!"));
-            const comment_parent = await Comment.findOne({ where: { comment_id } });
-            if (comment_id) {
-                if (!comment_parent) return next(ApiError.notFound("Комментарий не найден!"));
+
+            if (typeof parentId == 'string') {
+                parentId = null;
             }
+
             let comment = await Comment.create({
                 content,
                 accountId: req.account.accountId,
-                eventId: id,
-                parent_comment_id: comment_id ? comment_id : null,
+                eventId,
+                parentId,
             });
-            if (comment_id) {
-                comment_parent.addReply(comment);
-            }
+
             if (!comment) return next(ApiError.internal("comment not add"));
             return res.json(comment);
         } catch (e) {

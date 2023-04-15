@@ -26,6 +26,7 @@
     "pg-hstore": "^2.3.4",
     "qrcode": "^1.5.1",
     "sequelize": "^6.21.4",
+    "sequelize-hierarchy-next": "^1.0.0",
     "uevent": "file:..",
     "uuid": "^9.0.0"
   },
