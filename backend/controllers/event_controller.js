@@ -90,8 +90,8 @@ class EventController {
 
             // let sortArr = [[literal("countlike"), "DESC"]];
             // if (sort === "-like") sortArr = [[literal("countlike"), "ASC"]];
-            // if (sort === "date") sortArr = [['"createdAt"', "DESC"]];
-            // if (sort === "-date") sortArr = [['"createdAt"', "ASC"]];
+            if (sort === "date") sortArr = [['"createdAt"', "DESC"]];
+            if (sort === "-date") sortArr = [['"createdAt"', "ASC"]];
 
             const event = await Event.findAll({
                 limit,
@@ -108,7 +108,7 @@ class EventController {
                 //         ],
                 //     ],
                 // },
-                // order: sortArr,
+                order: sortArr,
             });
             return res.json(event);
         } catch (e) {
