@@ -8,7 +8,28 @@ class CommentController {
             page = page || 1;
             limit = limit || 10;
             let offset = page * limit - limit;
-            const comments = await Comment.findAll({ limit, offset, where: { eventId: id }, include: [{ model: Comment, as: 'replies', include: [{ model: Account, include: [{ model: User }, { model: Company }] }] }, { model: Account, include: [{ model: User }, { model: Company }] }] });
+            const comments = await Comment.findAll({
+                limit, offset, where: { eventId: id },
+                include: [
+                    {
+                        model: Comment, as: 'replies',
+                        include: [
+                            {
+                                model: Account,
+                                attributes: ['type', 'email'],
+                                include: [
+                                    { model: User, attributes: ['id', 'name', 'picture'] },
+                                    { model: Company, attributes: ['id', 'name', 'picture'] }]
+                            }]
+                    },
+                    {
+                        model: Account,
+                        attributes: ['type', 'email'],
+                        include: [
+                            { model: User, attributes: ['id', 'name', 'picture'] },
+                            { model: Company, attributes: ['id', 'name', 'picture'] }]
+                    }]
+            });
             if (!comments[0]) return next(ApiError.notFound("Комментарии не найдены!"));
             return res.json(comments);
         } catch (e) {
