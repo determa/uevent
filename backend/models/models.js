@@ -64,6 +64,10 @@ const Ticket = sequelize.define('ticket', {
     transaction_id: { type: DataTypes.BIGINT, allowNull: false },
 })
 
+const EventNotification = sequelize.define('event_notification');
+
+const CompanyNotification = sequelize.define('company_notification');
+
 const UserMedia = sequelize.define('user_media');
 
 const CompanyMedia = sequelize.define('company_media');
@@ -72,7 +76,7 @@ const EventMedia = sequelize.define('event_media');
 
 const ThemeCategory = sequelize.define('theme_category');
 
-const UserFavorite = sequelize.define('user_favorite');
+const AccountFavorite = sequelize.define('account_favorite');
 
 Account.hasOne(User);
 User.belongsTo(Account);
@@ -107,17 +111,26 @@ Comment.belongsTo(Account);
 Event.hasMany(Comment);
 Comment.belongsTo(Event);
 
-// Comment.hasMany(Comment, { as: 'replies', foreignKey: 'parent_comment_id' });
-// Comment.belongsTo(Comment, {as: 'parent', foreignKey: 'parent_comment_id'})
-
 Account.hasMany(Ticket);
 Ticket.belongsTo(Account);
 
 Event.hasMany(Ticket);
 Ticket.belongsTo(Event);
 
-User.belongsToMany(Event, { through: UserFavorite });
-Event.belongsToMany(User, { through: UserFavorite });
+User.hasMany(EventNotification);
+EventNotification.belongsTo(EventNotification);
+
+Event.hasMany(EventNotification);
+EventNotification.belongsTo(Event);
+
+User.hasMany(CompanyNotification);
+CompanyNotification.belongsTo(User);
+
+Company.hasMany(CompanyNotification);
+CompanyNotification.belongsTo(Company);
+
+Account.belongsToMany(Event, { through: AccountFavorite });
+Event.belongsToMany(Account, { through: AccountFavorite });
 
 module.exports = {
     Account,
