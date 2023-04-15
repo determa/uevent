@@ -9,17 +9,17 @@ class CommentController {
             limit = limit || 10;
             let offset = page * limit - limit;
             const comments = await Comment.findAll({
-                limit, offset, where: { eventId: id },
+                // limit, offset, where: { eventId: id },
                 hierarchy: true,
-                attributes: ['id', 'content', 'createdAt'],
-                include: [
-                    {
-                        model: Account,
-                        attributes: ['type', 'email'],
-                        include: [
-                            { model: User, attributes: ['id', 'name', 'picture'] },
-                            { model: Company, attributes: ['id', 'name', 'picture'] }]
-                    }]
+                // attributes: ['id', 'content', 'createdAt'],
+                // include: [
+                //     {
+                //         model: Account,
+                //         attributes: ['type', 'email'],
+                //         include: [
+                //             { model: User, attributes: ['id', 'name', 'picture'] },
+                //             { model: Company, attributes: ['id', 'name', 'picture'] }]
+                //     }]
             });
             if (!comments[0]) return next(ApiError.notFound("Комментарии не найдены!"));
             return res.json(comments);
