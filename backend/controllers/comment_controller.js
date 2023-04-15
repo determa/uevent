@@ -17,16 +17,16 @@ class CommentController {
                         as: 'descendents',
                         hierarchy: true,
                         attributes: ['id', 'content', 'createdAt'],
-                        include:
-                            [
-                                {
-                                    model: Account,
-                                    attributes: ['type', 'email'],
-                                    include: [
-                                        { model: User, attributes: ['id', 'name', 'picture'] },
-                                        { model: Company, attributes: ['id', 'name', 'picture'] }]
-                                }
-                            ]
+                        // include:
+                        //     [
+                        //         {
+                        //             model: Account,
+                        //             attributes: ['type', 'email'],
+                        //             include: [
+                        //                 { model: User, attributes: ['id', 'name', 'picture'] },
+                        //                 { model: Company, attributes: ['id', 'name', 'picture'] }]
+                        //         }
+                        //     ]
                     },
                     {
                         model: Account,
