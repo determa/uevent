@@ -55,25 +55,20 @@ class CommentController {
 
     async create(req, res, next) {
         try {
-            let { id, comment_id } = req.params;
+            let { eventId, parentId = null } = req.query;
             const { content } = req.body;
             if (!content) return next(ApiError.badRequest("Некорректное поле!"));
 
-            const event = await Event.findOne({ where: { id } });
+            const event = await Event.findOne({ where: { id: eventId } });
             if (!event) return next(ApiError.notFound("Событие не найдено!"));
-            const comment_parent = await Comment.findOne({ where: { comment_id } });
-            if (comment_id) {
-                if (!comment_parent) return next(ApiError.notFound("Комментарий не найден!"));
-            }
+
             let comment = await Comment.create({
                 content,
                 accountId: req.account.accountId,
-                eventId: id,
-                parent_comment_id: comment_id ? comment_id : null,
+                eventId,
+                parentId,
             });
-            if (comment_id) {
-                comment_parent.addReply(comment);
-            }
+            
             if (!comment) return next(ApiError.internal("comment not add"));
             return res.json(comment);
         } catch (e) {
