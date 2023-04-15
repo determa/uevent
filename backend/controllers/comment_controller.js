@@ -56,6 +56,7 @@ class CommentController {
     async create(req, res, next) {
         try {
             let { eventId, parentId = null } = req.query;
+            console.log(typeof parentId)
             const { content } = req.body;
             if (!content) return next(ApiError.badRequest("Некорректное поле!"));
 
@@ -68,7 +69,7 @@ class CommentController {
                 eventId,
                 parentId,
             });
-            
+
             if (!comment) return next(ApiError.internal("comment not add"));
             return res.json(comment);
         } catch (e) {
