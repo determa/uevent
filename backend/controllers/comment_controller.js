@@ -48,8 +48,12 @@ class CommentController {
             let offset = page * limit - limit;
             const comments = await Comment.findAll({
                 limit, offset, where: { accountId: id },
+                attributes: ['content', 'createdAt', 'eventId'],
                 include: [
-                    { model: Account, include: [{ model: User }] }
+                    {
+                        model: Event,
+                        attributes: ['title']
+                    }
                 ]
             });
             if (!comments[0]) return next(ApiError.notFound("Комментарии не найдены!"));
