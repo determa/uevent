@@ -1,4 +1,4 @@
-const { Account, User, Event, Theme, Category, ThemeCategory, Company } = require("./models");
+const { Account, User, Event, Theme, Category, ThemeCategory, Company, Comment } = require("./models");
 
 module.exports = async function init() {
     try {
@@ -138,6 +138,40 @@ module.exports = async function init() {
                     notification: true,
                 }
             ]);
+
+        if (await Comment.count() < 1)
+            await Comment.bulkCreate([
+                {
+                    content: "My comment",
+                    accountId: 1,
+                    eventId: 1,
+                    parent_comment_id: null,
+                },
+                {
+                    content: "My comment",
+                    accountId: 1,
+                    eventId: 1,
+                    parent_comment_id: 1,
+                },
+                {
+                    content: "My comment",
+                    accountId: 2,
+                    eventId: 1,
+                    parent_comment_id: null,
+                },
+                {
+                    content: "My comment",
+                    accountId: 2,
+                    eventId: 1,
+                    parent_comment_id: 3,
+                },
+                {
+                    content: "My comment",
+                    accountId: 2,
+                    eventId: 1,
+                    parent_comment_id: 2,
+                },
+            ])
 
         if (await ThemeCategory.count() < 1)
             await ThemeCategory.bulkCreate([
