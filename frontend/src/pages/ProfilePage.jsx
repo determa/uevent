@@ -38,7 +38,7 @@ const ProfilePage = () => {
                                     <Link
                                         key={data.id}
                                         to={`/events/${data.event.id}`}
-                                        className="flex flex-col gap-3 p-4 bg-white rounded-lg border border-gray-200"
+                                        className="flex flex-col gap-3 p-4 bg-white rounded-lg border border-gray-200 hover:outline hover:outline-[#5522CC]/70 hover:duration-150"
                                     >
                                         <div className="flex gap-3">
                                             <img
