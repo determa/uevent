@@ -57,7 +57,8 @@ const Category = sequelize.define('category', {
 const Comment = sequelize.define('comment', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     content: { type: DataTypes.STRING, allowNull: false },
-}, { hierarchy: true });
+});
+Comment.isHierarchy();
 
 const Ticket = sequelize.define('ticket', {
     seat: { type: DataTypes.INTEGER },
@@ -107,8 +108,8 @@ Comment.belongsTo(Account);
 Event.hasMany(Comment);
 Comment.belongsTo(Event);
 
-Comment.hasMany(Comment, { as: 'replies', foreignKey: 'parent_comment_id' });
-Comment.belongsTo(Comment, {as: 'parent', foreignKey: 'parent_comment_id'})
+// Comment.hasMany(Comment, { as: 'replies', foreignKey: 'parent_comment_id' });
+// Comment.belongsTo(Comment, {as: 'parent', foreignKey: 'parent_comment_id'})
 
 Account.hasMany(Ticket);
 Ticket.belongsTo(Account);

@@ -145,31 +145,31 @@ module.exports = async function init() {
                     content: "My comment",
                     accountId: 1,
                     eventId: 1,
-                    parent_comment_id: null,
+                    parentId: null,
                 },
                 {
                     content: "My comment",
                     accountId: 1,
                     eventId: 1,
-                    parent_comment_id: 1,
+                    parentId: 1,
                 },
                 {
                     content: "My comment",
                     accountId: 2,
                     eventId: 1,
-                    parent_comment_id: null,
+                    parentId: null,
                 },
                 {
                     content: "My comment",
                     accountId: 2,
                     eventId: 1,
-                    parent_comment_id: 3,
+                    parentId: 3,
                 },
                 {
                     content: "My comment",
                     accountId: 2,
                     eventId: 1,
-                    parent_comment_id: 2,
+                    parentId: 2,
                 },
             ])
 
