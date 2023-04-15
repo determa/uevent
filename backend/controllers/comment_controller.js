@@ -69,6 +69,7 @@ class CommentController {
             const event = await Event.findOne({ where: { id: eventId } });
             if (!event) return next(ApiError.notFound("Событие не найдено!"));
 
+            console.log(typeof parentId, parentId)
             if (typeof parentId == 'string') {
                 parentId == 'null' ? parentId = null : parentId = Number(parentId)
             }
