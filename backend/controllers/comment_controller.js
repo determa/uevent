@@ -15,6 +15,7 @@ class CommentController {
                     {
                         model: Comment, as: 'replies',
                         attributes: ['id', 'content', 'createdAt'],
+                        hierarchy: true,
                         include: [
                             {
                                 model: Account,
