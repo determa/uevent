@@ -6,7 +6,7 @@ class CommentController {
         try {
             let { page, id, sort = 'date' } = req.query;
             page = page || 1;
-            const limit = 100;
+            const limit = 10;
             const offset = page * limit - limit;
             let sortArr = [];
 
@@ -14,10 +14,24 @@ class CommentController {
             if (sort === "-date") sortArr = [['"createdAt"', "ASC"]];
 
             const comments = await Comment.findAll({
-                limit, offset, where: { eventId: id },
-                hierarchy: true,
+                limit, offset, where: { eventId: id, parentId: null },
                 attributes: ['id', 'content', 'createdAt', 'parentId'],
                 include: [
+                    {
+                        model: Comment,
+                        as: 'descendents',
+                        hierarchy: true,
+                        attributes: ['id', 'content', 'createdAt', 'parentId'],
+                        include: [
+                            {
+                                model: Account,
+                                attributes: ['type', 'email'],
+                                include: [
+                                    { model: User, attributes: ['id', 'name', 'picture'] },
+                                    { model: Company, attributes: ['id', 'name', 'picture'] }]
+                            }
+                        ]
+                    },
                     {
                         model: Account,
                         attributes: ['type', 'email'],
