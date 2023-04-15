@@ -12,6 +12,7 @@ class CommentController {
             if (!comments[0]) return next(ApiError.notFound("Комментарии не найдены!"));
             return res.json(comments);
         } catch (e) {
+            console.log(e);
             return next(ApiError.badRequest(e.message));
         }
     }
@@ -26,6 +27,7 @@ class CommentController {
             if (!comments[0]) return next(ApiError.notFound("Комментарии не найдены!"));
             return res.json(comments);
         } catch (e) {
+            console.log(e);
             return next(ApiError.badRequest(e.message));
         }
     }
@@ -54,6 +56,7 @@ class CommentController {
             if (!comment) return next(ApiError.internal("comment not add"));
             return res.json(comment);
         } catch (e) {
+            console.log(e);
             return next(ApiError.badRequest(e.message));
         }
     }
@@ -96,6 +99,7 @@ class CommentController {
             if (!upd[0]) return next(ApiError.notFound("Комментарий не обновлён!"));
             return res.json({ message: "Комментарий обновлён!" });
         } catch (e) {
+            console.log(e);
             return next(ApiError.badRequest(e.message));
         }
     }
@@ -116,6 +120,7 @@ class CommentController {
                 return next(ApiError.internal("Ошибка удаления комментария!"));
             return res.json({ message: "Comment delete" });
         } catch (error) {
+            console.log(e);
             return next(ApiError.badRequest(error.message));
         }
     }
