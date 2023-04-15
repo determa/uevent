@@ -65,6 +65,7 @@ class EventController {
             let categories_array = categories.split(",");
             let themes_array = themes.split(",");
             const offset = page * limit - limit;
+            let sortArr = [];
             
             categories_array = categories_array[0] == 0 ? [] : categories_array;
             themes_array = themes_array[0] == 0 ? [] : themes_array;
