@@ -62,6 +62,7 @@ class EventController {
         try {
             let { limit, page, categories, themes, sort } = req.query;
             limit = limit || 10;
+            console.log(categories, themes)
             let categories_array = categories ? categories.split(",") : [];
             let themes_array = themes ? themes.split(",") : [];
             const offset = page * limit - limit;
