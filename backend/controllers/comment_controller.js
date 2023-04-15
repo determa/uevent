@@ -6,7 +6,7 @@ class CommentController {
         try {
             let { page, id } = req.query;
             page = page || 1;
-            const limit = limit || 10;
+            const limit = 10;
             const offset = page * limit - limit;
             const comments = await Comment.findAll({
                 limit, offset, where: { eventId: id },
