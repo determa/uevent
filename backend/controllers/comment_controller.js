@@ -13,7 +13,7 @@ class CommentController {
                 attributes: ['id', 'content', 'createdAt'],
                 include: [
                     {
-                        model: Comment, as: 'children',
+                        model: Comment, as: 'descendents',
                         attributes: ['id', 'content', 'createdAt'],
                         hierarchy: true,
                         include: [
