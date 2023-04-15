@@ -4,10 +4,10 @@ const { User, Company, Account, Category, Event, Comment } = require("../models/
 class CommentController {
     async get_comments_by_event(req, res, next) {
         try {
-            let { limit, page, id } = req.query;
+            let { page, id } = req.query;
             page = page || 1;
-            limit = limit || 10;
-            let offset = page * limit - limit;
+            const limit = limit || 10;
+            const offset = page * limit - limit;
             const comments = await Comment.findAll({
                 limit, offset, where: { eventId: id },
                 hierarchy: true,
