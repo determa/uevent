@@ -4,8 +4,8 @@ const { User, Company, Account, Category, Event, Comment } = require("../models/
 class CommentController {
     async get_comments(req, res, next) {
         try {
-            let { id } = req.params;
-            let { limit, page } = req.query;
+            // let { id } = req.params;
+            let { limit, page, id } = req.query;
             page = page || 1;
             limit = limit || 10;
             let offset = page * limit - limit;
