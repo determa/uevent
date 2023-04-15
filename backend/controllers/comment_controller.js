@@ -2,14 +2,27 @@ const ApiError = require("../error/ApiError");
 const { User, Company, Account, Category, Event, Comment } = require("../models/models");
 
 class CommentController {
-    async get_comments(req, res, next) {
+    async get_comments_by_event(req, res, next) {
         try {
-            // let { id } = req.params;
             let { limit, page, id } = req.query;
             page = page || 1;
             limit = limit || 10;
             let offset = page * limit - limit;
-            const comments = await Comment.findAll({ limit, offset, where: { eventId: id }, include: [{ model: Comment, as: 'replies' }] });
+            const comments = await Comment.findAll({ limit, offset, where: { eventId: id }, include: [{ model: Comment, as: 'replies' }, { model: User }, { model: Company }] });
+            if (!comments[0]) return next(ApiError.notFound("Комментарии не найдены!"));
+            return res.json(comments);
+        } catch (e) {
+            return next(ApiError.badRequest(e.message));
+        }
+    }
+
+    async get_comments_by_account(req, res, next) {
+        try {
+            let { limit, page, id } = req.query;
+            page = page || 1;
+            limit = limit || 10;
+            let offset = page * limit - limit;
+            const comments = await Comment.findAll({ limit, offset, where: { accountId: id }, include: [{ model: Comment, as: 'replies' }] });
             if (!comments[0]) return next(ApiError.notFound("Комментарии не найдены!"));
             return res.json(comments);
         } catch (e) {
