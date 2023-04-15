@@ -1,10 +1,56 @@
 import React from "react";
 import { useParams } from "react-router";
 import { userAPI } from "../services/UserService";
-import { comments, userComments } from "../components/dataList";
-import CommentComponent from "../components/CommentComponent";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
+import { commentAPI } from "../services/CommentService";
+
+const CommentComponent = ({ user }) => {
+    const { data: comments, isError } = commentAPI.useGetCommentsByAccountQuery(
+        {
+            id: user.accountId,
+        }
+    );
+    console.log(comments, user);
+    return (
+        <>
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {comments &&
+                    comments.map((data, index) => (
+                        <Link
+                            key={index}
+                            to={`/events/${data.eventId}`}
+                            className="flex flex-col gap-3 p-4 bg-white rounded-lg border border-gray-200 hover:outline hover:outline-[#5522CC]/70 hover:duration-150"
+                        >
+                            <div className="flex gap-3">
+                                <img
+                                    className="rounded-xl border border-gray-300 object-cover object-center backdrop-blur-sm w-12 h-12"
+                                    src={`${process.env.REACT_APP_SERVER_DOMEN}/${user.picture}`}
+                                />
+                                <div className="flex flex-col justify-center">
+                                    <p className="font-medium text-sm text-gray-700">
+                                        {user.name}
+                                    </p>
+                                    <p className="font-semibold text-base">
+                                        {data.event.title}
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="line-clamp-3 flex-1">
+                                {data.content}
+                            </div>
+                            <span className="text-sm text-gray-600">
+                                {dayjs(data.createAt).format(
+                                    "DD MMMM YYYY HH:mm"
+                                )}
+                            </span>
+                        </Link>
+                    ))}
+            </div>
+            {isError && <h1 className="text-center mt-10">Нет комментириев.</h1>}
+        </>
+    );
+};
 
 const ProfilePage = () => {
     const { id } = useParams();
@@ -32,39 +78,7 @@ const ProfilePage = () => {
                         <h2 className="text-lg lg:text-2xl font-semibold text-gray-900">
                             Последние комментарии:
                         </h2>
-                        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                            {userComments &&
-                                userComments.map((data) => (
-                                    <Link
-                                        key={data.id}
-                                        to={`/events/${data.event.id}`}
-                                        className="flex flex-col gap-3 p-4 bg-white rounded-lg border border-gray-200 hover:outline hover:outline-[#5522CC]/70 hover:duration-150"
-                                    >
-                                        <div className="flex gap-3">
-                                            <img
-                                                className="rounded-xl border border-gray-300 object-cover object-center backdrop-blur-sm w-12 h-12"
-                                                src={`${process.env.REACT_APP_SERVER_DOMEN}/${data.user.picture}`}
-                                            />
-                                            <div className="flex flex-col justify-center">
-                                                <p className="font-medium text-sm text-gray-700">
-                                                    {data.user.name}
-                                                </p>
-                                                <p className="font-semibold text-base">
-                                                    {data.event.title}
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div className="line-clamp-3 flex-1">
-                                            {data.content}
-                                        </div>
-                                        <span className="text-sm text-gray-600">
-                                            {dayjs(data.createAt).format(
-                                                "DD MMMM YYYY HH:mm"
-                                            )}
-                                        </span>
-                                    </Link>
-                                ))}
-                        </div>
+                        <CommentComponent user={data} />
                     </div>
                 </>
             )}
