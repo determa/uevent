@@ -140,7 +140,7 @@ module.exports = async function init() {
             ]);
 
         if (await Comment.count() < 1) {
-            await Comment.bulkCreate([
+            let parents = await Comment.bulkCreate([
                 {
                     content: "My comment",
                     accountId: 1,
@@ -159,21 +159,25 @@ module.exports = async function init() {
                     content: "My comment",
                     accountId: 1,
                     eventId: 1,
-                    parentId: 1,
+                    // parentId: 1,
                 },
                 {
                     content: "My comment",
                     accountId: 2,
                     eventId: 1,
-                    parentId: 3,
+                    // parentId: 3,
                 },
                 {
                     content: "My comment",
                     accountId: 2,
                     eventId: 1,
-                    parentId: 2,
+                    // parentId: 2,
                 },
-            ])
+            ]).then((comments) => {
+                comments[0].setParent(parents[0]);
+                comments[1].setParent(parents[0]);
+                comments[2].setParent(comments[0]);
+            })
         }
 
         if (await ThemeCategory.count() < 1)
