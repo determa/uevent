@@ -35,7 +35,7 @@ const Event = sequelize.define('event', {
     price: { type: DataTypes.INTEGER, defaultValue: 0 },
     tickets_count: { type: DataTypes.INTEGER, allowNull: false },
     members_visibility: { type: DataTypes.ENUM('all', 'members'), allowNull: false },
-    notification: {type: DataTypes.BOOLEAN, allowNull: false},
+    notification: { type: DataTypes.BOOLEAN, allowNull: false },
 });
 
 const Media = sequelize.define('media', {
@@ -47,7 +47,7 @@ const Media = sequelize.define('media', {
 const Theme = sequelize.define('theme', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     name: { type: DataTypes.STRING, allowNull: false },
-})
+}, { hierarchy: true })
 
 const Category = sequelize.define('category', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
