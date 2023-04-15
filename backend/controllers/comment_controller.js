@@ -27,8 +27,9 @@ class CommentController {
                     }],
                 order: sortArr,
             });
+            const count = await Comment.count();
             if (!comments[0]) return next(ApiError.notFound("Комментарии не найдены!"));
-            return res.json(comments);
+            return res.json({ comments, count });
         } catch (e) {
             console.log(e);
             return next(ApiError.badRequest(e.message));
