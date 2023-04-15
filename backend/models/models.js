@@ -57,8 +57,7 @@ const Category = sequelize.define('category', {
 const Comment = sequelize.define('comment', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     content: { type: DataTypes.STRING, allowNull: false },
-});
-Comment.isHierarchy();
+}, { hierarchy: true });
 
 const Ticket = sequelize.define('ticket', {
     seat: { type: DataTypes.INTEGER },
