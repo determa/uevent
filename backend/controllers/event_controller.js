@@ -100,7 +100,7 @@ class EventController {
                 limit,
                 offset,
                 where: eventObj,
-                // include: [{ model: Category, catObj }],
+                include: [{ model: Category, attributes: ['name'] }, { model: Theme, attributes: 'name' }],
                 // attributes: {
                 //     include: [
                 //         [
