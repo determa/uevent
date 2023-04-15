@@ -145,13 +145,13 @@ module.exports = async function init() {
                     content: "My comment",
                     accountId: 1,
                     eventId: 1,
-                    parentId: 1,
+                    parentId: null,
                 },
                 {
                     content: "My comment",
                     accountId: 2,
                     eventId: 1,
-                    parentId: 2,
+                    parentId: null,
                 },
             ])
             await Comment.bulkCreate([
