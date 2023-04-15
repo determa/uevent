@@ -9,9 +9,9 @@ class CommentController {
             limit = limit || 10;
             let offset = page * limit - limit;
             const comments = await Comment.findAll({
-                // limit, offset, where: { eventId: id },
+                limit, offset, where: { eventId: id },
                 hierarchy: true,
-                // attributes: ['id', 'content', 'createdAt'],
+                attributes: ['id', 'content', 'createdAt'],
                 // include: [
                 //     {
                 //         model: Account,
