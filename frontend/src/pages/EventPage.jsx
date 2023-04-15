@@ -123,7 +123,8 @@ const EventPage = () => {
                     </div>
                     <div className="mt-4 flex flex-col shadow-sm gap-4 max-w-7xl mx-auto p-6 bg-slate-100 border border-gray-200 rounded-lg flex-wrap">
                         <h2 className="text-lg lg:text-2xl font-bold text-gray-900">
-                            Комментариев ({comments.count})
+                            Комментариев (
+                            {comments && comments.count ? comments.count : 0})
                         </h2>
                         <CreateComment eventId={data.id} parentId={null} />
                         {comments && (
