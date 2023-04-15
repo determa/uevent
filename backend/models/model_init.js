@@ -176,7 +176,7 @@ module.exports = async function init() {
             ]).then((comments) => {
                 comments[0].setParent(parents[0]);
                 comments[1].setParent(parents[0]);
-                comments[2].setParent(comments[0]);
+                comments[2].setParent(parents[1]);
             })
         }
 
