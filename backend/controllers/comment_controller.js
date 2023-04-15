@@ -10,23 +10,23 @@ class CommentController {
             let offset = page * limit - limit;
             const comments = await Comment.findAll({
                 limit, offset, where: { eventId: id },
-                attributes: ['id', 'content', 'createdAt'],
+                // attributes: ['id', 'content', 'createdAt'],
                 include: [
                     {
                         model: Comment,
                         as: 'descendents',
                         hierarchy: true,
-                        attributes: ['id', 'content', 'createdAt'],
-                        // include:
-                        //     [
-                        //         {
-                        //             model: Account,
-                        //             attributes: ['type', 'email'],
-                        //             include: [
-                        //                 { model: User, attributes: ['id', 'name', 'picture'] },
-                        //                 { model: Company, attributes: ['id', 'name', 'picture'] }]
-                        //         }
-                        //     ]
+                        // attributes: ['id', 'content', 'createdAt'],
+                        include:
+                            [
+                                {
+                                    model: Account,
+                                    attributes: ['type', 'email'],
+                                    include: [
+                                        { model: User, attributes: ['id', 'name', 'picture'] },
+                                        { model: Company, attributes: ['id', 'name', 'picture'] }]
+                                }
+                            ]
                     },
                     {
                         model: Account,
