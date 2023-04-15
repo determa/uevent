@@ -61,6 +61,7 @@ class EventController {
     async get_all(req, res, next) {
         try {
             let { limit, page, categories, themes, sort } = req.query;
+            page = page || 1;
             limit = limit || 10;
             console.log(categories, themes)
             let categories_array = categories ? categories.split(",") : [];
