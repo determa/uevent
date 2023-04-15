@@ -41,7 +41,7 @@ class CommentController {
                     }],
                 order: sortArr,
             });
-            const count = await Comment.count();
+            const count = await Comment.count({ where: { eventId: id } });
             if (!comments[0]) return next(ApiError.notFound("Комментарии не найдены!"));
             return res.json({ comments, count });
         } catch (e) {
