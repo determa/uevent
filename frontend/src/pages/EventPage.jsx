@@ -1,13 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router";
 import { GoogleMapComponent } from "../components/GoogleMapComponent";
 import { eventAPI } from "../services/EventService";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
-import CommentComponent from "../components/CommentComponent";
 import { commentAPI } from "../services/CommentService";
 import CreateComment from "../components/CreateComment";
+import RecurseComments from "../components/RecurseComments";
 
 const PaymentButton = ({ id }) => {
     const { data, error } = eventAPI.useGetPaymentDataQuery(id);
@@ -36,23 +36,6 @@ const PaymentButton = ({ id }) => {
                     {error ? error.data?.message : null}
                 </span>
             )}
-        </>
-    );
-};
-
-const RecurseComments = ({ comments }) => {
-    return (
-        <>
-            {comments.map((data) => (
-                <div className="flex flex-col gap-2" key={data.id}>
-                    <CommentComponent data={data} />
-                    {data.children && (
-                        <div className="ml-12">
-                            <RecurseComments comments={data.children} />{" "}
-                        </div>
-                    )}
-                </div>
-            ))}
         </>
     );
 };
@@ -128,7 +111,10 @@ const EventPage = () => {
                         </h2>
                         <CreateComment eventId={data.id} parentId={null} />
                         {comments && (
-                            <RecurseComments comments={comments.comments} />
+                            <RecurseComments
+                                eventId={data.id}
+                                comments={comments.comments}
+                            />
                         )}
                     </div>
                 </>

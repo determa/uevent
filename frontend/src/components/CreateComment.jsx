@@ -1,17 +1,17 @@
 import React from "react";
 import { commentAPI } from "../services/CommentService";
 
-const CreateComment = ({ eventId, parentId }) => {
+const CreateComment = ({ eventId, parentId, onClose }) => {
     const [create_comment, { error }] = commentAPI.useCreateMutation();
 
     const handler = async (e) => {
         e.preventDefault();
+        console.log(eventId, parentId);
         const res = await create_comment({
             params: { eventId, parentId },
             body: new FormData(e.target),
         });
-
-        console.log(e.res);
+        onClose();
     };
 
     return (
@@ -27,14 +27,25 @@ const CreateComment = ({ eventId, parentId }) => {
                 ></textarea>
             </div>
 
-            <div className="flex justify-end items-center">
+            <div className="flex justify-end gap-5 items-center">
                 {error ? (
                     <span className="flex-1 text-red-700 text-sm font-semibold text-center">
                         {error.data?.message}
                     </span>
                 ) : null}
+                {onClose ? (
+                    <button
+                        onClick={(e) => {
+                            e.preventDefault();
+                            onClose();
+                        }}
+                        className="flex w-fit rounded-md bg-indigo-600 py-3 px-4 text-sm font-semibold text-white hover:bg-indigo-500"
+                    >
+                        Закрыть
+                    </button>
+                ) : null}
                 <button className="flex w-fit rounded-md bg-indigo-600 py-3 px-4 text-sm font-semibold text-white hover:bg-indigo-500">
-                    Post comment
+                    Отправить
                 </button>
             </div>
         </form>

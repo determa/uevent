@@ -11,7 +11,6 @@ const CommentComponent = ({ user }) => {
             id: user.accountId,
         }
     );
-    console.log(comments, user);
     return (
         <>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -47,7 +46,9 @@ const CommentComponent = ({ user }) => {
                         </Link>
                     ))}
             </div>
-            {isError && <h1 className="text-center mt-10">Нет комментириев.</h1>}
+            {isError && (
+                <h1 className="text-center mt-10">Нет комментириев.</h1>
+            )}
         </>
     );
 };
