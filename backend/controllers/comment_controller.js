@@ -4,10 +4,15 @@ const { User, Company, Account, Category, Event, Comment } = require("../models/
 class CommentController {
     async get_comments_by_event(req, res, next) {
         try {
-            let { page, id } = req.query;
+            let { page, id, sort = 'date' } = req.query;
             page = page || 1;
             const limit = 10;
             const offset = page * limit - limit;
+            let sortArr = [];
+
+            if (sort === "date") sortArr = [['"createdAt"', "DESC"]];
+            if (sort === "-date") sortArr = [['"createdAt"', "ASC"]];
+
             const comments = await Comment.findAll({
                 limit, offset, where: { eventId: id },
                 hierarchy: true,
@@ -19,7 +24,8 @@ class CommentController {
                         include: [
                             { model: User, attributes: ['id', 'name', 'picture'] },
                             { model: Company, attributes: ['id', 'name', 'picture'] }]
-                    }]
+                    }],
+                order: sortArr,
             });
             if (!comments[0]) return next(ApiError.notFound("Комментарии не найдены!"));
             return res.json(comments);
