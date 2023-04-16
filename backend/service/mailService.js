@@ -73,18 +73,26 @@ class MailService {
     }
 
     sendNotificationByCompany = async (req, res, next) => {
-        const { id } = req.account;
-        const accounts = await CompanyNotification.findAll({
-            where: { companyId: id },
-            include: [{
-                model: User,
+        try {
+            const { id } = req.account;
+            const accounts = await CompanyNotification.findAll({
+                where: { companyId: id },
                 include: [{
-                    model: Account
+                    model: User,
+                    include: [{
+                        model: Account
+                    }]
                 }]
-            }]
-        })
-        console.log(accounts);
-        res.json({ message: 'Рассылка от компании успешна!', accounts });
+            })
+            console.log(accounts);
+            accounts.forEach((element) => {
+                console.log(element.user)
+            })
+            res.json({ message: 'Рассылка от компании успешна!' });
+        } catch (error) {
+            console.log(error);
+            return next(ApiError.internal());
+        }
     }
 }
 
