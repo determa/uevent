@@ -1,7 +1,7 @@
 const nodemailer = require("nodemailer");
 const ApiError = require('../error/ApiError');
 const bcrypt = require('bcrypt');
-const { Account } = require("../models/models");
+const { Account, CompanyNotification, User } = require("../models/models");
 const pdfGenerate = require("./pdfGenerate");
 
 const send_mail = async (html, email, parametr, transporter) => {
@@ -63,7 +63,6 @@ class MailService {
             if (!account) {
                 return next(ApiError.notFound("Аккаунт не найден!"));
             }
-            console.log(pdf, '!!!!!!!!!!!!!!!!!!!!!!!!!')
             await send_mail("<h1>Спасибо за покупку, ваши билеты:</h1>" + html, account.email, pdf, this.transporter);
             await pdfGenerate.delete(pdf);
             return res.json({ message: "PDF файл отправлен." });
@@ -73,20 +72,16 @@ class MailService {
         }
     }
 
-    async sendResetPass(to, token) {
-        const link = `http://${process.env.HOST}:${process.env.PORT}/api/auth/password-reset/${token}`;
-        await this.transporter.sendMail({
-            from: process.env.SMTP_USER,
-            to,
-            subject: "Reset password",
-            text: "",
-            html: `
-                    <div>
-                        <h1>Reset password link:</h1>
-                        <a href="${link}" target="_blank">${link}</a>
-                    </div>
-                `,
-        });
+    sendNotificationByCompany = async (req, res, next) => {
+        const { id } = req.account;
+        const accounts = await Account.findAll({
+            include:
+                [{
+                    model: User,
+                    include: [{ model: CompanyNotification, where: { companyId: id } }]
+                }]
+        })
+        console.log(accounts);
     }
 }
 
