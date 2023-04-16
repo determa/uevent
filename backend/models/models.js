@@ -117,17 +117,11 @@ Ticket.belongsTo(Account);
 Event.hasMany(Ticket);
 Ticket.belongsTo(Event);
 
-User.hasMany(EventNotification);
-EventNotification.belongsTo(EventNotification);
+User.belongsToMany(Event, { through: EventNotification });
+Event.belongsToMany(User, { through: EventNotification });
 
-Event.hasMany(EventNotification);
-EventNotification.belongsTo(Event);
-
-User.hasMany(CompanyNotification);
-CompanyNotification.belongsTo(User);
-
-Company.hasMany(CompanyNotification);
-CompanyNotification.belongsTo(Company);
+User.belongsToMany(Company, { through: CompanyNotification });
+Company.belongsToMany(User, { through: CompanyNotification });
 
 Account.belongsToMany(Event, { through: AccountFavorite });
 Event.belongsToMany(Account, { through: AccountFavorite });
@@ -143,4 +137,7 @@ module.exports = {
     ThemeCategory,
     Comment,
     Ticket,
+    EventNotification,
+    CompanyNotification,
+    AccountFavorite,
 }
