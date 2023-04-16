@@ -1,7 +1,7 @@
 import React from 'react';
 // import { useSelector } from 'react-redux';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { publicRoutes, privateRoutes, adminRoutes, confirmedAccountRoutes } from '../router/routes';
+import { publicRoutes, privateRoutes, adminRoutes, confirmedAccountRoutes, authRoutes } from '../router/routes';
 import { useSelector } from 'react-redux';
 
 
@@ -14,6 +14,10 @@ const AppRouter = () => {
                 return <Route key={path} path={path} element={component} exact/>
             })}
             {isAuth && confirmed && confirmedAccountRoutes.map(({path, component}) => {
+                return <Route key={path} path={path} element={component} exact/>
+            })}
+
+            {isAuth && authRoutes.map(({path, component}) => {
                 return <Route key={path} path={path} element={component} exact/>
             })}
             <Route path='*' element={<Navigate to={'/'} replace/>}/>

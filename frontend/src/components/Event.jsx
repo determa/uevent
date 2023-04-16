@@ -3,12 +3,19 @@ import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import FavoriteComponent from "./FavoriteComponent";
 import NotifyComponent from "./NotifyComponent";
+import { useSelector } from "react-redux";
 
 function Event({ event }) {
+    const { isAuth } = useSelector((state) => state.userReducer);
+
     return (
         <div className="relative select-none">
-            <NotifyComponent eventId={event.id} />
-            <FavoriteComponent eventId={event.id} />
+            {isAuth && (
+                <>
+                    <NotifyComponent eventId={event.id} />
+                    <FavoriteComponent eventId={event.id} />
+                </>
+            )}
             <Link
                 to={`/events/${event.id}`}
                 key={event.id}
@@ -32,7 +39,7 @@ function Event({ event }) {
                             </p>
                         </div>
 
-                        <h3 className="text-xl font-semibold text-gray-700">
+                        <h3 className="text-xl font-semibold text-gray-700 line-clamp-3">
                             {event.title}
                         </h3>
                     </div>
@@ -43,7 +50,7 @@ function Event({ event }) {
                     </p>
                 </div> */}
                     <div className="flex flex-col gap-3">
-                        <p className="text-sm">
+                        <p className="text-sm line-clamp-1">
                             {JSON.parse(event.location).name}
                         </p>
                         <p className="font-bold text-base">{event.price} грн</p>

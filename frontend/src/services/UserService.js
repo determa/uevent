@@ -7,11 +7,11 @@ export const userAPI = createApi({
     tagTypes: ['User'],
     endpoints: (build) => ({
         init: build.query({
-            query: (data) => ({
+            query: () => ({
                 url: '/auth/refresh',
                 method: "GET",
             }),
-            providesTags: result => ['User']
+            providesTags: ['User']
         }),
         login: build.mutation({
             query: (data) => ({
@@ -22,7 +22,7 @@ export const userAPI = createApi({
             invalidatesTags: ['User']
         }),
         logout: build.mutation({
-            query: (data) => ({
+            query: () => ({
                 url: '/auth/logout',
                 method: "POST"
             }),
@@ -33,24 +33,27 @@ export const userAPI = createApi({
                 url: '/auth/register',
                 method: "POST",
                 body: data
-            })
+            }),
+            invalidatesTags: ['User']
         }),
         registerUser: build.mutation({
             query: (data) => ({
                 url: '/auth/register/user',
                 method: "POST",
                 body: data
-            })
+            }),
+            invalidatesTags: ['User']
         }),
         registerCompany: build.mutation({
             query: (data) => ({
                 url: '/auth/register/company',
                 method: "POST",
                 body: data
-            })
+            }),
+            invalidatesTags: ['User']
         }),
         sendRequest: build.mutation({
-            query: (data) => ({
+            query: () => ({
                 url: '/auth/validation',
                 method: "GET",
             }),
@@ -68,7 +71,7 @@ export const userAPI = createApi({
                 url: `/user/${data}`,
                 method: "GET",
             }),
-            // providesTags: result => ['User']
+            providesTags: ['User']
         }),
     })
 })

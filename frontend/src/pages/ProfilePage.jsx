@@ -77,8 +77,9 @@ const ProfilePage = () => {
                         </div>
                         <p className="text-xl font-medium">{data.name}</p>
                         {/* <p className="text-gray-700 text-sm">{data.email}</p> */}
-                        <p className="text-xs text-gray-500">
-                            {data.createdAt}
+                        <p className="text-xs text-gray-500 text-center">
+                            <span>Зарегистрирован </span>
+                            {dayjs(data.createdAt).format("DD MMMM YYYY HH:mm")}
                         </p>
                     </div>
                     <div className="mt-8 flex flex-col gap-3 max-w-7xl mx-auto flex-wrap">

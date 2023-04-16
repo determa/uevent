@@ -11,7 +11,7 @@ export const eventAPI = createApi({
                 url: `/events/${data}`,
                 method: "GET",
             }),
-            // providesTags: result => ['User']
+            providesTags: ["Event"],
         }),
         getAllEvents: build.query({
             query: (data) => ({
@@ -19,14 +19,14 @@ export const eventAPI = createApi({
                 method: "GET",
                 params: data,
             }),
-            // providesTags: result => ['User']
+            providesTags: ["Event"],
         }),
         getAllEventsByCompany: build.query({
             query: (data) => ({
                 url: `/events/company/${data}`,
                 method: "GET",
             }),
-            // providesTags: result => ['User']
+            providesTags: ["Event"],
         }),
         create: build.mutation({
             query: (data) => ({
@@ -34,14 +34,14 @@ export const eventAPI = createApi({
                 method: "POST",
                 body: data,
             }),
-            // providesTags: result => ['User']
+            invalidatesTags: ["Event"],
         }),
         getPaymentData: build.query({
             query: (data) => ({
                 url: `/events/payment-data/${data}`,
                 method: "GET",
             }),
-            // providesTags: result => ['User']
+            providesTags: ["Event"],
         }),
     }),
 });

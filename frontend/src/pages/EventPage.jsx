@@ -32,16 +32,21 @@ const SimilarEvents = ({ id }) => {
 };
 
 const AboutCompany = ({ id }) => {
+    const { isAuth, TYPE } = useSelector((state) => state.userReducer);
     const { data } = companyAPI.useGetOneCompanyQuery(id);
-    console.log(data);
+
     return (
         <>
             {data && (
                 <div className="mt-4 relative flex flex-col shadow-sm gap-4 max-w-7xl mx-auto p-4 bg-white border border-gray-200 rounded-lg flex-wrap">
                     <h1 className="font-medium text-xl">Об организаторе:</h1>
-                    <div className="absolute m-5 right-0 top-0">
-                        <NotifyCompany companyId={data.id} />
-                    </div>
+                    {isAuth && TYPE === "USER" && (
+                        <>
+                            <div className="absolute m-5 right-0 top-0">
+                                <NotifyCompany companyId={data.id} />
+                            </div>
+                        </>
+                    )}
                     <p className="text-justify text-lg font-medium text-gray-800">
                         <span className="text-sm">Название: </span>
                         <Link to={`/profile/company/${data.id}`}>
@@ -81,8 +86,12 @@ const EventPage = () => {
                 <>
                     <div className="flex shadow-sm gap-3 max-w-7xl mx-auto p-4 bg-white border border-gray-200 rounded-lg flex-wrap">
                         <div className="flex relative">
-                            <NotifyComponent eventId={data.id} />
-                            <FavoriteComponent eventId={data.id} />
+                            {isAuth && (
+                                <>
+                                    <NotifyComponent eventId={data.id} />
+                                    <FavoriteComponent eventId={data.id} />
+                                </>
+                            )}
                             <img
                                 className="rounded-lg h-80 w-56 object-cover object-center"
                                 alt="afisha"

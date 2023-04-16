@@ -8,6 +8,7 @@ import PorileCompanyPage from '../pages/ProfileCompanyPage';
 import ConfirmEmail from '../services/ConfirmEmail';
 import CreateEvent from '../components/CreateEvent';
 import TicketsPage from '../pages/TicketsPage';
+import FavoritePage from '../pages/FavoritePage';
 
 export const publicRoutes = [
     { path: "/", component: <MainPage /> },
@@ -24,6 +25,11 @@ export const publicRoutes = [
 
 export const confirmedAccountRoutes = [
     { path: "/tickets", component: <Container component={<TicketsPage />} /> },
+]
+
+export const authRoutes = [
+    
+    { path: "/favorite", component: <Container component={<FavoritePage />} /> },
 ]
 
 // export const privateRoutes = [

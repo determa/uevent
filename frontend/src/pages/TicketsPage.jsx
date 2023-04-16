@@ -23,7 +23,7 @@ const TicketsPage = () => {
     // const { data: tickets } = userAPI.useGetAllTicketsQuery(id);
     return (
         <div className="flex flex-col gap-3 max-w-7xl mx-auto relative">
-            <h1>Ваши билеты:</h1>
+            <h1 className="font-medium text-xl">Ваши билеты:</h1>
             {tickets &&
                 tickets.map((data) => (
                     <div

@@ -95,14 +95,16 @@ const DropDown = () => {
                         className="flex flex-col pb-1"
                         // onClick={handleCloseUserMenu}
                     >
-                        {type === "NONE" && !confirmed && (
-                            <Link
-                                to={"/auth"}
-                                className="text-gray-700 px-4 py-2 text-sm cursor-pointer max-w-[140px]"
-                            >
-                                Продолжить регистрацию
-                            </Link>
-                        )}
+                        {type === "NONE" ||
+                            (!confirmed && (
+                                <Link
+                                    to={"/auth"}
+                                    className="text-gray-700 px-4 py-2 text-sm cursor-pointer max-w-[140px]"
+                                >
+                                    Продолжить регистрацию
+                                </Link>
+                            ))}
+
                         {isAuth && confirmed && (
                             <>
                                 <Link
@@ -119,12 +121,6 @@ const DropDown = () => {
                                 >
                                     Ваши билеты
                                 </Link>
-                                <Link
-                                    className="text-gray-700 px-4 py-2 text-sm cursor-pointer"
-                                    onClick={handleCloseUserMenu}
-                                >
-                                    Понравившиеся
-                                </Link>
                                 {type === "COMPANY" && (
                                     <p
                                         className="text-gray-700 px-4 py-2 text-sm cursor-pointer"
@@ -137,6 +133,15 @@ const DropDown = () => {
                                     </p>
                                 )}
                             </>
+                        )}
+                        {isAuth && (
+                            <Link
+                                to={"/favorite"}
+                                className="text-gray-700 px-4 py-2 text-sm cursor-pointer"
+                                onClick={handleCloseUserMenu}
+                            >
+                                Понравившиеся
+                            </Link>
                         )}
                     </div>
 
