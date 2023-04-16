@@ -5,12 +5,13 @@ import { GoogleMapComponent } from "../components/GoogleMapComponent";
 import Event from "../components/Event";
 import { eventAPI } from "../services/EventService";
 import NotifyCompany from "../components/NotifyCompany";
+import { useSelector } from "react-redux";
 
 const ProfilePage = () => {
     const { id } = useParams();
     const { data } = companyAPI.useGetOneCompanyQuery(id);
     const { data: events } = eventAPI.useGetAllEventsByCompanyQuery(id);
-
+    const { isAuth, accountId } = useSelector((state) => state.userReducer);
     return (
         <>
             {data && (
@@ -19,9 +20,11 @@ const ProfilePage = () => {
                         <div className="absolute m-5 left-0 top-0">
                             <NotifyCompany companyId={data.id} />
                         </div>
-                        <p className="absolute top-0 right-0 mx-4 mt-3 text-sm font-semibold text-blue-600 hover:text-blue-900 cursor-pointer tracking-wider">
-                            edit
-                        </p>
+                        {isAuth && accountId === data.accountId && (
+                            <p className="absolute top-0 right-0 mx-4 mt-3 text-sm font-semibold text-blue-600 hover:text-blue-900 cursor-pointer tracking-wider">
+                                edit
+                            </p>
+                        )}
                         <div className="flex justify-center">
                             <div className="bg-white p-1.5 rounded-xl border border-gray-300">
                                 <img

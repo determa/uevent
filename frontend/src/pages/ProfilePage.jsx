@@ -4,12 +4,11 @@ import { userAPI } from "../services/UserService";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 import { commentAPI } from "../services/CommentService";
+import { useSelector } from "react-redux";
 
 const CommentComponent = ({ user }) => {
     const { data: comments, isError } = commentAPI.useGetCommentsByAccountQuery(
-        {
-            id: user.accountId,
-        }
+        { id: user.accountId }
     );
     return (
         <>
@@ -56,11 +55,18 @@ const CommentComponent = ({ user }) => {
 const ProfilePage = () => {
     const { id } = useParams();
     const { data } = userAPI.useGetOneUserQuery(id);
+    const { isAuth, accountId } = useSelector((state) => state.userReducer);
+
     return (
         <>
             {data && (
                 <>
                     <div className="flex flex-col gap-3 items-center p-4 relative border border-gray-200 max-w-7xl mx-auto rounded-lg shadow-sm w-full after:absolute after:bg-gray-100 after:-z-10 after:block after:w-full after:content-[''] after:h-32 after:top-0 after:left-0 after:border-b">
+                        {isAuth && accountId === data.accountId && (
+                            <p className="absolute top-0 right-0 mx-4 mt-3 text-sm font-semibold text-blue-600 hover:text-blue-900 cursor-pointer tracking-wider">
+                                edit
+                            </p>
+                        )}
                         <div className="flex justify-center">
                             <div className="bg-white p-1.5 rounded-full border border-gray-300">
                                 <img
