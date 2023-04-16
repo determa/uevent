@@ -95,6 +95,8 @@ class MailService {
             return next(ApiError.internal());
         }
     }
+
+    
 }
 
 module.exports = new MailService();

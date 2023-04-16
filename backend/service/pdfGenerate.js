@@ -43,15 +43,16 @@ class PdfGenerate {
                     },
                 };
 
-                pdf.create({ html, path: fileName, data: {}, type: "" }, options)
+                await pdf.create({ html, path: fileName, data: {}, type: "" }, options)
                     .catch((error) => {
                         console.error(error);
                     });
+                return { fileName: fileName, html: html_ejs };
             });
 
-            return { fileName: fileName, html: html_ejs };
         } catch (error) {
             console.log(error);
+            return { error };
         }
     }
 
