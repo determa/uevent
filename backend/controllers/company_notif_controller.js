@@ -18,8 +18,8 @@ class CompanyNotifController {
 
     async subscribe(req, res, next) {
         try {
-            const { companyId, type } = req.query;
-            const { id } = req.account;
+            const { companyId } = req.query;
+            const { id, type } = req.account;
             console.log(type);
             if (type == "COMPANY") {
                 return next(ApiError.badRequest("Компанию не могу подписывать на другие компании!"));
@@ -34,8 +34,8 @@ class CompanyNotifController {
 
     async unsubscribe(req, res, next) {
         try {
-            const { companyId, type } = req.query;
-            const { id } = req.account;
+            const { companyId } = req.query;
+            const { id, type } = req.account;
             if (type == "COMPANY") {
                 return next(ApiError.badRequest("Компанию не могут удалять подписки на другие компании!"));
             }
