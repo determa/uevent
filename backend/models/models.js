@@ -117,11 +117,11 @@ Ticket.belongsTo(Account);
 Event.hasMany(Ticket);
 Ticket.belongsTo(Event);
 
-User.belongsToMany(Event, { through: EventNotification });
-Event.belongsToMany(User, { through: EventNotification });
+Account.belongsToMany(Event, { through: EventNotification });
+Event.belongsToMany(Account, { through: EventNotification });
 
-User.hasMany(EventNotification);
-EventNotification.belongsTo(User);
+Account.hasMany(EventNotification);
+EventNotification.belongsTo(Account);
 
 Event.hasMany(EventNotification);
 EventNotification.belongsTo(Event);

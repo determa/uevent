@@ -5,9 +5,9 @@ class EventNotifController {
     async state(req, res, next) {
         try {
             const { eventId } = req.query;
-            const { id } = req.account;
+            const { accountId } = req.account;
             let bool = false;
-            if (await EventNotification.findOne({ where: { userId: id, eventId } }))
+            if (await EventNotification.findOne({ where: { accountId, eventId } }))
                 bool = true;
             res.json(bool);
         } catch (error) {
@@ -19,8 +19,8 @@ class EventNotifController {
     async subscribe(req, res, next) {
         try {
             const { eventId } = req.query;
-            const { id } = req.account;
-            let notif = await EventNotification.create({ userId: id, eventId });
+            const { accountId } = req.account;
+            let notif = await EventNotification.create({ accountId, eventId });
             res.json(notif);
         } catch (error) {
             console.log(error);
@@ -31,8 +31,8 @@ class EventNotifController {
     async unsubscribe(req, res, next) {
         try {
             const { eventId } = req.query;
-            const { id } = req.account;
-            await EventNotification.destroy({ where: { userId: id, eventId } });
+            const { accountId } = req.account;
+            await EventNotification.destroy({ where: { accountId, eventId } });
             return res.json({ message: "Ошибка удаления подписи на эвент!" });
         } catch (error) {
             return next(ApiError.badRequest("Ошибка удаления подписи на эвента!"));
