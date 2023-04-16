@@ -4,18 +4,27 @@ import { companyAPI } from "../services/CompanyService";
 import { GoogleMapComponent } from "../components/GoogleMapComponent";
 import Event from "../components/Event";
 import { eventAPI } from "../services/EventService";
+import NotifyCompany from "../components/NotifyCompany";
+import { useSelector } from "react-redux";
 
 const ProfilePage = () => {
     const { id } = useParams();
     const { data } = companyAPI.useGetOneCompanyQuery(id);
     const { data: events } = eventAPI.useGetAllEventsByCompanyQuery(id);
-
+    const { isAuth, accountId } = useSelector((state) => state.userReducer);
     return (
         <>
             {data && (
                 <div className="flex flex-col gap-7 max-w-7xl mx-auto">
                     <div className="flex flex-col gap-3 p-4 relative border border-gray-200 rounded-lg shadow-sm w-full after:absolute after:bg-gray-100 after:-z-10 after:block after:w-full after:content-[''] after:h-32 after:top-0 after:left-0 after:border-b">
-                        <p className="absolute top-0 right-0 mx-4 mt-3 text-sm font-semibold text-blue-600 hover:text-blue-900 cursor-pointer tracking-wider">edit</p>
+                        <div className="absolute m-5 left-0 top-0">
+                            <NotifyCompany companyId={data.id} />
+                        </div>
+                        {isAuth && accountId === data.accountId && (
+                            <p className="absolute top-0 right-0 mx-4 mt-3 text-sm font-semibold text-blue-600 hover:text-blue-900 cursor-pointer tracking-wider">
+                                edit
+                            </p>
+                        )}
                         <div className="flex justify-center">
                             <div className="bg-white p-1.5 rounded-xl border border-gray-300">
                                 <img
