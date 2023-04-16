@@ -3,6 +3,23 @@ const { Ticket } = require('../models/models');
 const pdfGenerate = require('../service/pdfGenerate');
 
 class TicketController {
+    async get_all(req, res, next) {
+        try {
+            const { accountId } = req.account;
+            const favorite = await Ticket.findAll({
+                where: { accountId }, 
+                include: [{ 
+                    model: Event, 
+                    attributes: ['id', 'title', 'date', 'location'],
+                }]
+            });
+            res.json(favorite)
+        } catch (error) {
+            console.log(error);
+            return next(ApiError.badRequest(error.message));
+        }
+    }
+
     async create(req, res, next) {
         try {
             const { accountId, eventId } = req.dae;

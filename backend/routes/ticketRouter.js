@@ -5,6 +5,7 @@ const EventController = require("../controllers/event_controller");
 const PaymentCallbackMiddleware = require('../middleware/PaymentCallbackMiddleware');
 const mailService = require('../service/mailService');
 
+router.get("/", authMiddleware, TicketController.get_all);
 router.post('/callback', PaymentCallbackMiddleware, EventController.tickets_count_decrement, TicketController.create, mailService.sendPDF);
 
 module.exports = router;
