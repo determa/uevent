@@ -50,7 +50,12 @@ class CompanyController {
     async update_data(req, res, next) {
         try {
             const { id } = req.params;
+            const { accountId } = req.account;
             const data = req.body;
+            const company = await Company.findOne({ where: { id } });
+            if (company.accountId != accountId) {
+                return next(ApiError.forbidden("Нет доступа!"));
+            }
             await Company.update(data, { where: { id } });
             return res.json({ message: "Data changed!" });
         } catch (error) {

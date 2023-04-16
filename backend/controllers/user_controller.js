@@ -50,7 +50,12 @@ class UserController {
     async update_data(req, res, next) {
         try {
             const { id } = req.params;
+            const { accountId } = req.account;
             const data = req.body;
+            const user = await User.findOne({ where: { id } });
+            if (user.accountId != accountId) {
+                return next(ApiError.forbidden("Нет доступа!"));
+            }
             await User.update(data, { where: { id } });
             return res.json({ message: "Data changed!" });
         } catch (error) {
