@@ -120,11 +120,29 @@ Ticket.belongsTo(Event);
 User.belongsToMany(Event, { through: EventNotification });
 Event.belongsToMany(User, { through: EventNotification });
 
+User.hasMany(EventNotification);
+EventNotification.belongsTo(User);
+
+Event.hasMany(EventNotification);
+EventNotification.belongsTo(Event);
+
 User.belongsToMany(Company, { through: CompanyNotification });
 Company.belongsToMany(User, { through: CompanyNotification });
 
+User.hasMany(CompanyNotification);
+CompanyNotification.belongsTo(User);
+
+Company.hasMany(CompanyNotification);
+CompanyNotification.belongsTo(Company);
+
 Account.belongsToMany(Event, { through: AccountFavorite });
 Event.belongsToMany(Account, { through: AccountFavorite });
+
+Account.hasMany(AccountFavorite);
+AccountFavorite.belongsTo(Account);
+
+Event.hasMany(AccountFavorite);
+AccountFavorite.belongsTo(Event);
 
 module.exports = {
     Account,

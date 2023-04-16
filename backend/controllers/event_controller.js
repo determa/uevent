@@ -8,12 +8,13 @@ class EventController {
     async create(req, res, next) {
         try {
             let { title, description, date, location, price, tickets_count, theme, category, members_visibility, datePublish, notification } = req.body;
+            const location_parsed = JSON.parse(location);
             let picture = 'header.jpg';
             if (req.files?.avatar) {
                 picture = imageUpload(req.files.avatar)
             }
             notification ? notification = true : notification = false;
-            if (!title || !description || !date || !location || !price || !tickets_count || !theme || !category || !members_visibility || !datePublish)
+            if (!title || !description || !date || !location_parsed.name || !location_parsed.location || !price || !tickets_count || !theme || !category || !members_visibility || !datePublish)
                 return next(ApiError.badRequest("Некорректное поле!"));
 
             await Event.create({
