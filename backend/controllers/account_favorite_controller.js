@@ -1,7 +1,19 @@
 const ApiError = require("../error/ApiError");
-const { Account, AccountFavorite } = require("../models/models");
+const { Account, AccountFavorite, Event } = require("../models/models");
 
 class AccountFavoritefController {
+    async get_events(req, res, next) {
+        try {
+            const { accountId } = req.account;
+            const favorite = await Event.findAll({ include: [{ model: AccountFavorite, where: { accountId } }] });
+            res.json(favorite)
+        } catch (error) {
+            console.log(error);
+            return next(ApiError.badRequest("Ошибка получения избранных ивэнтов!"));
+        }
+    }
+
+
     async state(req, res, next) {
         try {
             const { eventId } = req.query;
