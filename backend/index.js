@@ -9,6 +9,7 @@ const errorHandler = require("./middleware/ErrorHandler");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const model_init = require("./models/model_init");
+const notification = require("./service/notification");
 
 
 const PORT = process.env.PORT || 5000;
@@ -34,6 +35,7 @@ const start = async () => {
         await sequelize.authenticate();
         await sequelize.sync();
         await model_init();
+        notification();
         app.listen(PORT, () => console.log(`http://${HOST}:${PORT}`));
     } catch (e) {
         console.log(e);
