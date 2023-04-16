@@ -7,21 +7,25 @@ import {
     faBell as farBell,
     faHeart as farHeart,
 } from "@fortawesome/free-regular-svg-icons";
+import { notifyAPI } from "../services/NotifyService";
 
-const NotifyComponent = () => {
-    const [notify, setNotify] = useState(false);
+const NotifyComponent = ({ eventId }) => {
+    const { data: state } = notifyAPI.useGetEventNotifyStateQuery({ eventId });
+    const [subscribe, { data_sub, error_sub }] = notifyAPI.useEventSubscribeMutation();
+    const [unsubscribe, { data_unsub, error_unsub }] = notifyAPI.useEventUnsubscribeMutation();
+
     return (
         <>
-            {notify ? (
+            {state ? (
                 <FontAwesomeIcon
                     icon={faBell}
-                    onClick={() => setNotify(!notify)}
+                    onClick={async () => { await unsubscribe({ eventId }) }}
                     className="absolute m-5 left-0 top-0 text-white w-9 h-9 hover:animate-pulse hover:transition hover:ease-out z-20"
                 />
             ) : (
                 <FontAwesomeIcon
                     icon={farBell}
-                    onClick={() => setNotify(!notify)}
+                    onClick={async () => { await subscribe({ eventId }) }}
                     className="absolute m-5 left-0 top-0 text-white w-9 h-9 hover:animate-pulse hover:transition hover:ease-out z-20"
                 />
             )}
@@ -29,21 +33,23 @@ const NotifyComponent = () => {
     );
 };
 
-const FavoriteComponent = () => {
-    const [favorite, setFavorite] = useState(false);
+const FavoriteComponent = ({ eventId }) => {
+    const { data: state } = notifyAPI.useGetFavoriteStateQuery({ eventId });
+    const [subscribe, { data_sub, error_sub }] = notifyAPI.useFavoriteSubscribeMutation();
+    const [unsubscribe, { data_unsub, error_unsub }] = notifyAPI.useFavoriteUnsubscribeMutation();
 
     return (
         <>
-            {favorite ? (
+            {state ? (
                 <FontAwesomeIcon
                     icon={faHeart}
-                    onClick={() => setFavorite(!favorite)}
+                    onClick={async () => { await unsubscribe({ eventId }) }}
                     className="absolute m-5 right-0 top-0 text-white w-9 h-9 hover:animate-pulse hover:transition hover:ease-out z-20"
                 />
             ) : (
                 <FontAwesomeIcon
                     icon={farHeart}
-                    onClick={() => setFavorite(!favorite)}
+                    onClick={async () => { await subscribe({ eventId }) }}
                     className="absolute m-5 right-0 top-0 text-white w-9 h-9 hover:animate-pulse hover:transition hover:ease-out z-20"
                 />
             )}
@@ -54,8 +60,8 @@ const FavoriteComponent = () => {
 function Event({ event }) {
     return (
         <div className="relative select-none">
-            <NotifyComponent />
-            <FavoriteComponent />
+            <NotifyComponent eventId={event.id} />
+            <FavoriteComponent eventId={event.id} />
             <Link
                 to={`/events/${event.id}`}
                 key={event.id}

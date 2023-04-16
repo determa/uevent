@@ -4,7 +4,7 @@ const { Account, AccountFavorite } = require("../models/models");
 class AccountFavoritefController {
     async state(req, res, next) {
         try {
-            let { eventId } = req.query;
+            const { eventId } = req.query;
             const { accountId } = req.account;
             let bool = false;
             if (await AccountFavorite.findOne({ where: { accountId, eventId } }))
@@ -18,7 +18,7 @@ class AccountFavoritefController {
 
     async subscribe(req, res, next) {
         try {
-            let { eventId } = req.query;
+            const { eventId } = req.query;
             const { accountId } = req.account;
             let notif = await AccountFavorite.create({ accountId, eventId });
             res.json(notif);
@@ -30,7 +30,7 @@ class AccountFavoritefController {
 
     async unsubscribe(req, res, next) {
         try {
-            let { eventId } = req.query;
+            const { eventId } = req.query;
             const { accountId } = req.account;
             await AccountFavorite.destroy({ where: { accountId, eventId } });
             return res.json({ message: "Подпись на компанию удалена!" });

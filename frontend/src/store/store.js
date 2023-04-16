@@ -10,6 +10,7 @@ import userReducer from "./reducers/UserSlice";
 import { themeAPI } from "../services/ThemeService";
 import { categoryAPI } from "../services/CategoryService";
 import { commentAPI } from "../services/CommentService";
+import { notifyAPI } from "../services/NotifyService";
 
 const rootReducer = combineReducers({
     userReducer,
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
     [themeAPI.reducerPath]: themeAPI.reducer,
     [categoryAPI.reducerPath]: categoryAPI.reducer,
     [commentAPI.reducerPath]: commentAPI.reducer,
+    [notifyAPI.reducerPath]: notifyAPI.reducer,
 });
 
 export const setupStore = () => {
@@ -31,7 +33,8 @@ export const setupStore = () => {
                 eventAPI.middleware,
                 themeAPI.middleware,
                 categoryAPI.middleware,
-                commentAPI.middleware
+                commentAPI.middleware,
+                notifyAPI.middleware,
             ),
     });
 };
