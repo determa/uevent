@@ -1,7 +1,7 @@
 const nodemailer = require("nodemailer");
 const ApiError = require('../error/ApiError');
 const bcrypt = require('bcrypt');
-const { Account, CompanyNotification, User } = require("../models/models");
+const { Account, CompanyNotification, User, Event } = require("../models/models");
 const pdfGenerate = require("./pdfGenerate");
 
 const send_mail = async (html, email, parametr, transporter) => {
@@ -74,6 +74,7 @@ class MailService {
 
     sendNotificationByCompany = async (req, res, next) => {
         try {
+            const { id: eventId } = req.event;
             const { id } = req.account;
             const accounts = await CompanyNotification.findAll({
                 where: { companyId: id },
@@ -84,9 +85,9 @@ class MailService {
                     }]
                 }]
             })
-            console.log(accounts);
             accounts.forEach((element) => {
-                console.log(element.user)
+                let html = `<h1>Ссылка на ивент:</h1><a href="http://127.0.0.1:${process.env.CL_PORT}/events/${eventId}" target="_blank">Нажмите для просмотра</a>`;
+                await send_mail(html, element.user.account.email, undefined, this.transporter);
             })
             res.json({ message: 'Рассылка от компании успешна!' });
         } catch (error) {
