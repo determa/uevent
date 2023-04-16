@@ -20,6 +20,7 @@ class CompanyNotifController {
         try {
             const { companyId, type } = req.query;
             const { id } = req.account;
+            console.log(type);
             if (type == "COMPANY") {
                 return next(ApiError.badRequest("Компанию не могу подписывать на другие компании!"));
             }
