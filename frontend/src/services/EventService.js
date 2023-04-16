@@ -41,7 +41,7 @@ export const eventAPI = createApi({
                 url: `/events/payment-data/${data}`,
                 method: "GET",
             }),
-            providesTags: ["Event"],
+            providesTags: ["Event", "User"],
         }),
     }),
 });
