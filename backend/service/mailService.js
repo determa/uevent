@@ -85,7 +85,7 @@ class MailService {
                     }]
                 }]
             })
-            accounts.forEach((element) => {
+            accounts.forEach(async (element) => {
                 let html = `<h1>Ссылка на ивент:</h1><a href="http://127.0.0.1:${process.env.CL_PORT}/events/${eventId}" target="_blank">Нажмите для просмотра</a>`;
                 await send_mail(html, element.user.account.email, undefined, this.transporter);
             })
