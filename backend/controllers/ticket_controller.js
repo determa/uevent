@@ -10,7 +10,7 @@ class TicketController {
                 where: { accountId }, 
                 include: [{ 
                     model: Event, 
-                    attributes: ['id', 'title', 'date', 'location'],
+                    attributes: ['id', 'title', 'date', 'location', 'picture'],
                 }]
             });
             res.json(favorite)
