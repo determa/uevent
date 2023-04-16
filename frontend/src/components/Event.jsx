@@ -1,61 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBell, faHeart } from "@fortawesome/free-solid-svg-icons";
-import {
-    faBell as farBell,
-    faHeart as farHeart,
-} from "@fortawesome/free-regular-svg-icons";
-import { notifyAPI } from "../services/NotifyService";
-
-const NotifyComponent = ({ eventId }) => {
-    const { data: state } = notifyAPI.useGetEventNotifyStateQuery({ eventId });
-    const [subscribe, { data_sub, error_sub }] = notifyAPI.useEventSubscribeMutation();
-    const [unsubscribe, { data_unsub, error_unsub }] = notifyAPI.useEventUnsubscribeMutation();
-
-    return (
-        <>
-            {state ? (
-                <FontAwesomeIcon
-                    icon={faBell}
-                    onClick={async () => { await unsubscribe({ eventId }) }}
-                    className="absolute m-5 left-0 top-0 text-white w-9 h-9 hover:animate-pulse hover:transition hover:ease-out z-20"
-                />
-            ) : (
-                <FontAwesomeIcon
-                    icon={farBell}
-                    onClick={async () => { await subscribe({ eventId }) }}
-                    className="absolute m-5 left-0 top-0 text-white w-9 h-9 hover:animate-pulse hover:transition hover:ease-out z-20"
-                />
-            )}
-        </>
-    );
-};
-
-const FavoriteComponent = ({ eventId }) => {
-    const { data: state } = notifyAPI.useGetFavoriteStateQuery({ eventId });
-    const [subscribe, { data_sub, error_sub }] = notifyAPI.useFavoriteSubscribeMutation();
-    const [unsubscribe, { data_unsub, error_unsub }] = notifyAPI.useFavoriteUnsubscribeMutation();
-
-    return (
-        <>
-            {state ? (
-                <FontAwesomeIcon
-                    icon={faHeart}
-                    onClick={async () => { await unsubscribe({ eventId }) }}
-                    className="absolute m-5 right-0 top-0 text-white w-9 h-9 hover:animate-pulse hover:transition hover:ease-out z-20"
-                />
-            ) : (
-                <FontAwesomeIcon
-                    icon={farHeart}
-                    onClick={async () => { await subscribe({ eventId }) }}
-                    className="absolute m-5 right-0 top-0 text-white w-9 h-9 hover:animate-pulse hover:transition hover:ease-out z-20"
-                />
-            )}
-        </>
-    );
-};
+import FavoriteComponent from "./FavoriteComponent";
+import NotifyComponent from "./NotifyComponent";
 
 function Event({ event }) {
     return (

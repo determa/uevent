@@ -11,6 +11,9 @@ import RecurseComments from "../components/RecurseComments";
 import PaymentButton from "../components/PaymentButton";
 import Event from "../components/Event";
 import { companyAPI } from "../services/CompanyService";
+import FavoriteComponent from "../components/FavoriteComponent";
+import NotifyComponent from "../components/NotifyComponent";
+import NotifyCompany from "../components/NotifyCompany";
 
 const SimilarEvents = ({ id }) => {
     const { data } = eventAPI.useGetAllEventsQuery({
@@ -34,8 +37,11 @@ const AboutCompany = ({ id }) => {
     return (
         <>
             {data && (
-                <div className="mt-4 flex flex-col shadow-sm gap-4 max-w-7xl mx-auto p-4 bg-white border border-gray-200 rounded-lg flex-wrap">
+                <div className="mt-4 relative flex flex-col shadow-sm gap-4 max-w-7xl mx-auto p-4 bg-white border border-gray-200 rounded-lg flex-wrap">
                     <h1 className="font-medium text-xl">Об организаторе:</h1>
+                    <div className="absolute m-5 right-0 top-0">
+                        <NotifyCompany companyId={data.id} />
+                    </div>
                     <p className="text-justify text-lg font-medium text-gray-800">
                         <span className="text-sm">Название: </span>
                         <Link to={`/profile/company/${data.id}`}>
@@ -74,11 +80,15 @@ const EventPage = () => {
             {data && (
                 <>
                     <div className="flex shadow-sm gap-3 max-w-7xl mx-auto p-4 bg-white border border-gray-200 rounded-lg flex-wrap">
-                        <img
-                            className="rounded-lg h-80 w-56 object-cover object-center"
-                            alt="afisha"
-                            src={`${process.env.REACT_APP_SERVER_DOMEN}/${data.picture}`}
-                        />
+                        <div className="flex relative">
+                            <NotifyComponent eventId={data.id} />
+                            <FavoriteComponent eventId={data.id} />
+                            <img
+                                className="rounded-lg h-80 w-56 object-cover object-center"
+                                alt="afisha"
+                                src={`${process.env.REACT_APP_SERVER_DOMEN}/${data.picture}`}
+                            />
+                        </div>
                         <div className="flex flex-1 flex-col px-4 gap-5 min-w-[14rem]">
                             <p className="text-sm text-gray-500 font-semibold">
                                 {dayjs(data.date).format(
