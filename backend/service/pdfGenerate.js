@@ -24,7 +24,6 @@ class PdfGenerate {
                 qr_code: await qrGenerate(),
             };
             const fileName = __dirname + `/${uuid.v4()}.pdf`;
-            // let html_ejs = undefined;
 
             let html = await ejs.renderFile(__dirname + "/template.ejs", params);
 
@@ -43,31 +42,6 @@ class PdfGenerate {
                     console.error(error);
                 });
             return { fileName: fileName, html };
-
-            // , (err, html) => {
-            //     if (err) {
-            //         console.log(err);
-            //     }
-
-            //     html_ejs = html;
-
-            // const options = {
-            //     format: "A4",
-            //     orientation: "landscape",
-            //     childProcessOptions: {
-            //         env: {
-            //             OPENSSL_CONF: "/dev/null",
-            //         },
-            //     },
-            // };
-
-            // await pdf.create({ html, path: fileName, data: {}, type: "" }, options)
-            //     .catch((error) => {
-            //         console.error(error);
-            //     });
-            // return { fileName: fileName, html: html_ejs };
-            // });
-
         } catch (error) {
             console.log(error);
             return { error };
