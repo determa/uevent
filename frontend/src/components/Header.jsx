@@ -6,17 +6,7 @@ import { userAPI } from "../services/UserService";
 import { companyAPI } from "../services/CompanyService";
 import CreateEvent from "./CreateEvent";
 import Modal from "./Modal";
-import {
-    Avatar,
-    Box,
-    FormControl,
-    IconButton,
-    Menu,
-    MenuItem,
-    Select,
-    Tooltip,
-    Typography,
-} from "@mui/material";
+import { Box, IconButton, Menu, Tooltip } from "@mui/material";
 
 const ProfileImg = ({ data }) => {
     return (
@@ -43,131 +33,15 @@ const UserData = () => {
     return <ProfileImg data={data} />;
 };
 
-const LinkComp = ({ id, type, confirmed }) => {
-    if (type === "NONE" || !confirmed)
-        return (
-            <Link
-                to={"/auth"}
-                className="text-gray-700 px-4 py-2 text-sm cursor-pointer"
-            >
-                Продолжить регистрацию
-            </Link>
-        );
-    if (type === "USER")
-        return (
-            <>
-                <Link
-                    to={`/profile/${type.toLowerCase()}/${id}`}
-                    className="text-gray-700 px-4 py-2 text-sm cursor-pointer"
-                >
-                    Ваш профиль
-                </Link>
-                <Link className="text-gray-700 px-4 py-2 text-sm cursor-pointer">
-                    Понравившиеся
-                </Link>
-            </>
-        );
-    if (type === "COMPANY")
-        return (
-            <>
-                <Link
-                    to={`/profile/${type.toLowerCase()}/${id}`}
-                    className="text-gray-700 px-4 py-2 text-sm cursor-pointer"
-                >
-                    Ваш профиль
-                </Link>
-                <div>
-                    <Modal
-                        button_name="Создать событие"
-                        Component={CreateEvent}
-                    />
-                </div>
-                <Link className="text-gray-700 px-4 py-2 text-sm cursor-pointer">
-                    Понравившиеся
-                </Link>
-            </>
-        );
-};
-
 const DropDown = () => {
     const dispatch = useDispatch();
     const { isAuth, type, id, confirmed } = useSelector(
         (state) => state.userReducer
     );
     const [logout] = userAPI.useLogoutMutation();
-    // const { data } = userAPI.useGetOneUserQuery(id);
-    const [isOpen, setIsOpen] = useState(false);
 
-    return (
-        <>
-            <div className="relative text-left">
-                <div
-                    className="flex items-center cursor-pointer justify-center"
-                    onClick={() => setIsOpen(!isOpen)}
-                >
-                    {/* <div className="relative flex items-center justify-center w-8 h-8 rounded-full bg-gray-400 text-gray-800 cursor-pointer hover:bg-gray-500">
-                        <FontAwesomeIcon icon={faUser} />
-                    </div> */}
-                    {type === "USER" ? (
-                        <UserData />
-                    ) : type === "COMPANY" ? (
-                        <CompanyData />
-                    ) : (
-                        <img
-                            className="rounded-full w-8 h-8 object-cover object-center"
-                            src={`${process.env.REACT_APP_SERVER_DOMEN}/default.jpg`}
-                        />
-                    )}
-                </div>
-
-                {isOpen && (
-                    <div
-                        id="sett"
-                        className="absolute right-0 z-10 mt-1 w-40 cursor-pointer rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5"
-                    >
-                        <div className="py-1 flex flex-col">
-                            <LinkComp
-                                id={id}
-                                type={type}
-                                confirmed={confirmed}
-                            />
-
-                            {isAuth && confirmed && (
-                                <Link
-                                    to={`/tickets`}
-                                    className="text-gray-700 px-4 py-2 text-sm cursor-pointer"
-                                >
-                                    Ваши билеты
-                                </Link>
-                            )}
-                        </div>
-
-                        <div className="py-1 flex flex-col border-t border-gray-400">
-                            <p
-                                onClick={() => {
-                                    dispatch(logOut());
-                                    logout();
-                                }}
-                                className="text-gray-700 px-4 py-2 text-sm cursor-pointer"
-                            >
-                                Выйти
-                            </p>
-                        </div>
-                    </div>
-                )}
-            </div>
-        </>
-    );
-};
-
-const Test = () => {
-    const dispatch = useDispatch();
-    const { isAuth, type, id, confirmed } = useSelector(
-        (state) => state.userReducer
-    );
-    const [logout] = userAPI.useLogoutMutation();
-
-    const [anchorElUser, setAnchorElUser] = React.useState(null);
+    const [anchorElUser, setAnchorElUser] = useState(null);
+    const [showModal, setShowModal] = useState(false);
 
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
@@ -178,63 +52,111 @@ const Test = () => {
     };
 
     return (
-        <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar
-                        alt="avatar"
-                        src={`${process.env.REACT_APP_SERVER_DOMEN}/default.jpg`}
-                    />
-                </IconButton>
-            </Tooltip>
-            <Menu
-                sx={{ mt: "45px" }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-            >
-                <div
-                    className="py-1 flex flex-col"
-                    onClick={handleCloseUserMenu}
+        <>
+            {showModal && (
+                <Modal
+                    showModal={showModal}
+                    setShowModal={setShowModal}
+                    Component={CreateEvent}
+                />
+            )}
+            <Box sx={{ flexGrow: 0 }}>
+                <Tooltip title="Open settings">
+                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                        {type === "USER" ? (
+                            <UserData />
+                        ) : type === "COMPANY" ? (
+                            <CompanyData />
+                        ) : (
+                            <img
+                                className="rounded-full object-cover object-center backdrop-blur-sm w-12 h-12"
+                                src={`${process.env.REACT_APP_SERVER_DOMEN}/default.jpg`}
+                            />
+                        )}
+                    </IconButton>
+                </Tooltip>
+                <Menu
+                    sx={{ mt: "50px" }}
+                    id="menu-appbar"
+                    anchorEl={anchorElUser}
+                    anchorOrigin={{
+                        vertical: "top",
+                        horizontal: "right",
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                        vertical: "top",
+                        horizontal: "right",
+                    }}
+                    open={Boolean(anchorElUser)}
+                    onClose={handleCloseUserMenu}
                 >
-                    {/* <LinkComp id={id} type={type} confirmed={confirmed} /> */}
+                    <div
+                        className="flex flex-col pb-1"
+                        // onClick={handleCloseUserMenu}
+                    >
+                        {type === "NONE" && !confirmed && (
+                            <Link
+                                to={"/auth"}
+                                className="text-gray-700 px-4 py-2 text-sm cursor-pointer max-w-[140px]"
+                            >
+                                Продолжить регистрацию
+                            </Link>
+                        )}
+                        {isAuth && confirmed && (
+                            <>
+                                <Link
+                                    to={`/profile/${type.toLowerCase()}/${id}`}
+                                    className="text-gray-700 px-4 py-2 text-sm cursor-pointer"
+                                    onClick={handleCloseUserMenu}
+                                >
+                                    Ваш профиль
+                                </Link>
+                                <Link
+                                    to={`/tickets`}
+                                    className="text-gray-700 px-4 py-2 text-sm cursor-pointer"
+                                    onClick={handleCloseUserMenu}
+                                >
+                                    Ваши билеты
+                                </Link>
+                                <Link
+                                    className="text-gray-700 px-4 py-2 text-sm cursor-pointer"
+                                    onClick={handleCloseUserMenu}
+                                >
+                                    Понравившиеся
+                                </Link>
+                                {type === "COMPANY" && (
+                                    <p
+                                        className="text-gray-700 px-4 py-2 text-sm cursor-pointer"
+                                        onClick={() => {
+                                            setShowModal(true);
+                                            handleCloseUserMenu();
+                                        }}
+                                    >
+                                        Создать событие
+                                    </p>
+                                )}
+                            </>
+                        )}
+                    </div>
 
-                    {isAuth && confirmed && (
-                        <Link
-                            to={`/tickets`}
+                    <div
+                        className="flex flex-col pt-1 border-t border-gray-400"
+                        onClick={handleCloseUserMenu}
+                    >
+                        <p
+                            onClick={() => {
+                                dispatch(logOut());
+                                logout();
+                            }}
                             className="text-gray-700 px-4 py-2 text-sm cursor-pointer"
                         >
-                            Ваши билеты
-                        </Link>
-                    )}
-                </div>
-
-                <div
-                    className="py-1 flex flex-col border-t border-gray-400"
-                    onClick={handleCloseUserMenu}
-                >
-                    <p
-                        onClick={() => {
-                            dispatch(logOut());
-                            logout();
-                        }}
-                        className="text-gray-700 px-4 py-2 text-sm cursor-pointer"
-                    >
-                        Выйти
-                    </p>
-                </div>
-            </Menu>
-        </Box>
+                            Выйти
+                        </p>
+                    </div>
+                </Menu>
+            </Box>
+        </>
     );
 };
 
@@ -250,7 +172,7 @@ const Header = () => {
                             uevent
                         </Link>
                     </li>
-                    <Test />
+
                     {isAuth ? (
                         <li>
                             <DropDown />

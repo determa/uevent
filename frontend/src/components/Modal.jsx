@@ -1,30 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 
-function Modal({ button_name, Component }) {
-    const [showModal, setShowModal] = useState(false);
-
+function Modal({ showModal, setShowModal, Component }) {
     const handler = (e) => {
         if (e.target.id === "modal") {
-            document.body.style.overflowY = "auto";
             setShowModal(false);
         }
     };
 
     return (
         <>
-            <button
-                className="text-gray-700 px-4 py-2 text-sm"
-                onClick={() => {
-                    setShowModal(true);
-                    document.body.style.overflowY = "hidden";
-                }}
-            >
-                {button_name}
-            </button>
             {showModal ? (
                 <div
                     id="modal"
-                    className="cursor-default fixed inset-0 flex justify-center items-center bg-black/40"
+                    className="cursor-default fixed inset-0 flex justify-center items-center bg-black/40 z-50"
                     onClick={handler}
                 >
                     <div className="relative bg-white rounded-lg flex flex-col min-w-[20rem]">

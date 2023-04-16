@@ -6,6 +6,7 @@ import Event from "../components/Event";
 import { eventAPI } from "../services/EventService";
 import NotifyCompany from "../components/NotifyCompany";
 import { useSelector } from "react-redux";
+import dayjs from "dayjs";
 
 const ProfilePage = () => {
     const { id } = useParams();
@@ -38,7 +39,8 @@ const ProfilePage = () => {
                             {data.name}
                         </p>
                         <p className="text-xs text-gray-500 text-center">
-                            {data.createdAt}
+                            <span>Зарегистрирован </span>
+                            {dayjs(data.createdAt).format("DD MMMM YYYY HH:mm")}
                         </p>
                     </div>
                     <div className="flex justify-between gap-3 flex-wrap">

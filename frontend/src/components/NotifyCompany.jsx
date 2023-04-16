@@ -17,7 +17,7 @@ const NotifyCompany = ({ companyId }) => {
                     onClick={async () => {
                         await unsubscribe({ companyId });
                     }}
-                    className="text-black w-9 h-9 hover:animate-pulse hover:transition hover:ease-out z-20"
+                    className="text-black w-8 h-8 hover:animate-pulse hover:transition hover:ease-out z-20"
                 />
             ) : (
                 <FontAwesomeIcon
@@ -25,7 +25,7 @@ const NotifyCompany = ({ companyId }) => {
                     onClick={async () => {
                         await subscribe({ companyId });
                     }}
-                    className="text-black w-9 h-9 hover:animate-pulse hover:transition hover:ease-out z-20"
+                    className="text-black w-8 h-8 hover:animate-pulse hover:transition hover:ease-out z-20"
                 />
             )}
         </>
