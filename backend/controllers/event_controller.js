@@ -17,13 +17,14 @@ class EventController {
             if (!title || !description || !date || !location_parsed.name || !location_parsed.location || !price || !tickets_count || !theme || !category || !members_visibility || !datePublish)
                 return next(ApiError.badRequest("Некорректное поле!"));
 
-            await Event.create({
+            let event = await Event.create({
                 title, picture, description,
                 date, location, price, tickets_count,
                 companyId: req.account.id, themeId: theme,
                 categoryId: category, members_visibility,
                 date_publish: datePublish, notification
             });
+            req.event = event;
             return next();
         } catch (e) {
             console.log(e);
