@@ -24,31 +24,49 @@ class PdfGenerate {
                 qr_code: await qrGenerate(),
             };
             const fileName = __dirname + `/${uuid.v4()}.pdf`;
-            let html_ejs = undefined;
+            // let html_ejs = undefined;
 
-            ejs.renderFile(__dirname + "/template.ejs", params, (err, html) => {
-                if (err) {
-                    console.log(err);
-                }
+            let html = await ejs.renderFile(__dirname + "/template.ejs", params);
 
-                html_ejs = html;
-
-                const options = {
-                    format: "A4",
-                    orientation: "landscape",
-                    childProcessOptions: {
-                        env: {
-                            OPENSSL_CONF: "/dev/null",
-                        },
+            const options = {
+                format: "A4",
+                orientation: "landscape",
+                childProcessOptions: {
+                    env: {
+                        OPENSSL_CONF: "/dev/null",
                     },
-                };
+                },
+            };
 
-                await pdf.create({ html, path: fileName, data: {}, type: "" }, options)
-                    .catch((error) => {
-                        console.error(error);
-                    });
-                return { fileName: fileName, html: html_ejs };
-            });
+            await pdf.create({ html, path: fileName, data: {}, type: "" }, options)
+                .catch((error) => {
+                    console.error(error);
+                });
+            return { fileName: fileName, html };
+
+            // , (err, html) => {
+            //     if (err) {
+            //         console.log(err);
+            //     }
+
+            //     html_ejs = html;
+
+            // const options = {
+            //     format: "A4",
+            //     orientation: "landscape",
+            //     childProcessOptions: {
+            //         env: {
+            //             OPENSSL_CONF: "/dev/null",
+            //         },
+            //     },
+            // };
+
+            // await pdf.create({ html, path: fileName, data: {}, type: "" }, options)
+            //     .catch((error) => {
+            //         console.error(error);
+            //     });
+            // return { fileName: fileName, html: html_ejs };
+            // });
 
         } catch (error) {
             console.log(error);
