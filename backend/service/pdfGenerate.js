@@ -38,9 +38,6 @@ class PdfGenerate {
             };
 
             await pdf.create({ html, path: fileName, data: {}, type: "" }, options)
-                .catch((error) => {
-                    console.error(error);
-                });
             return { fileName: fileName, html };
         } catch (error) {
             console.log(error);
