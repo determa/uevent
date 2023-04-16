@@ -74,8 +74,8 @@ class MailService {
 
     sendNotificationByCompany = async (req, res, next) => {
         const { id } = req.account;
-        const accounts = await CompanyNotification.findAll({ where: { companyId: id }, include: [{ model: User }] })
-        console.log(accounts);
+        const accounts = await CompanyNotification.findAll({ where: { companyId: id }, include: [{ model: User, include: [{ model: Account }] }] })
+        console.log(accounts[0].user.account);
     }
 }
 
