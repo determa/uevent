@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useParams } from "react-router";
 import { GoogleMapComponent } from "../components/GoogleMapComponent";
 import { eventAPI } from "../services/EventService";
@@ -8,33 +8,56 @@ import dayjs from "dayjs";
 import { commentAPI } from "../services/CommentService";
 import CreateComment from "../components/CreateComment";
 import RecurseComments from "../components/RecurseComments";
+import PaymentButton from "../components/PaymentButton";
+import Event from "../components/Event";
+import { companyAPI } from "../services/CompanyService";
 
-const PaymentButton = ({ id }) => {
-    const { data, error } = eventAPI.useGetPaymentDataQuery(id);
+const SimilarEvents = ({ id }) => {
+    const { data } = eventAPI.useGetAllEventsQuery({
+        themes: [],
+        categories: [id],
+        sort: "-date",
+        page: 1,
+    });
 
+    return (
+        <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)]">
+            {data &&
+                data.map((event, index) => <Event key={index} event={event} />)}
+        </div>
+    );
+};
+
+const AboutCompany = ({ id }) => {
+    const { data } = companyAPI.useGetOneCompanyQuery(id);
+    console.log(data);
     return (
         <>
             {data && (
-                <form
-                    method="POST"
-                    action="https://www.liqpay.ua/api/3/checkout"
-                    acceptCharset="utf-8"
-                >
-                    <input type="hidden" name="data" value={data.data} />
-                    <input
-                        type="hidden"
-                        name="signature"
-                        value={data.signature}
-                    />
-                    <button className="mt-3 relative flex w-fit justify-center rounded-md bg-indigo-600 py-3 px-4 text-sm font-semibold text-white hover:bg-indigo-500">
-                        Оплатить
-                    </button>
-                </form>
-            )}
-            {error && (
-                <span className="text-red-700 text-sm font-semibold">
-                    {error ? error.data?.message : null}
-                </span>
+                <div className="mt-4 flex flex-col shadow-sm gap-4 max-w-7xl mx-auto p-4 bg-white border border-gray-200 rounded-lg flex-wrap">
+                    <h1 className="font-medium text-xl">Об организаторе:</h1>
+                    <p className="text-justify text-lg font-medium text-gray-800">
+                        <span className="text-sm">Название: </span>
+                        <Link to={`/profile/company/${data.id}`}>
+                            {data.name}
+                        </Link>
+                    </p>
+                    <p className="text-justify text-gray-800">
+                        <span className="text-sm ">Email: </span>
+                        <a
+                            className="font-medium"
+                            href={`mailto:${data.account.email}`}
+                        >
+                            {data.account.email}
+                        </a>
+                    </p>
+                    <div>
+                        <p className="font-semibold">Описание:</p>
+                        <p className="text-lg text-justify">
+                            {data.description}
+                        </p>
+                    </div>
+                </div>
             )}
         </>
     );
@@ -45,6 +68,7 @@ const EventPage = () => {
     const { id } = useParams();
     const { data } = eventAPI.useGetOneEventQuery(id);
     const { data: comments } = commentAPI.useGetCommentsByEventQuery({ id });
+
     return (
         <>
             {data && (
@@ -104,7 +128,14 @@ const EventPage = () => {
                             {data.description}
                         </p>
                     </div>
-                    <div className="mt-4 flex flex-col shadow-sm gap-4 max-w-7xl mx-auto p-6 bg-slate-100 border border-gray-200 rounded-lg flex-wrap">
+                    <AboutCompany id={data.companyId} />
+                    <div className="mt-8 flex flex-col gap-3 max-w-7xl mx-auto flex-wrap">
+                        <h2 className="text-lg lg:text-2xl font-semibold text-gray-900">
+                            Похожие события:
+                        </h2>
+                        <SimilarEvents id={data.categoryId} />
+                    </div>
+                    <div className="mt-12 flex flex-col shadow-sm gap-4 max-w-7xl mx-auto p-6 bg-slate-100 border border-gray-200 rounded-lg flex-wrap">
                         <h2 className="text-lg lg:text-2xl font-bold text-gray-900">
                             Комментариев (
                             {comments && comments.count ? comments.count : 0})

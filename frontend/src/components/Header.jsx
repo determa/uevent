@@ -6,6 +6,17 @@ import { userAPI } from "../services/UserService";
 import { companyAPI } from "../services/CompanyService";
 import CreateEvent from "./CreateEvent";
 import Modal from "./Modal";
+import {
+    Avatar,
+    Box,
+    FormControl,
+    IconButton,
+    Menu,
+    MenuItem,
+    Select,
+    Tooltip,
+    Typography,
+} from "@mui/material";
 
 const ProfileImg = ({ data }) => {
     return (
@@ -66,7 +77,10 @@ const LinkComp = ({ id, type, confirmed }) => {
                     Ваш профиль
                 </Link>
                 <div>
-                    <Modal button_name="Создать событие" Component={CreateEvent} />
+                    <Modal
+                        button_name="Создать событие"
+                        Component={CreateEvent}
+                    />
                 </div>
                 <Link className="text-gray-700 px-4 py-2 text-sm cursor-pointer">
                     Понравившиеся
@@ -146,6 +160,84 @@ const DropDown = () => {
     );
 };
 
+const Test = () => {
+    const dispatch = useDispatch();
+    const { isAuth, type, id, confirmed } = useSelector(
+        (state) => state.userReducer
+    );
+    const [logout] = userAPI.useLogoutMutation();
+
+    const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+    const handleOpenUserMenu = (event) => {
+        setAnchorElUser(event.currentTarget);
+    };
+
+    const handleCloseUserMenu = () => {
+        setAnchorElUser(null);
+    };
+
+    return (
+        <Box sx={{ flexGrow: 0 }}>
+            <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <Avatar
+                        alt="avatar"
+                        src={`${process.env.REACT_APP_SERVER_DOMEN}/default.jpg`}
+                    />
+                </IconButton>
+            </Tooltip>
+            <Menu
+                sx={{ mt: "45px" }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+            >
+                <div
+                    className="py-1 flex flex-col"
+                    onClick={handleCloseUserMenu}
+                >
+                    {/* <LinkComp id={id} type={type} confirmed={confirmed} /> */}
+
+                    {isAuth && confirmed && (
+                        <Link
+                            to={`/tickets`}
+                            className="text-gray-700 px-4 py-2 text-sm cursor-pointer"
+                        >
+                            Ваши билеты
+                        </Link>
+                    )}
+                </div>
+
+                <div
+                    className="py-1 flex flex-col border-t border-gray-400"
+                    onClick={handleCloseUserMenu}
+                >
+                    <p
+                        onClick={() => {
+                            dispatch(logOut());
+                            logout();
+                        }}
+                        className="text-gray-700 px-4 py-2 text-sm cursor-pointer"
+                    >
+                        Выйти
+                    </p>
+                </div>
+            </Menu>
+        </Box>
+    );
+};
+
 const Header = () => {
     const { isAuth } = useSelector((state) => state.userReducer);
 
@@ -158,6 +250,7 @@ const Header = () => {
                             uevent
                         </Link>
                     </li>
+                    <Test />
                     {isAuth ? (
                         <li>
                             <DropDown />
