@@ -4,6 +4,7 @@ const Account_favorite_controller = require('../controllers/account_favorite_con
 const authMiddleware = require("../middleware/authMiddleware");
 
 router.get('/', authMiddleware, Account_favorite_controller.state);
+router.get('/events', authMiddleware, Account_favorite_controller.get_events);
 router.post('/', authMiddleware, Account_favorite_controller.subscribe);
 router.delete('/', authMiddleware, Account_favorite_controller.unsubscribe);
 
