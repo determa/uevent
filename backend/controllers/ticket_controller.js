@@ -1,5 +1,5 @@
 const ApiError = require('../error/ApiError');
-const { Ticket } = require('../models/models');
+const { Ticket, Event } = require('../models/models');
 const pdfGenerate = require('../service/pdfGenerate');
 
 class TicketController {
