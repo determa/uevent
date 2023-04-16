@@ -9,6 +9,9 @@ const userRouter = require('./userRouter');
 const companyRouter = require('./companyRouter');
 const ticketRouter = require('./ticketRouter');
 const themesRouter = require('./themesRouter');
+const accountFavoriteRouter = require('./accountFavoriteRouter');
+const companyNotifRouter = require('./companyNotifRouter');
+const eventNotifRouter = require('./eventNotifRouter');
 
 router.use('/auth', authRouter);
 router.use('/categories', categoriesRouter);
@@ -18,5 +21,8 @@ router.use('/user', userRouter);
 router.use('/company', companyRouter);
 router.use('/ticket', ticketRouter);
 router.use('/themes', themesRouter);
+router.use('/favorite', accountFavoriteRouter);
+router.use('/company-notification', companyNotifRouter);
+router.use('/event-notification', eventNotifRouter);
 
 module.exports = router;

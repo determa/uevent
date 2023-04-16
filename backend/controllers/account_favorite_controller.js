@@ -2,6 +2,20 @@ const ApiError = require("../error/ApiError");
 const { Account, AccountFavorite } = require("../models/models");
 
 class AccountFavoritefController {
+    async state(req, res, next) {
+        try {
+            let { eventId } = req.query;
+            const { accountId } = req.account;
+            let bool = false;
+            if (await AccountFavorite.findOne({ where: { accountId, eventId } }))
+                bool = true;
+            res.json(bool);
+        } catch (error) {
+            console.log(error);
+            return next(ApiError.badRequest("Ошибка получения состояния избранного!"));
+        }
+    }
+
     async subscribe(req, res, next) {
         try {
             let { eventId } = req.query;
