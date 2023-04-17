@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router";
 import { GoogleMapComponent } from "../components/GoogleMapComponent";
 import { eventAPI } from "../services/EventService";
@@ -14,6 +14,9 @@ import { companyAPI } from "../services/CompanyService";
 import FavoriteComponent from "../components/FavoriteComponent";
 import NotifyComponent from "../components/NotifyComponent";
 import NotifyCompany from "../components/NotifyCompany";
+import { userAPI } from "../services/UserService";
+import SettingButton from "../components/SettingButton";
+import EditEvent from "../components/EditEvent";
 
 const SimilarEvents = ({ id }) => {
     const { data } = eventAPI.useGetAllEventsQuery({
@@ -27,6 +30,29 @@ const SimilarEvents = ({ id }) => {
         <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)]">
             {data &&
                 data.map((event, index) => <Event key={index} event={event} />)}
+        </div>
+    );
+};
+
+const GetUsers = ({ id }) => {
+    const { data } = userAPI.useGetUsersQuery();
+
+    const [hide, setHide] = useState(true);
+
+    const handler = () => {
+        setHide(!hide);
+    };
+    return (
+        <div className="mt-4 relative flex flex-col shadow-sm gap-4 max-w-7xl mx-auto p-4 bg-white border border-gray-200 rounded-lg flex-wrap">
+            <h1
+                className="font-medium text-xl cursor-pointer hover:text-blue-700 select-none"
+                onClick={handler}
+            >
+                Список пользователей
+            </h1>
+            {!hide &&
+                data &&
+                data.map((user, index) => <p key={index}>name: {user.name}</p>)}
         </div>
     );
 };
@@ -75,7 +101,12 @@ const AboutCompany = ({ id }) => {
 };
 
 const EventPage = () => {
-    const { isAuth, confirmed } = useSelector((state) => state.userReducer);
+    const {
+        isAuth,
+        confirmed,
+        type,
+        id: companyId,
+    } = useSelector((state) => state.userReducer);
     const { id } = useParams();
     const { data } = eventAPI.useGetOneEventQuery(id);
     const { data: comments } = commentAPI.useGetCommentsByEventQuery({ id });
@@ -98,7 +129,7 @@ const EventPage = () => {
                                 src={`${process.env.REACT_APP_SERVER_DOMEN}/${data.picture}`}
                             />
                         </div>
-                        <div className="flex flex-1 flex-col px-4 gap-5 min-w-[14rem]">
+                        <div className="relative flex flex-1 flex-col px-4 gap-5 min-w-[14rem]">
                             <p className="text-sm text-gray-500 font-semibold">
                                 {dayjs(data.date).format(
                                     "dddd, DD MMMM YYYY HH:mm"
@@ -135,7 +166,14 @@ const EventPage = () => {
                                 )}
                             </div>
                         </div>
-                        <div className="flex w-full lg:w-2/5 h-80 min-w-[20rem]">
+                        <div className="flex relative w-full lg:w-2/5 h-80 min-w-[20rem]">
+                            {isAuth &&
+                                type === "COMPANY" &&
+                                companyId === data.companyId && (
+                                    <div className="absolute top-0 right-0 z-10 pl-3 pb-3 rounded-bl-lg bg-white">
+                                        <SettingButton component={EditEvent} data={data} />
+                                    </div>
+                                )}
                             <GoogleMapComponent
                                 center={JSON.parse(data.location).location}
                             />
@@ -148,6 +186,7 @@ const EventPage = () => {
                         </p>
                     </div>
                     <AboutCompany id={data.companyId} />
+                    <GetUsers id={data.companyId} />
                     <div className="mt-8 flex flex-col gap-3 max-w-7xl mx-auto flex-wrap">
                         <h2 className="text-lg lg:text-2xl font-semibold text-gray-900">
                             Похожие события:

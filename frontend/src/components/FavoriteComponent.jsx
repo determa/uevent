@@ -6,8 +6,8 @@ import { favoriteAPI } from "../services/FavoriteService";
 
 const FavoriteComponent = ({ eventId }) => {
     const { data: state } = favoriteAPI.useGetFavoriteStateQuery({ eventId });
-    const [subscribe, { data_sub, error_sub }] = favoriteAPI.useFavoriteSubscribeMutation();
-    const [unsubscribe, { data_unsub, error_unsub }] = favoriteAPI.useFavoriteUnsubscribeMutation();
+    const [subscribe] = favoriteAPI.useFavoriteSubscribeMutation();
+    const [unsubscribe] = favoriteAPI.useFavoriteUnsubscribeMutation();
 
     return (
         <>
@@ -17,7 +17,7 @@ const FavoriteComponent = ({ eventId }) => {
                     onClick={async () => {
                         await unsubscribe({ eventId });
                     }}
-                    className="absolute m-5 right-0 top-0 text-white w-9 h-9 hover:animate-pulse hover:transition hover:ease-out z-20"
+                    className="absolute m-5 right-0 top-0 text-white w-9 h-9 hover:animate-pulse hover:transition hover:ease-out z-10"
                 />
             ) : (
                 <FontAwesomeIcon
@@ -25,7 +25,7 @@ const FavoriteComponent = ({ eventId }) => {
                     onClick={async () => {
                         await subscribe({ eventId });
                     }}
-                    className="absolute m-5 right-0 top-0 text-white w-9 h-9 hover:animate-pulse hover:transition hover:ease-out z-20"
+                    className="absolute m-5 right-0 top-0 text-white w-9 h-9 hover:animate-pulse hover:transition hover:ease-out z-10"
                 />
             )}
         </>

@@ -6,8 +6,8 @@ import { notifyAPI } from "../services/NotifyService";
 
 const NotifyComponent = ({ eventId }) => {
     const { data: state } = notifyAPI.useGetEventNotifyStateQuery({ eventId });
-    const [subscribe, { data_sub, error_sub }] = notifyAPI.useEventSubscribeMutation();
-    const [unsubscribe, { data_unsub, error_unsub }] = notifyAPI.useEventUnsubscribeMutation();
+    const [subscribe] = notifyAPI.useEventSubscribeMutation();
+    const [unsubscribe] = notifyAPI.useEventUnsubscribeMutation();
 
     return (
         <>
@@ -17,7 +17,7 @@ const NotifyComponent = ({ eventId }) => {
                     onClick={async () => {
                         await unsubscribe({ eventId });
                     }}
-                    className="absolute m-5 left-0 top-0 text-white w-9 h-9 hover:animate-pulse hover:transition hover:ease-out z-20"
+                    className="absolute m-5 left-0 top-0 text-white w-9 h-9 hover:animate-pulse hover:transition hover:ease-out z-10"
                 />
             ) : (
                 <FontAwesomeIcon
@@ -25,7 +25,7 @@ const NotifyComponent = ({ eventId }) => {
                     onClick={async () => {
                         await subscribe({ eventId });
                     }}
-                    className="absolute m-5 left-0 top-0 text-white w-9 h-9 hover:animate-pulse hover:transition hover:ease-out z-20"
+                    className="absolute m-5 left-0 top-0 text-white w-9 h-9 hover:animate-pulse hover:transition hover:ease-out z-10"
                 />
             )}
         </>

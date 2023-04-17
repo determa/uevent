@@ -36,6 +36,14 @@ export const eventAPI = createApi({
             }),
             invalidatesTags: ["Event"],
         }),
+        update: build.mutation({
+            query: (data) => ({
+                url: `/events/${data.id}`,
+                method: "PATCH",
+                body: data.data,
+            }),
+            invalidatesTags: ["Event"],
+        }),
         getPaymentData: build.query({
             query: (data) => ({
                 url: `/events/payment-data/${data}`,

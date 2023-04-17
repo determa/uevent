@@ -16,16 +16,16 @@ import { indigo } from "@mui/material/colors";
 import SelectorInputCategory from "./SelectorInputCategory";
 import SelectTheme from "./SelectTheme";
 
-function CreateEvent({ setShowModal }) {
-    const [create_event, { isError, error }] = eventAPI.useCreateMutation();
-    let [location, setLocation] = useState(undefined);
-    let [option, setOption] = useState(undefined);
-    const [tags, setTags] = useState("");
-    const [selectedDate, setSelectedDate] = useState(
-        dayjs().add(1, "day").startOf("day")
-    );
+function EditEvent({ setShowModal, data: event }) {
+    const [update_event, { isError, error }] = eventAPI.useUpdateMutation();
+    let [location, setLocation] = useState(JSON.parse(event.location));
+    console.log(location);
+    let [option, setOption] = useState(event.themeId);
+    const [tags, setTags] = useState(event.categoryId);
+
+    const [selectedDate, setSelectedDate] = useState(dayjs(event.date));
     const [selectedDatePublish, setSelectedDatePublish] = useState(
-        dayjs().startOf("day")
+        dayjs(event.date_publish)
     );
 
     const handleChangeDate = (newValue) => {
@@ -42,8 +42,8 @@ function CreateEvent({ setShowModal }) {
         form.append("date", selectedDate);
         form.append("datePublish", selectedDatePublish);
         form.set("location", JSON.stringify(location));
-        console.log(Object.fromEntries(form));
-        const res = await create_event(form);
+        console.log(event.id, Object.fromEntries(form));
+        const res = await update_event({ id: event.id, data: form });
         console.log(res);
         if (!res.error) {
             document.body.style.overflowY = "auto";
@@ -54,7 +54,7 @@ function CreateEvent({ setShowModal }) {
     return (
         <div className="flex flex-col text-gray-800 gap-3 p-4 relative max-w-7xl mx-auto w-full">
             <h1 className="text-black text-center font-medium text-xl">
-                Create Event
+                Update Event
             </h1>
             <form
                 className="flex flex-col gap-3"
@@ -68,7 +68,7 @@ function CreateEvent({ setShowModal }) {
                             className="relative flex items-center justify-center h-52 rounded-lg bg-gray-400 text-gray-800 cursor-pointer hover:bg-gray-500"
                         >
                             <img
-                                src={`${process.env.REACT_APP_SERVER_DOMEN}/header.jpg`}
+                                src={`${process.env.REACT_APP_SERVER_DOMEN}/${event.picture}`}
                                 alt="img"
                                 className="h-52 rounded-lg object-cover object-center"
                             />
@@ -87,7 +87,7 @@ function CreateEvent({ setShowModal }) {
                         <FormControlLabel
                             control={
                                 <Checkbox
-                                    defaultChecked
+                                    defaultChecked={event.notification}
                                     sx={{
                                         "&.Mui-checked": {
                                             color: indigo[600],
@@ -117,6 +117,7 @@ function CreateEvent({ setShowModal }) {
                             name="title"
                             type="text"
                             placeholder="Название"
+                            defaultValue={event.title}
                         />
                         <textarea
                             id="description"
@@ -124,6 +125,7 @@ function CreateEvent({ setShowModal }) {
                             type="text"
                             className="border border-black border-opacity-25 text-gray-900 py-1.5 px-2.5 placeholder:text-gray-950/60 outline-none outline-offset-0 hover:border-indigo-400 focus:border-indigo-600 rounded-[4px] sm:text-sm sm:leading-6"
                             placeholder="Описание"
+                            defaultValue={event.description}
                             required
                         />
                         <div className="flex gap-3">
@@ -131,13 +133,13 @@ function CreateEvent({ setShowModal }) {
                                 label={"Дата"}
                                 handleChange={handleChangeDate}
                                 value={selectedDate}
-                                minDate={dayjs().add(1, "day").startOf("day")}
+                                // minDate={dayjs().add(1, "day").startOf("day")}
                             />
                             <MaterialUIPickers
                                 label={"Дата публикации"}
                                 handleChange={handleChangeDatePublish}
                                 value={selectedDatePublish}
-                                minDate={dayjs()}
+                                // minDate={dayjs()}
                                 maxDate={selectedDate}
                             />
                         </div>
@@ -166,7 +168,7 @@ function CreateEvent({ setShowModal }) {
                             name="members_visibility"
                             select
                             size="small"
-                            defaultValue={""}
+                            defaultValue={event.members_visibility}
                         >
                             <MenuItem value="all">Все пользователи</MenuItem>
                             <MenuItem value="members">
@@ -181,6 +183,7 @@ function CreateEvent({ setShowModal }) {
                             size="small"
                             type="number"
                             placeholder="250"
+                            defaultValue={event.price}
                         />
                         <TextField
                             required
@@ -189,6 +192,7 @@ function CreateEvent({ setShowModal }) {
                             size="small"
                             type="number"
                             placeholder="100"
+                            defaultValue={event.tickets_count}
                         />
 
                         {isError ? (
@@ -201,7 +205,7 @@ function CreateEvent({ setShowModal }) {
                             type="submit"
                             className="relative flex w-full justify-center rounded-md bg-indigo-600 py-2 px-3 text-sm font-semibold text-white hover:bg-indigo-500"
                         >
-                            Добавить
+                            Изменить
                         </button>
                     </FormControl>
                 </div>
@@ -210,4 +214,4 @@ function CreateEvent({ setShowModal }) {
     );
 }
 
-export default CreateEvent;
+export default EditEvent;

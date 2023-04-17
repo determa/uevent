@@ -6,8 +6,8 @@ import { notifyAPI } from "../services/NotifyService";
 
 const NotifyCompany = ({ companyId }) => {
     const { data: state } = notifyAPI.useGetCompanyNotifyStateQuery({ companyId });
-    const [subscribe, { data_sub, error_sub }] = notifyAPI.useCompanySubscribeMutation();
-    const [unsubscribe, { data_unsub, error_unsub }] = notifyAPI.useCompanyUnsubscribeMutation();
+    const [subscribe] = notifyAPI.useCompanySubscribeMutation();
+    const [unsubscribe] = notifyAPI.useCompanyUnsubscribeMutation();
 
     return (
         <>
@@ -17,7 +17,7 @@ const NotifyCompany = ({ companyId }) => {
                     onClick={async () => {
                         await unsubscribe({ companyId });
                     }}
-                    className="text-black w-8 h-8 hover:animate-pulse hover:transition hover:ease-out z-20"
+                    className="text-black w-8 h-8 hover:animate-pulse hover:transition hover:ease-out z-10"
                 />
             ) : (
                 <FontAwesomeIcon
@@ -25,7 +25,7 @@ const NotifyCompany = ({ companyId }) => {
                     onClick={async () => {
                         await subscribe({ companyId });
                     }}
-                    className="text-black w-8 h-8 hover:animate-pulse hover:transition hover:ease-out z-20"
+                    className="text-black w-8 h-8 hover:animate-pulse hover:transition hover:ease-out z-10"
                 />
             )}
         </>

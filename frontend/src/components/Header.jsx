@@ -122,15 +122,24 @@ const DropDown = () => {
                                     Ваши билеты
                                 </Link>
                                 {type === "COMPANY" && (
-                                    <p
-                                        className="text-gray-700 px-4 py-2 text-sm cursor-pointer"
-                                        onClick={() => {
-                                            setShowModal(true);
-                                            handleCloseUserMenu();
-                                        }}
-                                    >
-                                        Создать событие
-                                    </p>
+                                    <>
+                                        <Link
+                                            to={`/events`}
+                                            className="text-gray-700 px-4 py-2 text-sm cursor-pointer"
+                                            onClick={handleCloseUserMenu}
+                                        >
+                                            Ваши события
+                                        </Link>
+                                        <p
+                                            className="text-gray-700 px-4 py-2 text-sm cursor-pointer"
+                                            onClick={() => {
+                                                setShowModal(true);
+                                                handleCloseUserMenu();
+                                            }}
+                                        >
+                                            Создать событие
+                                        </p>
+                                    </>
                                 )}
                             </>
                         )}

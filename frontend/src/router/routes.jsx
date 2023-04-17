@@ -9,6 +9,7 @@ import ConfirmEmail from '../services/ConfirmEmail';
 import CreateEvent from '../components/CreateEvent';
 import TicketsPage from '../pages/TicketsPage';
 import FavoritePage from '../pages/FavoritePage';
+import CompanyEvents from '../pages/CompanyEvents';
 
 export const publicRoutes = [
     { path: "/", component: <MainPage /> },
@@ -18,6 +19,7 @@ export const publicRoutes = [
     { path: "/profile/user/:id", component: <Container component={<ProfilePage />} /> },
     { path: "/profile/company/:id", component: <Container component={<PorileCompanyPage />} /> },
     { path: "/events/:id", component: <Container component={<EventPage />} /> },
+    { path: "/events", component: <Container component={<CompanyEvents />} /> },
     { path: "/events/create", component: <CreateEvent /> },
     { path: "/test", component: <Test /> },
     { path: "/validation/:id", component: <ConfirmEmail /> },

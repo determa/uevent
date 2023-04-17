@@ -12,7 +12,7 @@ const pem = {
     libraries: ["places"],
 };
 
-const PlaceComponent = ({ setLocation }) => {
+const PlaceComponent = ({ location, setLocation }) => {
     const inputRef = useRef();
     const handlePlaceChanged = () => {
         const [place] = inputRef.current.getPlaces();
@@ -20,7 +20,13 @@ const PlaceComponent = ({ setLocation }) => {
             console.log(place.formatted_address);
             console.log(place.geometry.location.lat());
             console.log(place.geometry.location.lng());
-            setLocation({ lat: place.geometry.location.lat(), lng: place.geometry.location.lng() })
+            setLocation({
+                name: place.formatted_address,
+                location: {
+                    lat: place.geometry.location.lat(),
+                    lng: place.geometry.location.lng(),
+                },
+            });
         }
     };
 
@@ -38,6 +44,7 @@ const PlaceComponent = ({ setLocation }) => {
                         name="location"
                         className="w-full border border-black border-opacity-25 text-gray-900 py-1.5 px-2.5 placeholder:text-gray-400 outline-none outline-offset-0 hover:border-indigo-400 focus:border-indigo-600 rounded-md sm:text-sm sm:leading-6"
                         placeholder="Enter location"
+                        defaultValue={location?.name}
                         required
                     />
                 </StandaloneSearchBox>

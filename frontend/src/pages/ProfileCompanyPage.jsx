@@ -63,11 +63,16 @@ const ProfilePage = () => {
                         </div>
                     </div>
                     {/* <div className="flex flex-col gap-3 p-4 relative border border-gray-200 max-w-7xl mx-auto rounded-lg shadow-sm w-full"> */}
-                    <div className="max-w-7xl mx-auto grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8 drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)]">
-                        {events &&
-                            events.map((event, index) => (
-                                <Event key={index} event={event} />
-                            ))}
+                    <div className="flex flex-col gap-3">
+                        <h1 className="font-semibold text-lg">
+                            Последние события:
+                        </h1>
+                        <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8 drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)]">
+                            {events &&
+                                events.map((event, index) => (
+                                    <Event key={index} event={event} />
+                                ))}
+                        </div>
                     </div>
                     {/* </div> */}
                 </div>

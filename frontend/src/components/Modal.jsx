@@ -1,6 +1,6 @@
 import React from "react";
 
-function Modal({ showModal, setShowModal, Component }) {
+function Modal({ showModal, setShowModal, Component, data }) {
     const handler = (e) => {
         if (e.target.id === "modal") {
             setShowModal(false);
@@ -29,7 +29,7 @@ function Modal({ showModal, setShowModal, Component }) {
                             </svg>
                         </button>
                         <div className="p-3">
-                            {<Component setShowModal={setShowModal} />}
+                            {<Component setShowModal={setShowModal} data={data} />}
                         </div>
                     </div>
                 </div>
