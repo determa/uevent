@@ -21,7 +21,7 @@ module.exports = async function () {
                 })
                 events.forEach((element) => {
                     if (element.event_notifications[0])
-                        console.log(events);
+                        console.log(element.title);
 
                 })
             } catch (error) {
