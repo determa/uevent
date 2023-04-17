@@ -21,8 +21,8 @@ const PORT = process.env.PORT || 5000;
 const HOST = process.env.HOST || "localhost";
 
 const DEFAULT_ADMIN = {
-    email: 'admin@example.com',
-    password: 'password',
+    email: 'admin@admin.com',
+    password: 'admin',
 }
 
 const authenticate = async (email, password) => {
@@ -55,7 +55,7 @@ const admin = new AdminJS(adminOptions);
 const ConnectSession = Connect(session)
 const sessionStore = new ConnectSession({
     conObject: {
-        connectionString: `postgres://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.HOST}:5432/uevent`,
+        connectionString: `postgres://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.HOST}:5432/${process.env.DB_NAME}`,
         ssl: process.env.NODE_ENV === 'production',
     },
     tableName: 'session',
