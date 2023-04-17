@@ -125,31 +125,32 @@ class EventController {
     async update(req, res, next) {
         try {
             let { id } = req.params;
-            let { title, picture, description, date, location, price, tickets_count, categories } = req.body;
-
+            let { title, description, date, location, price, tickets_count, theme, category, members_visibility, datePublish, notification } = req.body;
+            const location_parsed = JSON.parse(location);
             const event = await Event.findOne({ where: { id } });
             if (!event) return next(ApiError.notFound("Событие не найдено!"));
+            let picture = event.picture;
+            if (req.files?.avatar) {
+                picture = imageUpload(req.files.avatar)
+            }
+            notification ? notification = true : notification = false;
 
-            if (req.account.id != event.companyId && req.account.role != "ADMIN" && req.account.role != "MODERATOR") {
+
+            if (req.account.id != event.companyId) {
                 return next(ApiError.forbidden());
             }
 
-            if (!title || !picture || !description || !date || !location || !price || !tickets_count) {
-                return next(ApiError.notFound("Поле не заполнено!"));
-            }
+            if (!title || !description || !date || !location_parsed.name || !location_parsed.location || !price || !tickets_count || !theme || !category || !members_visibility || !datePublish)
+                return next(ApiError.badRequest("Некорректное поле!"));
 
-            const db_categories = await Category.findAll({
-                where: { id: categories },
+
+            await Event.update({
+                title, picture, description,
+                date, location, price, tickets_count,
+                companyId: req.account.id, themeId: theme,
+                categoryId: category, members_visibility,
+                date_publish: datePublish, notification
             });
-
-            if (!db_categories[0])
-                return next(ApiError.notFound("Категории не выбраны!"));
-
-            let data = { title, picture, description, date, location, price, tickets_count };
-
-            await Event.update(data, { where: { id } });
-
-            await event.setCategories(db_categories);
 
             return res.json({ message: "Событие обновлено!" });
         } catch (e) {
