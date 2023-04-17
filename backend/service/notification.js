@@ -22,9 +22,9 @@ module.exports = async function () {
                 accounts.forEach((event_element) => {
                     const { event_notifications } = event_element;
                     if (event_notifications[0]) {
-                        event_notifications.forEach((notif_element) => {
-                            console.log(notif_element);
-                        })
+                        console.log(event_notifications);
+                        // event_notifications.forEach((notif_element) => {
+                        // })
                     }
 
                 })
