@@ -57,7 +57,7 @@ const start = async () => {
         const ConnectSession = Connect(session)
         const sessionStore = new ConnectSession({
             conObject: {
-                connectionString: `postgres://adminjs:adminjs@${process.env.HOST}:5435/adminjs`,
+                connectionString: `postgres://adminjs:adminjs@${process.env.HOST}:5432/adminjs`,
                 ssl: process.env.NODE_ENV === 'production',
             },
             tableName: 'session',
