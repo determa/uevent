@@ -20,8 +20,8 @@ module.exports = async function () {
                         }]
                     }],
                 })
-                let html = '';
                 accounts.forEach((account_element) => {
+                    let html = '';
                     const { event_notifications, email } = account_element;
                     if (event_notifications[0]) {
                         event_notifications.forEach((notif_element) => {
