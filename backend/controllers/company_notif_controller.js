@@ -1,11 +1,11 @@
 const ApiError = require("../error/ApiError");
-const { User, Company, CompanyNotification } = require("../models/models");
+const { User, Company, CompanyNotification, Account } = require("../models/models");
 
 class CompanyNotifController {
     async get_companies(req, res, next) {
         try {
             const { id } = req.account;
-            let user = await User.findAll({ where: { id }, include: Company });
+            let user = await User.findAll({ where: { id }, include: { model: Company, include: Account } });
             console.log(user);
             res.json(user[0].companies);
         } catch (error) {
