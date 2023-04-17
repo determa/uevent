@@ -5,9 +5,9 @@ class CompanyNotifController {
     async get_companies(req, res, next) {
         try {
             const { id } = req.account;
-            let user = await User.findOne({ where: { id }, include: Company });
+            let user = await User.findAll({ where: { id }, include: Company });
             console.log(user);
-            res.json(user.companies);
+            res.json(user[0].companies);
         } catch (error) {
             console.log(error);
             return next(ApiError.badRequest("Ошибка получения состояния подписи на компанию!"));
