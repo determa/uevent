@@ -6,8 +6,9 @@ const { sendNotificationByEvent } = require("./mailService");
 
 module.exports = async function () {
     // 0 0 6 */1 * *
+    // */10 * * * * *
     try {
-        cron.schedule("*/10 * * * * *", async () => {
+        cron.schedule("0 0 6 */1 * *", async () => {
             try {
                 let date_now = moment().hour(0).minute(0).second(0);
                 let date_end = moment().hour(23).minute(59).second(59);
