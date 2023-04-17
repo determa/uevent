@@ -81,15 +81,15 @@ class EventController {
                 date_end = new Date(date_end).getTime() + 24 * 60 * 60 * 1000 - 1; //до конца дня
 
             if (date_start && date_end)
-                eventObj.createdAt = { [Op.between]: [date_start, date_end] };
+                eventObj.date = { [Op.between]: [date_start, date_end] };
             if (!date_start && date_end)
-                eventObj.createdAt = { [Op.lte]: date_end };
+                eventObj.date = { [Op.lte]: date_end };
             if (date_start && !date_end)
-                eventObj.createdAt = { [Op.gte]: date_start };
+                eventObj.date = { [Op.gte]: date_start };
 
             if (categories_array[0]) eventObj.categoryId = categories_array;
             if (themes_array[0]) eventObj.themeId = themes_array;
-            if (sort === "date") sortArr = [['"createdAt"', "ASC"]];
+            if (sort === "date") sortArr = [['"date"', "ASC"]];
             if (sort === "-price") sortArr = [['"price"', "ASC"]];
             if (sort === "price") sortArr = [['"price"', "DESC"]];
 
