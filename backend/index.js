@@ -66,6 +66,7 @@ const adminRouter = AdminJSExpress.buildAuthenticatedRouter(
 
 const app = express();
 app.use(cors({ origin: { origin: '*' }, credentials: true }));
+app.use(admin.options.rootPath, adminRouter)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.resolve(__dirname, "static")));
@@ -74,7 +75,6 @@ app.use(cookieParser());
 app.get("/", (req, res) => {
     res.send("asd");
 });
-app.use(admin.options.rootPath, adminRouter)
 app.use("/api", router);
 
 //errors, last middleware
