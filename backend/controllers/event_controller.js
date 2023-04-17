@@ -77,42 +77,15 @@ class EventController {
             let eventObj = {};
             if (categories_array[0]) eventObj.categoryId = categories_array;
             if (themes_array[0]) eventObj.themeId = themes_array;
-            // let catObj = { where: {} };
-
-            // if (categories) catObj.where.id = categories.split(",");
-            // if (locations) eventObj.location = locations.split(",");
-
-            // if (startDate) startDate = new Date(startDate);
-            // if (endDate)
-            //     endDate = new Date(endDate).getTime() + 24 * 60 * 60 * 1000 - 1; //до конца дня
-
-            // if (startDate && endDate)
-            //     eventObj.date = { [Op.gte]: startDate, [Op.lte]: endDate };
-            // if (!startDate && endDate)
-            //     eventObj.date = { [Op.lte]: endDate };
-            // if (startDate && !endDate)
-            //     eventObj.date = { [Op.gte]: startDate };
-
-            // let sortArr = [[literal("countlike"), "DESC"]];
-            // if (sort === "-like") sortArr = [[literal("countlike"), "ASC"]];
-            if (sort === "date") sortArr = [['"createdAt"', "DESC"]];
-            if (sort === "-date") sortArr = [['"createdAt"', "ASC"]];
+            if (sort === "date") sortArr = [['"createdAt"', "ASC"]];
+            if (sort === "-price") sortArr = [['"price"', "ASC"]];
+            if (sort === "price") sortArr = [['"price"', "DESC"]];
 
             const event = await Event.findAll({
                 limit,
                 offset,
                 where: eventObj,
                 include: [{ model: Category, attributes: ['name'] }, { model: Theme, attributes: ['name'] }],
-                // attributes: {
-                //     include: [
-                //         [
-                //             literal(
-                //                 `(SELECT COUNT(*) FROM user_favorite WHERE "eventId" = event.id)`
-                //             ),
-                //             "countlike",
-                //         ],
-                //     ],
-                // },
                 order: sortArr,
             });
             return res.json(event);
