@@ -96,7 +96,16 @@ class MailService {
         }
     }
 
-    
+    sendNotificationByEvent = async (html, email) => {
+        try {
+            await send_mail(html, email, undefined, this.transporter);
+            res.json({ message: 'Рассылка от ивентов успешна!' });
+        } catch (error) {
+            console.log(error);
+            return next(ApiError.internal());
+        }
+    }
+
 }
 
 module.exports = new MailService();

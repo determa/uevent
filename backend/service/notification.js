@@ -2,6 +2,7 @@ const cron = require("node-cron");
 const moment = require("moment");
 const { EventNotification, Account, Event } = require("../models/models");
 const { Op } = require("sequelize");
+const { sendNotificationByEvent } = require("./mailService");
 
 module.exports = async function () {
     // 0 0 6 */1 * *
@@ -19,12 +20,15 @@ module.exports = async function () {
                         }]
                     }],
                 })
+                let html = '';
                 accounts.forEach((account_element) => {
-                    const { event_notifications } = account_element;
+                    const { event_notifications, email } = account_element;
                     if (event_notifications[0]) {
-                        console.log(event_notifications);
-                        // event_notifications.forEach((notif_element) => {
-                        // })
+                        event_notifications.forEach((notif_element) => {
+                            const { event } = notif_element;
+                            html = + `<h1>Ссылка на ивент:</h1><a href="http://127.0.0.1:${process.env.CL_PORT}/events/${event.id}" target="_blank">Нажмите для просмотра</a>`
+                        });
+                        sendNotificationByEvent('<h1>Все сегодняшние ивенты:</h1>' + html, email);
                     }
 
                 })
