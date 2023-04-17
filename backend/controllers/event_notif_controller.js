@@ -7,7 +7,7 @@ class EventNotifController {
             const { accountId } = req.account;
             let notif = await EventNotification.findOne({ where: { accountId }, include: Event });
             console.log(notif);
-            res.json(notif.events);
+            res.json(notif.event);
         } catch (error) {
             console.log(error);
             return next(ApiError.badRequest("Ошибка получения состояния подписи на компанию!"));
