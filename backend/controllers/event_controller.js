@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const ApiError = require("../error/ApiError");
 const { User, Company, Account, Category, Event, Theme } = require("../models/models");
 const imageUpload = require("../service/imageUpload");
@@ -62,7 +63,7 @@ class EventController {
 
     async get_all(req, res, next) {
         try {
-            let { limit, page, categories, themes, sort } = req.query;
+            let { limit, page, categories, themes, sort, date_start, date_end } = req.query;
             page = page || 1;
             limit = limit || 10;
             console.log(categories, themes)
@@ -75,6 +76,17 @@ class EventController {
             themes_array = themes_array[0] == 0 ? [] : themes_array;
 
             let eventObj = {};
+            if (date_start) date_start = new Date(date_start);
+            if (date_end)
+                date_end = new Date(date_end).getTime() + 24 * 60 * 60 * 1000 - 1; //до конца дня
+
+            if (date_start && date_end)
+                eventObj.createdAt = { [Op.between]: [date_start, date_end] };
+            if (!date_start && date_end)
+                eventObj.createdAt = { [Op.lte]: date_end };
+            if (date_start && !date_end)
+                eventObj.createdAt = { [Op.gte]: date_start };
+
             if (categories_array[0]) eventObj.categoryId = categories_array;
             if (themes_array[0]) eventObj.themeId = themes_array;
             if (sort === "date") sortArr = [['"createdAt"', "ASC"]];
