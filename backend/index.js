@@ -5,7 +5,7 @@ const models = require("./models/models");
 const AdminJS = require('adminjs');
 const Connect = require('connect-pg-simple');
 const session = require('express-session');
-// import * as AdminJSSequelize from '@adminjs/sequelize';
+import * as AdminJSSequelize from '@adminjs/sequelize';
 const AdminJSExpress = require('@adminjs/express');
 const router = require("./routes/index");
 const cors = require("cors");
@@ -31,8 +31,15 @@ const authenticate = async (email, password) => {
     }
     return null
 }
-
-const admin = new AdminJS({});
+AdminJS.registerAdapter({
+    Resource: AdminJSSequelize.Resource,
+    Database: AdminJSSequelize.Database,
+})
+const adminOptions = {
+    // We pass Category to `resources`
+    resources: [models],
+}
+const admin = new AdminJS(adminOptions);
 const ConnectSession = Connect(session)
 const sessionStore = new ConnectSession({
     conObject: {
