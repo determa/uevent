@@ -10,18 +10,22 @@ module.exports = async function () {
             try {
                 let date_now = moment().hour(0).minute(0).second(0);
                 let date_end = moment().hour(23).minute(59).second(59);
-                let events = await Event.findAll({
-                    where: { date: { [Op.between]: [date_now, date_end] } },
+                let accounts = await Account.findAll({
                     include: [{
                         model: EventNotification,
                         include: [{
-                            model: Account,
+                            model: Event,
+                            where: { date: { [Op.between]: [date_now, date_end] } },
                         }]
                     }],
                 })
-                events.forEach((element) => {
-                    if (element.event_notifications[0])
-                        console.log(element.event_notifications);
+                accounts.forEach((event_element) => {
+                    const { event_notifications } = event_element;
+                    if (event_notifications[0]) {
+                        event_notifications.forEach((notif_element) => {
+                            console.log(notif_element);
+                        })
+                    }
 
                 })
             } catch (error) {
