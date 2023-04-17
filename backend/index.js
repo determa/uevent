@@ -5,7 +5,7 @@ const models = require("./models/models");
 const AdminJS = require('adminjs');
 const Connect = require('connect-pg-simple');
 const session = require('express-session');
-import * as AdminJSSequelize from '@adminjs/sequelize';
+const AdminJSSequelize = require('@adminjs/sequelize');
 const AdminJSExpress = require('@adminjs/express');
 const router = require("./routes/index");
 const cors = require("cors");
