@@ -12,7 +12,12 @@ module.exports = async function () {
                 let date_end = moment().hour(23).minute(59).second(59);
                 let events = await Event.findAll({
                     where: { date: { [Op.between]: [date_now, date_end] } },
-                    include: [{ model: Account }],
+                    include: [{
+                        model: EventNotification,
+                        include: [{
+                            model: Account,
+                        }]
+                    }],
                 })
                 console.log(events);
             } catch (error) {
