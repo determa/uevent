@@ -19,7 +19,7 @@ module.exports = async function () {
                         }]
                     }],
                 })
-                if (events.event_notifications)
+                if (events.event_notifications.length > 0)
                     console.log(events);
             } catch (error) {
                 console.log(error);
