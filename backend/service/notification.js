@@ -19,8 +19,11 @@ module.exports = async function () {
                         }]
                     }],
                 })
-                if (events.event_notifications.length > 0)
-                    console.log(events);
+                events.forEach((element) => {
+                    if (element.event_notifications[0])
+                        console.log(events);
+
+                })
             } catch (error) {
                 console.log(error);
             }
