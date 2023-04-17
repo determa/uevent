@@ -11,10 +11,10 @@ const generateJwt = (accountId, id, type, confirmed, time, key) => {
     );
 }
 
-const generate_tokens = (accountId, id, type, confirmed, req, res) => {
+const generate_tokens = (accountId, id, type, confirmed, role, req, res) => {
     const cookies = req.cookies;
-    const accessToken = generateJwt(accountId, id, type, confirmed, '30s', process.env.SECRET_KEY_ACCESS);
-    const newRefreshToken = generateJwt(accountId, id, type, confirmed, '24h', process.env.SECRET_KEY_REFRESH); ///back time to 60s
+    const accessToken = generateJwt(accountId, id, type, confirmed, role, '30s', process.env.SECRET_KEY_ACCESS);
+    const newRefreshToken = generateJwt(accountId, id, type, confirmed, role, '24h', process.env.SECRET_KEY_REFRESH); ///back time to 60s
     if (cookies?.token) {
         res.clearCookie('token', cookieOptions);
     }
@@ -48,7 +48,7 @@ class AuthController {
             }
             const hashPassword = await bcrypt.hash(password, 5);
             const account = await Account.create({ password: hashPassword, email });
-            return res.json(generate_tokens(account.id, 0, account.type, account.confirmed, req, res));
+            return res.json(generate_tokens(account.id, 0, account.type, account.confirmed, null, req, res));
         } catch (error) {
             console.log(error);
             return next(ApiError.internal());
@@ -67,7 +67,7 @@ class AuthController {
             }
             const user = await User.create({ name, picture, accountId: req.account.accountId });
             await Account.update({ type: "USER" }, { where: { id: req.account.accountId } });
-            return res.json(generate_tokens(req.account.accountId, user.id, 'USER', req.account.confirmed, req, res));
+            return res.json(generate_tokens(req.account.accountId, user.id, 'USER', req.account.confirmed, null, req, res));
         } catch (error) {
             console.log(error);
             return next(ApiError.internal());
@@ -86,7 +86,7 @@ class AuthController {
             }
             const company = await Company.create({ name, picture, location, description, accountId: req.account.accountId });
             await Account.update({ type: "COMPANY" }, { where: { id: req.account.accountId } });
-            return res.json(generate_tokens(req.account.accountId, company.id, 'COMPANY', req.account.confirmed, req, res));
+            return res.json(generate_tokens(req.account.accountId, company.id, 'COMPANY', req.account.confirmed, null, req, res));
         } catch (error) {
             console.log(error);
             return next(ApiError.internal());
@@ -104,13 +104,15 @@ class AuthController {
                 return next(ApiError.notFound("Аккаунт не найден!"));
             }
             let account_type = await User.findOne({ where: { accountId: account.id } });
+            let role = account_type.role;
             if (!account_type) {
+                role = null;
                 account_type = await Company.findOne({ where: { accountId: account.id } })
             }
             if (!bcrypt.compareSync(password, account.password)) {
                 return next(ApiError.badRequest("Неверные данные!"));
             }
-            return res.json(generate_tokens(account.id, account_type?.id || 0, account.type, account.confirmed, req, res));
+            return res.json(generate_tokens(account.id, account_type?.id || 0, account.type,  account.confirmed, role, req, res));
         } catch (error) {
             console.log(error);
             return next(ApiError.internal());
@@ -199,7 +201,7 @@ class AuthController {
             if (!account) {
                 return next(ApiError.notAuth("Пользователь не найден!"));
             }
-            return res.json(generate_tokens(accountId, id, account.type, account.confirmed, req, res));
+            return res.json(generate_tokens(accountId, id, account.type, account.confirmed, account.role, req, res));
         } catch (error) {
             console.log(error);
             return next(ApiError.notAuth());
