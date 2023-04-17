@@ -112,7 +112,7 @@ class AuthController {
             if (!bcrypt.compareSync(password, account.password)) {
                 return next(ApiError.badRequest("Неверные данные!"));
             }
-            return res.json(generate_tokens(account.id, account_type?.id || 0, account.type,  account.confirmed, role, req, res));
+            return res.json(generate_tokens(account.id, account_type?.id || 0, account.type, account.confirmed, role, req, res));
         } catch (error) {
             console.log(error);
             return next(ApiError.internal());
@@ -196,12 +196,12 @@ class AuthController {
         try {
             const token = req.cookies.token;
             if (!token) return next(ApiError.notAuth());
-            const { accountId, id } = jwt.verify(token, process.env.SECRET_KEY_REFRESH);
+            const { accountId, id, role } = jwt.verify(token, process.env.SECRET_KEY_REFRESH);
             const account = await Account.findOne({ where: { id: accountId } });
             if (!account) {
                 return next(ApiError.notAuth("Пользователь не найден!"));
             }
-            return res.json(generate_tokens(accountId, id, account.type, account.confirmed, account.role, req, res));
+            return res.json(generate_tokens(accountId, id, account.type, account.confirmed, role, req, res));
         } catch (error) {
             console.log(error);
             return next(ApiError.notAuth());
