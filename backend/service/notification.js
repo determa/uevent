@@ -26,7 +26,7 @@ module.exports = async function () {
                     if (event_notifications[0]) {
                         event_notifications.forEach((notif_element) => {
                             const { event } = notif_element;
-                            html = + `<h1>Ссылка на ивент:</h1><a href="http://127.0.0.1:${process.env.CL_PORT}/events/${event.id}" target="_blank">Нажмите для просмотра</a>`
+                            html += `<h1>Ссылка на ивент:</h1><a href="http://127.0.0.1:${process.env.CL_PORT}/events/${event.id}" target="_blank">Нажмите для просмотра</a>`
                         });
                         sendNotificationByEvent('<h1>Все сегодняшние ивенты:</h1>' + html, email);
                     }
