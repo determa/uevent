@@ -175,7 +175,7 @@ const DropDown = () => {
 };
 
 const Header = () => {
-    const { isAuth } = useSelector((state) => state.userReducer);
+    const { isAuth, role } = useSelector((state) => state.userReducer);
 
     return (
         <header className="select-none bg-gradient-to-r from-[#ED4690]/70 to-[#5522CC]/70 w-full h-full border-gray-200 px-4 lg:px-6 py-3 dark:bg-gray-800">
@@ -186,7 +186,16 @@ const Header = () => {
                             uevent
                         </Link>
                     </li>
-
+                    {role === "ADMIN" && (
+                        <li>
+                            <Link
+                                className="px-3 py-2.5 font-serif border-gray-300 border rounded-lg hover:bg-white/10"
+                                to={`${process.env.REACT_APP_SERVER_DOMEN}/admin`}
+                            >
+                                Admin panel
+                            </Link>
+                        </li>
+                    )}
                     {isAuth ? (
                         <li>
                             <DropDown />

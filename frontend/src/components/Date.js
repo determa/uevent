@@ -4,7 +4,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { MobileDateTimePicker } from "@mui/x-date-pickers";
 
-export default function MaterialUIPickers({ label, value, minDate, maxDate, handleChange }) {
+export default function MaterialUIPickers({ label, value, minDate, maxDate, handleChange, minTime }) {
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <Stack spacing={3}>
@@ -17,6 +17,7 @@ export default function MaterialUIPickers({ label, value, minDate, maxDate, hand
                     ampm={false}
                     minDate={minDate}
                     maxDateTime={maxDate}
+                    minTime={minTime}
                 />
             </Stack>
         </LocalizationProvider>

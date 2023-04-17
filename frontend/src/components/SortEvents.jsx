@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { themeAPI } from "../services/ThemeService";
 import { categoryAPI } from "../services/CategoryService";
+import SearchTicket from "./SearchTicket";
 
 const SortDropDown = ({ sort, setSort }) => {
     return (
@@ -19,11 +20,12 @@ const SortDropDown = ({ sort, setSort }) => {
             select
             size="small"
             value={sort}
-            defaultValue={"date"}
             onChange={(e) => setSort(e.target.value)}
+            className="min-w-[80px]"
         >
-            <MenuItem value="-date">Ближайшим</MenuItem>
-            <MenuItem value="date">Популярным</MenuItem>
+            <MenuItem value="date">Ближайшим</MenuItem>
+            <MenuItem value="-price">От дешевых</MenuItem>
+            <MenuItem value="price">От дорогих</MenuItem>
         </TextField>
     );
 };
@@ -34,7 +36,7 @@ const MultipleSelectThemes = ({ handler, setter, value, IdSetter }) => {
     return (
         <>
             {data && (
-                <FormControl sx={{ width: 250 }} size="small">
+                <FormControl sx={{ minWidth: 200 }} size="small">
                     <InputLabel id="theme-label">Темы</InputLabel>
                     <Select
                         labelId="theme-label"
@@ -67,7 +69,7 @@ const MultipleSelectCategories = ({ handler, setter, value, IdSetter }) => {
     return (
         <>
             {data && (
-                <FormControl sx={{ width: 250 }} size="small">
+                <FormControl sx={{ minWidth: 200 }} size="small">
                     <InputLabel id="categories-label">Категории</InputLabel>
                     <Select
                         labelId="categories-label"
@@ -94,7 +96,16 @@ const MultipleSelectCategories = ({ handler, setter, value, IdSetter }) => {
     );
 };
 
-const SortEvents = ({ setIdTheme, setIdCategoryd, sort, setSort }) => {
+const SortEvents = ({
+    setIdTheme,
+    setIdCategoryd,
+    sort,
+    setSort,
+    setSelectedDateFrom,
+    setSelectedDateTo,
+    selectedDateFrom,
+    selectedDateTo,
+}) => {
     const [valueTheme, setValueTheme] = React.useState([]);
     const [valueCategory, setValueCategory] = React.useState([]);
 
@@ -109,12 +120,18 @@ const SortEvents = ({ setIdTheme, setIdCategoryd, sort, setSort }) => {
         IdSetter(value.map((value) => value.id));
         console.log(value);
     };
+
+    const handleDateFrom = (newValue) => {
+        setSelectedDateFrom(newValue);
+    };
+
+    const handleDateTo = (newValue) => {
+        setSelectedDateTo(newValue);
+    };
+
     return (
-        <div className="flex gap-3 select-none items-center">
-            <div className="flex gap-2 items-center">
-                <span>Сортировать по: </span>
-                <SortDropDown sort={sort} setSort={setSort} />
-            </div>
+        <div className="flex gap-3 select-none items-center flex-wrap">
+            <SortDropDown sort={sort} setSort={setSort} />
 
             <MultipleSelectThemes
                 handler={handler}
@@ -128,10 +145,12 @@ const SortEvents = ({ setIdTheme, setIdCategoryd, sort, setSort }) => {
                 value={valueCategory}
                 IdSetter={setIdCategoryd}
             />
-
-            <button className="relative flex w-fit justify-center rounded-md bg-indigo-600 py-2 px-3 text-sm font-semibold text-white hover:bg-indigo-500">
-                применить
-            </button>
+            <SearchTicket
+                selectedDateFrom={selectedDateFrom}
+                handleDateFrom={handleDateFrom}
+                selectedDateTo={selectedDateTo}
+                handleDateTo={handleDateTo}
+            />
         </div>
     );
 };

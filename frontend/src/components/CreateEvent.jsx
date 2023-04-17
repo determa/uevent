@@ -22,10 +22,10 @@ function CreateEvent({ setShowModal }) {
     let [option, setOption] = useState(undefined);
     const [tags, setTags] = useState("");
     const [selectedDate, setSelectedDate] = useState(
-        dayjs().add(1, "day").startOf("day")
+        dayjs().add(1, "day").set('hour', 6).startOf('hour')
     );
     const [selectedDatePublish, setSelectedDatePublish] = useState(
-        dayjs().startOf("day")
+        dayjs().startOf('hour')
     );
 
     const handleChangeDate = (newValue) => {
@@ -132,6 +132,7 @@ function CreateEvent({ setShowModal }) {
                                 handleChange={handleChangeDate}
                                 value={selectedDate}
                                 minDate={dayjs().add(1, "day").startOf("day")}
+                                minTime={dayjs().set("hour", 6).startOf("hour")}
                             />
                             <MaterialUIPickers
                                 label={"Дата публикации"}

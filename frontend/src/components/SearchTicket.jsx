@@ -1,50 +1,50 @@
-import React from "react";
+import React, { useState } from "react";
+import dayjs from "dayjs";
+import { FormControl } from "@mui/material";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
-const SearchTicket = () => {
+function BasicDatePicker({ label, value, handler, minDate, maxDate }) {
     return (
-        <div className="flex justify-center items-center relative -translate-y-1/2 px-4">
-            <div className="flex flex-col w-full lg:w-auto md:flex-row flex-wrap justify-center bg-[#242565] px-12 py-8 gap-12 rounded-lg shadow-gray-700 shadow-sm">
-                <div className="flex flex-col">
-                    <label htmlFor="search" className="text-white text-xs">
-                        Search Event
-                    </label>
-                    <input
-                        id="search"
-                        name="search"
-                        type="text"
-                        required
-                        className="bg-[#242565] border-b-2 duration-300 border-gray-400 text-white py-1 placeholder:text-gray-100 outline-none outline-offset-0 hover:border-indigo-400 focus:border-white sm:text-sm sm:leading-6"
-                        placeholder="Jazz"
-                    />
-                </div>
-                <div className="flex flex-col">
-                    <label htmlFor="place" className="text-white text-xs">
-                        Place
-                    </label>
-                    <input
-                        id="place"
-                        name="place"
-                        type="text"
-                        required
-                        className="bg-[#242565] border-b-2 duration-300 border-gray-400 text-white py-1 placeholder:text-gray-100 outline-none outline-offset-0 hover:border-indigo-400 focus:border-white sm:text-sm sm:leading-6"
-                        placeholder="Dnipro"
-                    />
-                </div>
-                <div className="flex flex-col">
-                    <label htmlFor="time" className="text-white text-xs">
-                        Time
-                    </label>
-                    <input
-                        id="time"
-                        name="time"
-                        type="text"
-                        required
-                        className="bg-[#242565] border-b-2 duration-300 border-gray-400 text-white py-1 placeholder:text-gray-100 outline-none outline-offset-0 hover:border-indigo-400 focus:border-white sm:text-sm sm:leading-6"
-                        placeholder="Any date"
-                    />
-                </div>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+                format="DD/MM/YYYY"
+                label={label}
+                ampm={false}
+                onChange={handler}
+                minDate={minDate}
+                maxDate={maxDate}
+                className="bg-white rounded-md"
+                slotProps={{ textField: { size: "small" } }}
+                sx={{ minWidth: 200 }} 
+            />
+        </LocalizationProvider>
+    );
+}
+
+const SearchTicket = ({
+    selectedDateFrom,
+    selectedDateTo,
+    handleDateFrom,
+    handleDateTo,
+}) => {
+    return (
+        <FormControl >
+            <div className="flex gap-3">
+                <BasicDatePicker
+                    label={"Дата от"}
+                    value={selectedDateFrom}
+                    handler={handleDateFrom}
+                    maxDate={selectedDateTo}
+                />
+                <BasicDatePicker
+                    label={"Дата до"}
+                    value={selectedDateTo}
+                    handler={handleDateTo}
+                    minDate={selectedDateFrom}
+                />
             </div>
-        </div>
+        </FormControl>
     );
 };
 

@@ -44,9 +44,9 @@ const TicketsPage = () => {
                             <p className="text-xl font-medium">
                                 Событие: {data.event.title}
                             </p>
-                            <p className="text-xl font-medium">
+                            {/* <p className="text-xl font-medium">
                                 Место: {data.seat}
-                            </p>
+                            </p> */}
                             <p className="font-medium">
                                 Локация:
                                 <span className="font-normal font-mono ml-1 text-sm">
