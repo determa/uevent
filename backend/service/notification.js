@@ -19,8 +19,8 @@ module.exports = async function () {
                         }]
                     }],
                 })
-                accounts.forEach((event_element) => {
-                    const { event_notifications } = event_element;
+                accounts.forEach((account_element) => {
+                    const { event_notifications } = account_element;
                     if (event_notifications[0]) {
                         console.log(event_notifications);
                         // event_notifications.forEach((notif_element) => {
