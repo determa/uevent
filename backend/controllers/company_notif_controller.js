@@ -5,7 +5,7 @@ class CompanyNotifController {
     async get_companies(req, res, next) {
         try {
             const { id } = req.account;
-            let user = await User.findAll({ where: { id }, include: { model: Company, include: Account } });
+            let user = await User.findAll({ where: { id }, include: { model: Company, include: { model: Account, attributes: ['email'] } } });
             console.log(user);
             res.json(user[0].companies);
         } catch (error) {
