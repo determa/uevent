@@ -150,7 +150,7 @@ class EventController {
                 companyId: req.account.id, themeId: theme,
                 categoryId: category, members_visibility,
                 date_publish: datePublish, notification
-            });
+            }, { where: { id } });
 
             return res.json({ message: "Событие обновлено!" });
         } catch (e) {
