@@ -4,8 +4,8 @@ const jwt = require('jsonwebtoken');
 const { User, Company, Account } = require('../models/models');
 const imageUpload = require('../service/imageUpload');
 
-const generateJwt = (accountId, id, type, confirmed, time, key) => {
-    return jwt.sign({ accountId, id, type, confirmed },
+const generateJwt = (accountId, id, type, confirmed, role, time, key) => {
+    return jwt.sign({ accountId, id, type, confirmed, role },
         key,
         { expiresIn: time }
     );
