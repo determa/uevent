@@ -37,7 +37,7 @@ AdminJS.registerAdapter({
 })
 const adminOptions = {
     // We pass Category to `resources`
-    resources: [models],
+    resources: [models.Account],
 }
 const admin = new AdminJS(adminOptions);
 const ConnectSession = Connect(session)
