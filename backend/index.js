@@ -32,6 +32,38 @@ const authenticate = async (email, password) => {
     return null
 }
 
+const admin = new AdminJS({});
+const ConnectSession = Connect(session)
+const sessionStore = new ConnectSession({
+    conObject: {
+        connectionString: `postgres://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.HOST}:5432/uevent`,
+        ssl: process.env.NODE_ENV === 'production',
+    },
+    tableName: 'session',
+    createTableIfMissing: true,
+})
+
+const adminRouter = AdminJSExpress.buildAuthenticatedRouter(
+    admin,
+    {
+        authenticate,
+        cookieName: 'adminjs',
+        cookiePassword: 'sessionsecret',
+    },
+    null,
+    {
+        store: sessionStore,
+        resave: true,
+        saveUninitialized: true,
+        secret: 'sessionsecret',
+        cookie: {
+            httpOnly: process.env.NODE_ENV === 'production',
+            secure: process.env.NODE_ENV === 'production',
+        },
+        name: 'adminjs',
+    }
+)
+
 const app = express();
 app.use(cors({ origin: { origin: '*' }, credentials: true }));
 app.use(express.json());
@@ -42,6 +74,7 @@ app.use(cookieParser());
 app.get("/", (req, res) => {
     res.send("asd");
 });
+app.use(admin.options.rootPath, adminRouter)
 app.use("/api", router);
 
 //errors, last middleware
@@ -53,38 +86,6 @@ const start = async () => {
         await sequelize.sync();
         await model_init();
         notification();
-        const admin = new AdminJS({});
-        const ConnectSession = Connect(session)
-        const sessionStore = new ConnectSession({
-            conObject: {
-                connectionString: `postgres://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.HOST}:5432/uevent`,
-                ssl: process.env.NODE_ENV === 'production',
-            },
-            tableName: 'session',
-            createTableIfMissing: true,
-        })
-
-        const adminRouter = AdminJSExpress.buildAuthenticatedRouter(
-            admin,
-            {
-                authenticate,
-                cookieName: 'adminjs',
-                cookiePassword: 'sessionsecret',
-            },
-            null,
-            {
-                store: sessionStore,
-                resave: true,
-                saveUninitialized: true,
-                secret: 'sessionsecret',
-                cookie: {
-                    httpOnly: process.env.NODE_ENV === 'production',
-                    secure: process.env.NODE_ENV === 'production',
-                },
-                name: 'adminjs',
-            }
-        )
-        app.use(admin.options.rootPath, adminRouter)
         app.listen(PORT, () => console.log(`http://${HOST}:${PORT}`, `AdminJS started on http://localhost:${PORT}${admin.options.rootPath}`));
     } catch (e) {
         console.log(e);
