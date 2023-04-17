@@ -53,6 +53,7 @@ const start = async () => {
         await sequelize.sync();
         await model_init();
         notification();
+        const admin = new AdminJS({});
         const ConnectSession = Connect(session)
         const sessionStore = new ConnectSession({
             conObject: {
