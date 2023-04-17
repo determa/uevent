@@ -104,7 +104,7 @@ class AuthController {
                 return next(ApiError.notFound("Аккаунт не найден!"));
             }
             let account_type = await User.findOne({ where: { accountId: account.id } });
-            let role = account_type.role;
+            let role = account_type?.role;
             if (!account_type) {
                 role = null;
                 account_type = await Company.findOne({ where: { accountId: account.id } })

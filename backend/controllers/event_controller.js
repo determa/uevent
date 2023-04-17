@@ -1,6 +1,6 @@
 const { Op } = require("sequelize");
 const ApiError = require("../error/ApiError");
-const { User, Company, Account, Category, Event, Theme } = require("../models/models");
+const { User, Company, Account, Category, Event, Theme, Ticket } = require("../models/models");
 const imageUpload = require("../service/imageUpload");
 const LiqPay = require('../service/liqpay');
 
@@ -36,10 +36,16 @@ class EventController {
     async get_one(req, res, next) {
         try {
             let { id } = req.params;
-            const event = await Event.findOne({
+            let event = await Event.findOne({
                 where: { id },
                 include: [{ model: Category }, { model: Theme }],
             });
+            const tickets = await Ticket.findAll({ where: { eventId: id }, include: { model: Account, attributes: ["email"] } });
+            let arr = [];
+            tickets.forEach((element) => {
+                arr.push(element.account.email);
+            })
+            event.dataValues.accounts = arr;
             return res.json(event);
         } catch (e) {
             console.log(e)
