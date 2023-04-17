@@ -29,7 +29,10 @@ const TicketsPage = () => {
             <h1 className="font-medium text-xl">Ваши билеты:</h1>
             {tickets &&
                 tickets.map((data) => (
-                    <div className="flex flex-wrap gap-5 justify-between w-full p-4 border border-gray-200 rounded-lg shadow-sm">
+                    <div
+                        key={data.id}
+                        className="flex flex-wrap gap-5 justify-between w-full p-4 border border-gray-200 rounded-lg shadow-sm"
+                    >
                         <div className="w-48 h-48">
                             <img
                                 className="rounded-lg h-full w-full object-cover object-center"
@@ -37,10 +40,7 @@ const TicketsPage = () => {
                                 src={`${process.env.REACT_APP_SERVER_DOMEN}/${data.event.picture}`}
                             />
                         </div>
-                        <div
-                            key={data.id}
-                            className="flex-1 flex flex-col justify-between gap-3"
-                        >
+                        <div className="flex-1 flex flex-col justify-between gap-3">
                             <p className="text-xl font-medium">
                                 Событие: {data.event.title}
                             </p>
@@ -64,7 +64,7 @@ const TicketsPage = () => {
                             </p>
                         </div>
                         <div className="flex flex-col gap-3 justify-between">
-                            <div className="w-40 h-40 bg-gray-300">maybe qr</div>
+                            {/* <div className="w-40 h-40 bg-gray-300">maybe qr</div> */}
                             <p className="text-xs font-medium">
                                 ORDER INFO:
                                 <span className="ml-1 text-gray-500">

@@ -14,6 +14,14 @@ export const notifyAPI = createApi({
             }),
             providesTags: ["NotifyEvent"],
         }),
+        getEventsNotify: build.query({
+            query: (data) => ({
+                url: "/event-notification/events",
+                method: "GET",
+                params: data,
+            }),
+            providesTags: ["NotifyEvent"],
+        }),
         eventSubscribe: build.mutation({
             query: (data) => ({
                 url: `/event-notification`,
@@ -35,6 +43,14 @@ export const notifyAPI = createApi({
         getCompanyNotifyState: build.query({
             query: (data) => ({
                 url: "/company-notification",
+                method: "GET",
+                params: data,
+            }),
+            providesTags: ["NotifyCompany"],
+        }),
+        getCompaniesNotify: build.query({
+            query: (data) => ({
+                url: "/company-notification/companies",
                 method: "GET",
                 params: data,
             }),

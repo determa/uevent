@@ -144,13 +144,22 @@ const DropDown = () => {
                             </>
                         )}
                         {isAuth && (
-                            <Link
-                                to={"/favorite"}
-                                className="text-gray-700 px-4 py-2 text-sm cursor-pointer"
-                                onClick={handleCloseUserMenu}
-                            >
-                                Понравившиеся
-                            </Link>
+                            <>
+                                <Link
+                                    to={"/favorite"}
+                                    className="text-gray-700 px-4 py-2 text-sm cursor-pointer"
+                                    onClick={handleCloseUserMenu}
+                                >
+                                    Понравившиеся
+                                </Link>
+                                <Link
+                                    to={"/notification"}
+                                    className="text-gray-700 px-4 py-2 text-sm cursor-pointer"
+                                    onClick={handleCloseUserMenu}
+                                >
+                                    Уведомления
+                                </Link>
+                            </>
                         )}
                     </div>
 

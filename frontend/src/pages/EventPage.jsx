@@ -34,9 +34,7 @@ const SimilarEvents = ({ id }) => {
     );
 };
 
-const GetUsers = ({ id }) => {
-    const { data } = userAPI.useGetUsersQuery();
-
+const GetUsers = ({ data }) => {
     const [hide, setHide] = useState(true);
 
     const handler = () => {
@@ -52,7 +50,9 @@ const GetUsers = ({ id }) => {
             </h1>
             {!hide &&
                 data &&
-                data.map((user, index) => <p key={index}>name: {user.name}</p>)}
+                data.map((element, index) => (
+                    <p key={index}>email: {element}</p>
+                ))}
         </div>
     );
 };
@@ -171,7 +171,10 @@ const EventPage = () => {
                                 type === "COMPANY" &&
                                 companyId === data.companyId && (
                                     <div className="absolute top-0 right-0 z-10 pl-3 pb-3 rounded-bl-lg bg-white">
-                                        <SettingButton component={EditEvent} data={data} />
+                                        <SettingButton
+                                            component={EditEvent}
+                                            data={data}
+                                        />
                                     </div>
                                 )}
                             <GoogleMapComponent
@@ -186,7 +189,7 @@ const EventPage = () => {
                         </p>
                     </div>
                     <AboutCompany id={data.companyId} />
-                    <GetUsers id={data.companyId} />
+                    <GetUsers data={data.accounts} />
                     <div className="mt-8 flex flex-col gap-3 max-w-7xl mx-auto flex-wrap">
                         <h2 className="text-lg lg:text-2xl font-semibold text-gray-900">
                             Похожие события:

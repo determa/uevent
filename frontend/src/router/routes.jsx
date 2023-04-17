@@ -10,6 +10,7 @@ import CreateEvent from '../components/CreateEvent';
 import TicketsPage from '../pages/TicketsPage';
 import FavoritePage from '../pages/FavoritePage';
 import CompanyEvents from '../pages/CompanyEvents';
+import NotifyPage from '../pages/NotifyPage';
 
 export const publicRoutes = [
     { path: "/", component: <MainPage /> },
@@ -30,7 +31,7 @@ export const confirmedAccountRoutes = [
 ]
 
 export const authRoutes = [
-    
+    { path: "/notification", component: <Container component={<NotifyPage />} /> },
     { path: "/favorite", component: <Container component={<FavoritePage />} /> },
 ]
 
