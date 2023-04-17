@@ -11,6 +11,8 @@
   "author": "best_team",
   "license": "ISC",
   "dependencies": {
+    "@adminjs/express": "^5.1.0",
+    "adminjs": "^6.8.7",
     "bcrypt": "^5.0.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",

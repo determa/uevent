@@ -2,6 +2,8 @@ require("dotenv").config();
 const express = require("express");
 const sequelize = require("./db");
 const models = require("./models/models");
+const AdminJS = require('adminjs');
+const AdminJSExpress = require('@adminjs/express');
 const router = require("./routes/index");
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
@@ -36,6 +38,9 @@ const start = async () => {
         await sequelize.sync();
         await model_init();
         notification();
+        const admin = new AdminJS({});
+        const adminRouter = AdminJSExpress.buildRouter(admin)
+        app.use(admin.options.rootPath, adminRouter)
         app.listen(PORT, () => console.log(`http://${HOST}:${PORT}`));
     } catch (e) {
         console.log(e);
