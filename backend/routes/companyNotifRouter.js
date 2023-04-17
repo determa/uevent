@@ -4,6 +4,7 @@ const Company_notif_controller = require('../controllers/company_notif_controlle
 const authMiddleware = require("../middleware/authMiddleware");
 
 router.get('/', authMiddleware, Company_notif_controller.state);
+router.get('/companies', authMiddleware, Company_notif_controller.get_companies);
 router.post('/', authMiddleware, Company_notif_controller.subscribe);
 router.delete('/', authMiddleware, Company_notif_controller.unsubscribe);
 

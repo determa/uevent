@@ -38,12 +38,6 @@ const Event = sequelize.define('event', {
     notification: { type: DataTypes.BOOLEAN, allowNull: false },
 });
 
-const Media = sequelize.define('media', {
-    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    name: { type: DataTypes.STRING, allowNull: false },
-    type: { type: DataTypes.ENUM('video', 'photo'), allowNull: false }
-})
-
 const Theme = sequelize.define('theme', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     name: { type: DataTypes.STRING, allowNull: false },
@@ -68,12 +62,6 @@ const EventNotification = sequelize.define('event_notification');
 
 const CompanyNotification = sequelize.define('company_notification');
 
-const UserMedia = sequelize.define('user_media');
-
-const CompanyMedia = sequelize.define('company_media');
-
-const EventMedia = sequelize.define('event_media');
-
 const ThemeCategory = sequelize.define('theme_category');
 
 const AccountFavorite = sequelize.define('account_favorite');
@@ -86,15 +74,6 @@ Company.belongsTo(Account);
 
 Company.hasMany(Event);
 Event.belongsTo(Company);
-
-User.belongsToMany(Media, { through: UserMedia });
-Media.belongsToMany(User, { through: UserMedia });
-
-Company.belongsToMany(Media, { through: CompanyMedia });
-Media.belongsToMany(Company, { through: CompanyMedia });
-
-Event.belongsToMany(Media, { through: EventMedia });
-Media.belongsToMany(Event, { through: EventMedia });
 
 Theme.belongsToMany(Category, { through: ThemeCategory });
 Category.belongsToMany(Theme, { through: ThemeCategory });
@@ -149,7 +128,6 @@ module.exports = {
     User,
     Company,
     Event,
-    Media,
     Category,
     Theme,
     ThemeCategory,
