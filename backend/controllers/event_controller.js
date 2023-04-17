@@ -45,7 +45,7 @@ class EventController {
             tickets.forEach((element) => {
                 arr.push(element.account.email);
             })
-            event.accounts = arr;
+            event.dataValues.accounts = arr;
             return res.json(event);
         } catch (e) {
             console.log(e)
