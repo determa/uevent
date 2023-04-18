@@ -21,7 +21,7 @@ class PdfGenerate {
                 time,
                 location: location.name, //change to event.location.name
                 transaction_id,
-                qr_code: await qrGenerate(),
+                qr_code: await qrGenerate(event.id),
             };
             const fileName = __dirname + `/${uuid.v4()}.pdf`;
 
