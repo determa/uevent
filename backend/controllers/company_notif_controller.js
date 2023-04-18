@@ -11,7 +11,7 @@ class CompanyNotifController {
         } catch (error) {
             console.log(error);
             return next(ApiError.badRequest("Ошибка получения состояния подписи на компанию!"));
-        }
+        } 
     }
 
     async state(req, res, next) {
