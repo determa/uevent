@@ -10,7 +10,26 @@ import {
 } from "@mui/material";
 import { themeAPI } from "../services/ThemeService";
 import { categoryAPI } from "../services/CategoryService";
-import SearchTicket from "./SearchTicket";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+
+function BasicDatePicker({ label, handler, minDate, maxDate }) {
+    return (
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+                format="DD/MM/YYYY"
+                label={label}
+                ampm={false}
+                onChange={handler}
+                minDate={minDate}
+                maxDate={maxDate}
+                className="bg-white rounded-md"
+                slotProps={{ textField: { size: "small" } }}
+                sx={{ minWidth: 200 }}
+            />
+        </LocalizationProvider>
+    );
+}
 
 const SortDropDown = ({ sort, setSort }) => {
     return (
@@ -145,12 +164,24 @@ const SortEvents = ({
                 value={valueCategory}
                 IdSetter={setIdCategoryd}
             />
-            <SearchTicket
+            {/* <SearchTicket
                 selectedDateFrom={selectedDateFrom}
                 handleDateFrom={handleDateFrom}
                 selectedDateTo={selectedDateTo}
                 handleDateTo={handleDateTo}
-            />
+            /> */}
+            <div className="flex gap-3 flex-wrap">
+                <BasicDatePicker
+                    label={"Дата от"}
+                    handler={handleDateFrom}
+                    maxDate={selectedDateTo}
+                />
+                <BasicDatePicker
+                    label={"Дата до"}
+                    handler={handleDateTo}
+                    minDate={selectedDateFrom}
+                />
+            </div>
         </div>
     );
 };

@@ -17,7 +17,7 @@ import SelectorInputCategory from "./SelectorInputCategory";
 import SelectTheme from "./SelectTheme";
 
 function CreateEvent({ setShowModal }) {
-    const [create_event, { isError, error }] = eventAPI.useCreateMutation();
+    const [create_event, { isError, error }] = eventAPI.useCreateEventMutation();
     let [location, setLocation] = useState(undefined);
     let [option, setOption] = useState(undefined);
     const [tags, setTags] = useState("");

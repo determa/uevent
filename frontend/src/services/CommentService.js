@@ -20,9 +20,9 @@ export const commentAPI = baseAPI.injectEndpoints({
             providesTags: ["Comment"],
         }),
 
-        create: build.mutation({
+        createComment: build.mutation({
             query: (data) => ({
-                url: `/comments`,
+                url: "/comments",
                 method: "POST",
                 body: data.body,
                 params: data.params,

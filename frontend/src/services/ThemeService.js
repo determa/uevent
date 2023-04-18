@@ -9,13 +9,5 @@ export const themeAPI = baseAPI.injectEndpoints({
             }),
             // providesTags: result => ['User']
         }),
-        create: build.mutation({
-            query: (data) => ({
-                url: `/themes`,
-                method: "POST",
-                body: data,
-            }),
-            // providesTags: result => ['User']
-        }),
     }),
 });

@@ -2,7 +2,7 @@ import React from "react";
 import { commentAPI } from "../services/CommentService";
 
 const CreateComment = ({ eventId, parentId, onClose }) => {
-    const [create_comment, { error }] = commentAPI.useCreateMutation();
+    const [create_comment, { error }] = commentAPI.useCreateCommentMutation();
 
     const handler = async (e) => {
         e.preventDefault();
@@ -11,7 +11,7 @@ const CreateComment = ({ eventId, parentId, onClose }) => {
             params: { eventId, parentId },
             body: new FormData(e.target),
         });
-        onClose();
+        if (parentId !== null) onClose();
     };
 
     return (

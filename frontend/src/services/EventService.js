@@ -24,7 +24,7 @@ export const eventAPI = baseAPI.injectEndpoints({
             }),
             providesTags: ["Event"],
         }),
-        create: build.mutation({
+        createEvent: build.mutation({
             query: (data) => ({
                 url: `/events`,
                 method: "POST",
@@ -32,7 +32,7 @@ export const eventAPI = baseAPI.injectEndpoints({
             }),
             invalidatesTags: ["Event"],
         }),
-        update: build.mutation({
+        updateEvent: build.mutation({
             query: (data) => ({
                 url: `/events/${data.id}`,
                 method: "PATCH",

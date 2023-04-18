@@ -17,7 +17,7 @@ import SelectorInputCategory from "./SelectorInputCategory";
 import SelectTheme from "./SelectTheme";
 
 function EditEvent({ setShowModal, data: event }) {
-    const [update_event, { isError, error }] = eventAPI.useUpdateMutation();
+    const [update_event, { isError, error }] = eventAPI.useUpdateEventMutation();
     let [location, setLocation] = useState(JSON.parse(event.location));
     console.log(location);
     let [option, setOption] = useState(event.themeId);

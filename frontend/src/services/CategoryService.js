@@ -23,13 +23,5 @@ export const categoryAPI = baseAPI.injectEndpoints({
             }),
             // providesTags: result => ['User']
         }),
-        create: build.mutation({
-            query: (data) => ({
-                url: `/categories`,
-                method: "POST",
-                body: data,
-            }),
-            // providesTags: result => ['User']
-        }),
     }),
 });
