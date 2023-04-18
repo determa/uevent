@@ -33,7 +33,27 @@ const SimilarEvents = ({ id }) => {
     );
 };
 
-const GetUsers = ({ data }) => {
+const UserList = ({ data, type }) => {
+    return (
+        <div className="flex gap-3 items-center">
+            <img
+                className="rounded-full object-cover object-center backdrop-blur-sm w-12 h-12"
+                src={`${process.env.REACT_APP_SERVER_DOMEN}/${data.picture}`}
+            />
+            <div className="flex gap-3 flex-col">
+                <Link to={`/profile/${type}/${data.id}`}>{data.name}</Link>
+                <a
+                    className="text-sm font-medium"
+                    href={`mailto:${data.email}`}
+                >
+                    {data.email}
+                </a>
+            </div>
+        </div>
+    );
+};
+
+const GetUsers = ({ users, companies }) => {
     const [hide, setHide] = useState(true);
 
     const handler = () => {
@@ -47,11 +67,26 @@ const GetUsers = ({ data }) => {
             >
                 Список пользователей
             </h1>
-            {!hide &&
-                data &&
-                data.map((element, index) => (
-                    <p key={index}>email: {element}</p>
-                ))}
+            {!hide && (
+                <div className="flex gap-12 flex-wrap">
+                    {users &&
+                        users.map((element, index) => (
+                            <UserList
+                                key={index}
+                                data={element}
+                                type={"user"}
+                            />
+                        ))}
+                    {companies &&
+                        companies.map((element, index) => (
+                            <UserList
+                                key={index}
+                                data={element}
+                                type={"company"}
+                            />
+                        ))}
+                </div>
+            )}
         </div>
     );
 };
@@ -188,7 +223,7 @@ const EventPage = () => {
                         </p>
                     </div>
                     <AboutCompany id={data.companyId} />
-                    <GetUsers data={data.accounts} />
+                    <GetUsers users={data.users} companies={data.companies} />
                     <div className="mt-8 flex flex-col gap-3 max-w-7xl mx-auto flex-wrap">
                         <h2 className="text-lg lg:text-2xl font-semibold text-gray-900">
                             Похожие события:
