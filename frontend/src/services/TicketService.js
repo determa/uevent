@@ -7,7 +7,7 @@ export const ticketAPI = baseAPI.injectEndpoints({
                 url: `/ticket`,
                 method: "GET",
             }),
-            providesTags: ["Ticket"],
+            providesTags: ["Ticket", "User"],
         }),
     }),
 });

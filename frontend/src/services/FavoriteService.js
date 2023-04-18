@@ -7,7 +7,7 @@ export const favoriteAPI = baseAPI.injectEndpoints({
                 url: "/favorite/events",
                 method: "GET",
             }),
-            providesTags: ["Favorite"],
+            providesTags: ["Favorite", "User"],
         }),
         getFavoriteState: build.query({
             query: (data) => ({
@@ -15,7 +15,7 @@ export const favoriteAPI = baseAPI.injectEndpoints({
                 method: "GET",
                 params: data,
             }),
-            providesTags: ["Favorite"],
+            providesTags: ["Favorite", "User"],
         }),
         favoriteSubscribe: build.mutation({
             query: (data) => ({
