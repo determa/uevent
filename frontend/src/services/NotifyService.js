@@ -8,7 +8,7 @@ export const notifyAPI = baseAPI.injectEndpoints({
                 method: "GET",
                 params: data,
             }),
-            providesTags: ["NotifyEvent"],
+            providesTags: ["NotifyEvent", "User"],
         }),
         getEventsNotify: build.query({
             query: (data) => ({
@@ -16,7 +16,7 @@ export const notifyAPI = baseAPI.injectEndpoints({
                 method: "GET",
                 params: data,
             }),
-            providesTags: ["NotifyEvent"],
+            providesTags: ["NotifyEvent", "User"],
         }),
         eventSubscribe: build.mutation({
             query: (data) => ({
@@ -42,7 +42,7 @@ export const notifyAPI = baseAPI.injectEndpoints({
                 method: "GET",
                 params: data,
             }),
-            providesTags: ["NotifyCompany"],
+            providesTags: ["NotifyCompany", "User"],
         }),
         getCompaniesNotify: build.query({
             query: (data) => ({
@@ -50,7 +50,7 @@ export const notifyAPI = baseAPI.injectEndpoints({
                 method: "GET",
                 params: data,
             }),
-            providesTags: ["NotifyCompany"],
+            providesTags: ["NotifyCompany", "User"],
         }),
         companySubscribe: build.mutation({
             query: (data) => ({

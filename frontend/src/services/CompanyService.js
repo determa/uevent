@@ -7,7 +7,7 @@ export const companyAPI = baseAPI.injectEndpoints({
                 url: `/company/${data}`,
                 method: "GET",
             }),
-            // providesTags: result => ['User']
+            providesTags: ['User'],
         }),
     })
 })
