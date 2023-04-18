@@ -1,10 +1,6 @@
-import { createApi } from "@reduxjs/toolkit/dist/query/react";
-import baseQueryWithReauth from "./QueryWithReauth";
+import { baseAPI } from "./BaseAPIService";
 
-export const commentAPI = createApi({
-    reducerPath: "commentAPI",
-    baseQuery: baseQueryWithReauth,
-    tagTypes: ["Comment"],
+export const commentAPI = baseAPI.injectEndpoints({
     endpoints: (build) => ({
         getCommentsByEvent: build.query({
             query: (data) => ({

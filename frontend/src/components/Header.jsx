@@ -7,6 +7,7 @@ import { companyAPI } from "../services/CompanyService";
 import CreateEvent from "./CreateEvent";
 import Modal from "./Modal";
 import { Box, IconButton, Menu, Tooltip } from "@mui/material";
+import { baseAPI } from "../services/BaseAPIService";
 
 const ProfileImg = ({ data }) => {
     return (
@@ -93,7 +94,7 @@ const DropDown = () => {
                 >
                     <div
                         className="flex flex-col pb-1"
-                        // onClick={handleCloseUserMenu}
+                    // onClick={handleCloseUserMenu}
                     >
                         {type === "NONE" ||
                             (!confirmed && (
@@ -171,6 +172,7 @@ const DropDown = () => {
                             onClick={() => {
                                 dispatch(logOut());
                                 logout();
+                                dispatch(baseAPI.util.resetApiState());
                             }}
                             className="text-gray-700 px-4 py-2 text-sm cursor-pointer"
                         >

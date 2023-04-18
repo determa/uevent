@@ -1,10 +1,6 @@
-import { createApi } from "@reduxjs/toolkit/dist/query/react";
-import baseQueryWithReauth from "./QueryWithReauth";
+import { baseAPI } from "./BaseAPIService";
 
-export const favoriteAPI = createApi({
-    reducerPath: "favoriteAPI",
-    baseQuery: baseQueryWithReauth,
-    tagTypes: ["Favorite"],
+export const favoriteAPI = baseAPI.injectEndpoints({
     endpoints: (build) => ({
         getFavoriteEvents: build.query({
             query: () => ({

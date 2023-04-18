@@ -1,10 +1,6 @@
-import { createApi } from "@reduxjs/toolkit/dist/query/react";
-import baseQueryWithReauth from "./QueryWithReauth";
+import { baseAPI } from "./BaseAPIService";
 
-export const notifyAPI = createApi({
-    reducerPath: "notifyAPI",
-    baseQuery: baseQueryWithReauth,
-    tagTypes: ["NotifyEvent", "NotifyCompany"],
+export const notifyAPI = baseAPI.injectEndpoints({
     endpoints: (build) => ({
         getEventNotifyState: build.query({
             query: (data) => ({

@@ -1,10 +1,6 @@
-import { createApi } from "@reduxjs/toolkit/dist/query/react";
-import baseQueryWithReauth from "./QueryWithReauth";
+import { baseAPI } from "./BaseAPIService";
 
-export const ticketAPI = createApi({
-    reducerPath: "ticketAPI",
-    baseQuery: baseQueryWithReauth,
-    tagTypes: ["Ticket"],
+export const ticketAPI = baseAPI.injectEndpoints({
     endpoints: (build) => ({
         getAllTickets: build.query({
             query: () => ({

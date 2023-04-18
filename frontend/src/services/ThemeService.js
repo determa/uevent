@@ -1,10 +1,6 @@
-import { createApi } from "@reduxjs/toolkit/dist/query/react";
-import baseQueryWithReauth from "./QueryWithReauth";
+import { baseAPI } from "./BaseAPIService";
 
-export const themeAPI = createApi({
-    reducerPath: "themeAPI",
-    baseQuery: baseQueryWithReauth,
-    tagTypes: ["Category"],
+export const themeAPI = baseAPI.injectEndpoints({
     endpoints: (build) => ({
         getAll: build.query({
             query: () => ({
