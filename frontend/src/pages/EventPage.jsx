@@ -14,7 +14,6 @@ import { companyAPI } from "../services/CompanyService";
 import FavoriteComponent from "../components/FavoriteComponent";
 import NotifyComponent from "../components/NotifyComponent";
 import NotifyCompany from "../components/NotifyCompany";
-import { userAPI } from "../services/UserService";
 import SettingButton from "../components/SettingButton";
 import EditEvent from "../components/EditEvent";
 
@@ -115,7 +114,7 @@ const EventPage = () => {
         <>
             {data && (
                 <>
-                    <div className="flex shadow-sm gap-3 max-w-7xl mx-auto p-4 bg-white border border-gray-200 rounded-lg flex-wrap">
+                    <div className="flex relative shadow-sm gap-3 max-w-7xl mx-auto p-4 bg-white border border-gray-200 rounded-lg flex-wrap">
                         <div className="flex relative">
                             {isAuth && (
                                 <>
@@ -166,7 +165,7 @@ const EventPage = () => {
                                 )}
                             </div>
                         </div>
-                        <div className="flex relative w-full lg:w-2/5 h-80 min-w-[20rem]">
+                        <div className="flex lg:relative w-full lg:w-2/5 h-80 min-w-full sm:min-w-[20rem]">
                             {isAuth &&
                                 type === "COMPANY" &&
                                 companyId === data.companyId && (
