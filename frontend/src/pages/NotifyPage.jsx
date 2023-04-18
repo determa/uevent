@@ -34,6 +34,7 @@ const NotifyPage = () => {
     const { data: events } = notifyAPI.useGetEventsNotifyQuery();
     const { data: companies } = notifyAPI.useGetCompaniesNotifyQuery();
     const { isAuth, type } = useSelector((state) => state.userReducer);
+    console.log(companies)
 
     return (
         <div className="flex flex-col gap-5 max-w-7xl mx-auto relative">
@@ -44,9 +45,9 @@ const NotifyPage = () => {
                         <Event key={index} event={element.event} />
                     ))}
             </div>
-                {companies.length === 0 && (
-                    <h1 className="text-center">Нет уведомлений.</h1>
-                )}
+            {(companies && companies.length === 0) && (
+                <h1 className="text-center">Нет уведомлений.</h1>
+            )}
             {isAuth && type === "USER" && (
                 <div className="mt-8 flex flex-col gap-5">
                     <h1 className="font-medium text-xl">
@@ -58,7 +59,7 @@ const NotifyPage = () => {
                                 <AboutCompany key={index} data={element} />
                             ))}
                     </div>
-                    {companies.length === 0 && (
+                    {(companies && companies.length === 0) && (
                         <h1 className="text-center">Нет уведомлений.</h1>
                     )}
                 </div>
