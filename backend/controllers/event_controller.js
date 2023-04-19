@@ -9,7 +9,12 @@ class EventController {
     async create(req, res, next) {
         try {
             let { title, description, date, location, price, tickets_count, theme, category, members_visibility, datePublish, notification } = req.body;
-            const location_parsed = JSON.parse(location);
+            let location_parsed = {};
+            try {
+                location_parsed = JSON.parse(location);
+            } catch (error) {
+                return next(ApiError.badRequest("Некорректное поле для локации!"));
+            }
             let picture = 'header.jpg';
             if (req.files?.avatar) {
                 picture = imageUpload(req.files.avatar)
@@ -173,7 +178,12 @@ class EventController {
         try {
             let { id } = req.params;
             let { title, description, date, location, price, tickets_count, theme, category, members_visibility, datePublish, notification } = req.body;
-            const location_parsed = JSON.parse(location);
+            let location_parsed = {};
+            try {
+                location_parsed = JSON.parse(location);
+            } catch (error) {
+                return next(ApiError.badRequest("Некорректное поле для локации!"));
+            }
             const event = await Event.findOne({ where: { id } });
             if (!event) return next(ApiError.notFound("Событие не найдено!"));
             let picture = event.picture;
