@@ -53,7 +53,36 @@ const UserList = ({ data, type }) => {
     );
 };
 
-const GetUsers = ({ users, companies }) => {
+const GetUsersBlock = ({ eventId }) => {
+    const { data } = eventAPI.useGetEventUsersQuery({ id: eventId });
+
+    return (
+        <>
+            {data && (
+                <div className="flex gap-12 py-3 w-full overflow-auto">
+                    {data.users &&
+                        data.users.map((element, index) => (
+                            <UserList
+                                key={index}
+                                data={element}
+                                type={"user"}
+                            />
+                        ))}
+                    {data.companies &&
+                        data.companies.map((element, index) => (
+                            <UserList
+                                key={index}
+                                data={element}
+                                type={"company"}
+                            />
+                        ))}
+                </div>
+            )}
+        </>
+    );
+};
+
+const GetUsers = ({ eventId }) => {
     const [hide, setHide] = useState(true);
 
     const handler = () => {
@@ -67,26 +96,7 @@ const GetUsers = ({ users, companies }) => {
             >
                 Список пользователей
             </h1>
-            {!hide && (
-                <div className="flex gap-12 py-3 w-full overflow-auto">
-                    {users &&
-                        users.map((element, index) => (
-                            <UserList
-                                key={index}
-                                data={element}
-                                type={"user"}
-                            />
-                        ))}
-                    {companies &&
-                        companies.map((element, index) => (
-                            <UserList
-                                key={index}
-                                data={element}
-                                type={"company"}
-                            />
-                        ))}
-                </div>
-            )}
+            {!hide && <GetUsersBlock eventId={eventId} />}
         </div>
     );
 };
@@ -223,7 +233,7 @@ const EventPage = () => {
                         </p>
                     </div>
                     <AboutCompany id={data.companyId} />
-                    <GetUsers users={data.users} companies={data.companies} />
+                    <GetUsers eventId={data.id} />
                     <div className="mt-8 flex flex-col gap-3 max-w-7xl mx-auto flex-wrap">
                         <h2 className="text-lg lg:text-2xl font-semibold text-gray-900">
                             Похожие события:

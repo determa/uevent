@@ -47,5 +47,12 @@ export const eventAPI = baseAPI.injectEndpoints({
             }),
             providesTags: ["Event", "User"],
         }),
+        getEventUsers: build.query({
+            query: (data) => ({
+                url: `/events/users/${data.id}`,
+                method: "GET",
+            }),
+            providesTags: ["Event", "User"],
+        }),
     }),
 });
