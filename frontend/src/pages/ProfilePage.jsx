@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { commentAPI } from "../services/CommentService";
 import { useSelector } from "react-redux";
 import SettingButton from "../components/SettingButton";
+import { EditUserProfile } from "../components/EditProfile";
 
 const CommentComponent = ({ user }) => {
     const { data: comments, isError } = commentAPI.useGetCommentsByAccountQuery(
@@ -63,16 +64,11 @@ const ProfilePage = () => {
             {data && (
                 <>
                     <div className="flex flex-col gap-3 items-center p-4 relative border border-gray-200 max-w-7xl mx-auto rounded-lg shadow-sm w-full after:absolute after:bg-gray-100 after:-z-10 after:block after:w-full after:content-[''] after:h-32 after:top-0 after:left-0 after:border-b">
-                        {/* {isAuth && accountId === data.accountId && (
-                            <p className="absolute top-0 right-0 mx-4 mt-3 text-sm font-semibold text-blue-600 hover:text-blue-900 cursor-pointer tracking-wider">
-                                edit
-                            </p>
-                        )} */}
                         {isAuth && accountId === data.accountId && (
                             <div className="absolute top-0 right-0 z-10 p-3">
                                 <SettingButton
-                                    // component={EditEvent}
-                                    // data={data}
+                                    component={EditUserProfile}
+                                    data={data}
                                 />
                             </div>
                         )}

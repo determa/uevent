@@ -68,7 +68,7 @@ const GetUsers = ({ users, companies }) => {
                 Список пользователей
             </h1>
             {!hide && (
-                <div className="flex gap-12 flex-wrap">
+                <div className="flex gap-12 py-3 w-full overflow-auto">
                     {users &&
                         users.map((element, index) => (
                             <UserList

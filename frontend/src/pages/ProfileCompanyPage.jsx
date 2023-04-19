@@ -7,6 +7,8 @@ import { eventAPI } from "../services/EventService";
 import NotifyCompany from "../components/NotifyCompany";
 import { useSelector } from "react-redux";
 import dayjs from "dayjs";
+import SettingButton from "../components/SettingButton";
+import { EditCompanyProfile } from "../components/EditProfile";
 
 const ProfilePage = () => {
     const { id } = useParams();
@@ -26,9 +28,12 @@ const ProfilePage = () => {
                             </div>
                         )}
                         {isAuth && accountId === data.accountId && (
-                            <p className="absolute top-0 right-0 mx-4 mt-3 text-sm font-semibold text-blue-600 hover:text-blue-900 cursor-pointer tracking-wider">
-                                edit
-                            </p>
+                            <div className="absolute top-0 right-0 z-10 p-3">
+                                <SettingButton
+                                    component={EditCompanyProfile}
+                                    data={data}
+                                />
+                            </div>
                         )}
                         <div className="flex justify-center">
                             <div className="bg-white p-1.5 rounded-xl border border-gray-300">

@@ -4,53 +4,53 @@ export const userAPI = baseAPI.injectEndpoints({
     endpoints: (build) => ({
         init: build.query({
             query: () => ({
-                url: '/auth/refresh',
+                url: "/auth/refresh",
                 method: "GET",
             }),
-            providesTags: ['User']
+            providesTags: ["User"],
         }),
         login: build.mutation({
             query: (data) => ({
-                url: '/auth/login',
+                url: "/auth/login",
                 method: "POST",
-                body: data
+                body: data,
             }),
-            invalidatesTags: ['User']
+            invalidatesTags: ["User"],
         }),
         logout: build.mutation({
             query: () => ({
-                url: '/auth/logout',
-                method: "POST"
+                url: "/auth/logout",
+                method: "POST",
             }),
-            invalidatesTags: ['User']
+            invalidatesTags: ["User"],
         }),
         register: build.mutation({
             query: (data) => ({
-                url: '/auth/register',
+                url: "/auth/register",
                 method: "POST",
-                body: data
+                body: data,
             }),
-            invalidatesTags: ['User']
+            invalidatesTags: ["User"],
         }),
         registerUser: build.mutation({
             query: (data) => ({
-                url: '/auth/register/user',
+                url: "/auth/register/user",
                 method: "POST",
-                body: data
+                body: data,
             }),
-            invalidatesTags: ['User']
+            invalidatesTags: ["User"],
         }),
         registerCompany: build.mutation({
             query: (data) => ({
-                url: '/auth/register/company',
+                url: "/auth/register/company",
                 method: "POST",
-                body: data
+                body: data,
             }),
-            invalidatesTags: ['User']
+            invalidatesTags: ["User"],
         }),
         sendRequest: build.mutation({
             query: () => ({
-                url: '/auth/validation',
+                url: "/auth/validation",
                 method: "GET",
             }),
             // providesTags: result => ['User']
@@ -67,7 +67,7 @@ export const userAPI = baseAPI.injectEndpoints({
                 url: `/user/${data}`,
                 method: "GET",
             }),
-            providesTags: ['User']
+            providesTags: ["User"],
         }),
         getUsers: build.query({
             query: () => ({
@@ -76,5 +76,13 @@ export const userAPI = baseAPI.injectEndpoints({
             }),
             // providesTags: ['User']
         }),
-    })
-})
+        updateUser: build.mutation({
+            query: (data) => ({
+                url: `/user/${data.id}`,
+                method: "PATCH",
+                body: data.data,
+            }),
+            invalidatesTags: ["User", "Event"],
+        }),
+    }),
+});
