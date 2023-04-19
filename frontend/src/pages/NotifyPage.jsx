@@ -45,7 +45,7 @@ const NotifyPage = () => {
                         <Event key={index} event={element.event} />
                     ))}
             </div>
-            {(companies && companies.length === 0) && (
+            {(events && events.length === 0) && (
                 <h1 className="text-center">Нет уведомлений.</h1>
             )}
             {isAuth && type === "USER" && (
