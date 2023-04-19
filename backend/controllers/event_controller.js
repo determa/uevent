@@ -137,7 +137,7 @@ class EventController {
                 eventObj.date = { [Op.lte]: date_end };
             if (date_start && !date_end)
                 eventObj.date = { [Op.gte]: date_start };
-            eventObj.date_publish = { [Op.lte]: Date.now() }
+            eventObj.date_publish = { [Op.lte]: Date.now() };
 
             if (categories_array[0]) eventObj.categoryId = categories_array;
             if (themes_array[0]) eventObj.themeId = themes_array;

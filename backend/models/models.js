@@ -14,7 +14,7 @@ const User = sequelize.define('user', {
     name: { type: DataTypes.STRING, unique: true, allowNull: false },
     picture: { type: DataTypes.STRING, defaultValue: "default.jpg" },
     visible: { type: DataTypes.BOOLEAN, defaultValue: true },
-    role: { type: DataTypes.ENUM('USER', 'MODERATOR', 'ADMIN'), defaultValue: "USER" },
+    role: { type: DataTypes.ENUM('USER', 'ADMIN'), defaultValue: "USER" },
 });
 
 const Company = sequelize.define('company', {
@@ -55,7 +55,6 @@ const Comment = sequelize.define('comment', {
 }, { hierarchy: true });
 
 const Ticket = sequelize.define('ticket', {
-    seat: { type: DataTypes.INTEGER },
     transaction_id: { type: DataTypes.BIGINT, allowNull: false },
 })
 
