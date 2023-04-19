@@ -64,7 +64,11 @@ const TicketsPage = () => {
                             </p>
                         </div>
                         <div className="flex flex-col gap-3 justify-between">
-                            {/* <div className="w-40 h-40 bg-gray-300">maybe qr</div> */} 
+                            <img
+                                alt="qr"
+                                src={data.qr_code}
+                                className="w-40 h-40 bg-gray-300"
+                            />
                             <p className="text-xs font-medium">
                                 ORDER INFO:
                                 <span className="ml-1 text-gray-500">
