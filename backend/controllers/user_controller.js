@@ -36,24 +36,24 @@ class UserController {
     async update_data(req, res, next) {
         try {
             const { id: users_id } = req.params;
-            const { id } = req.account;
+            const { accountId } = req.account;
             let { name, visible } = req.body;
-            if (users_id != id) {
-                return next(ApiError.forbidden("Нет доступа!"));
-            }
-            const user = await User.findOne({ where: { id: users_id } });
             if (!name) {
                 return next(ApiError.badRequest("Некорректное поле!"));
             }
-            visible == 'on' ? visible = false : visible = true;
+            const user = await User.findOne({ where: { id: users_id } });
             if (!user) {
                 return next(ApiError.forbidden("Юзера не существует!"));
             }
+            if (user.accountId != accountId) {
+                return next(ApiError.forbidden("Нет доступа!"));
+            }
+            visible == 'on' ? visible = false : visible = true;
             let picture = user.picture;
             if (req.files?.avatar) {
                 picture = imageUpload(req.files.avatar)
             }
-            await User.update({ picture, name, visible }, { where: { id } });
+            await User.update({ picture, name, visible }, { where: { users_id } });
             return res.json({ message: "Данные изменены!" });
         } catch (error) {
             console.log(error);

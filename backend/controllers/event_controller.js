@@ -15,7 +15,9 @@ class EventController {
                 picture = imageUpload(req.files.avatar)
             }
             notification ? notification = true : notification = false;
-            if (!title || !description || !date || !location_parsed.name || !location_parsed.location || !price || !tickets_count || !theme || !category || !members_visibility || !datePublish)
+            if (!title || !description || !date || !location_parsed.name || !location_parsed.location
+                || !price || !tickets_count || !theme || !category
+                || !members_visibility || !datePublish || (datePublish < date))
                 return next(ApiError.badRequest("Некорректное поле!"));
 
             let event = await Event.create({
@@ -56,18 +58,21 @@ class EventController {
             });
             let users = [];
             let companies = [];
-            tickets.forEach((element) => {
-                const { email } = element.account;
-                if (element.account.user) {
-                    const { id, name, picture, visible } = element.account.user;
-                    if (visible)
-                        users.push({ id, name, picture, email });
-                }
-                if (element.account.company) {
-                    const { id, name, picture } = element.account.company;
-                    companies.push({ id, name, picture, email });
-                }
-            })
+            if (event.members_visibility == 'all') {
+                if (event.members_visibility != 'members' || (req.isAuth && await Ticket.findOne({ where: { eventId: id, accountId: req.account.accountId } })))
+                    tickets.forEach((element) => {
+                        const { email } = element.account;
+                        if (element.account.user) {
+                            const { id, name, picture, visible } = element.account.user;
+                            if (visible)
+                                users.push({ id, name, picture, email });
+                        }
+                        if (element.account.company) {
+                            const { id, name, picture } = element.account.company;
+                            companies.push({ id, name, picture, email });
+                        }
+                    })
+            }
             event.dataValues.users = users;
             event.dataValues.companies = companies;
             return res.json(event);
@@ -116,6 +121,7 @@ class EventController {
                 eventObj.date = { [Op.lte]: date_end };
             if (date_start && !date_end)
                 eventObj.date = { [Op.gte]: date_start };
+            eventObj.date_publish = { [Op.lte]: Date.now() }
 
             if (categories_array[0]) eventObj.categoryId = categories_array;
             if (themes_array[0]) eventObj.themeId = themes_array;

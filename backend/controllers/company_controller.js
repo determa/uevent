@@ -2,6 +2,7 @@ const ApiError = require('../error/ApiError');
 const { Company, Account } = require('../models/models');
 const uuid = require('uuid');
 const path = require('path');
+const imageUpload = require('../service/imageUpload');
 
 class CompanyController {
     async get_companys(req, res) {
@@ -35,12 +36,9 @@ class CompanyController {
     async update_data(req, res, next) {
         try {
             const { id: company_id } = req.params;
-            const { id } = req.account;
+            const { accountId } = req.account;
             let { name, location, description } = req.body;
             const location_parsed = JSON.parse(location);
-            if (company_id != id) {
-                return next(ApiError.forbidden("Нет доступа!"));
-            }
             if (!name || !description || !location_parsed.name || !location_parsed.location) {
                 return next(ApiError.badRequest("Некорректное поле!"));
             }
@@ -48,13 +46,17 @@ class CompanyController {
             if (!company) {
                 return next(ApiError.forbidden("Компании не существует!"));
             }
+            if (company.accountId != accountId) {
+                return next(ApiError.forbidden("Нет доступа!"));
+            }
             let picture = company.picture;
             if (req.files?.avatar) {
                 picture = imageUpload(req.files.avatar)
             }
-            await Company.update({ name, location, description, picture }, { where: { id } });
+            await Company.update({ name, location, description, picture }, { where: { id: company_id } });
             return res.json({ message: "Данные изменены!" });
         } catch (error) {
+            console.log(error);
             return next(ApiError.badRequest("Update data error!"));
         }
     }
