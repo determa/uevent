@@ -63,7 +63,7 @@ const SettingButton = ({ component, data }) => {
                     >
                         Редактировать
                     </MenuItem>
-                    <MenuItem>Удалить</MenuItem>
+                    {/* <MenuItem>Удалить</MenuItem> */}
                 </Menu>
             </Box>
         </>
