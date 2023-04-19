@@ -21,7 +21,7 @@ function Event({ event }) {
                 key={event.id}
                 className="flex flex-col hover:opacity-75 relative rounded-lg bg-white drop-shadow-[0_19px_47px_rgba(119,115,170,0.1)]"
             >
-                <div className="min-h-80 w-full overflow-hidden rounded-t-lg bg-gray-200 lg:h-80">
+                <div className="min-h-80 w-full overflow-hidden rounded-t-lg bg-gray-200 h-80">
                     <img
                         src={`${process.env.REACT_APP_SERVER_DOMEN}/${event.picture}`}
                         alt="img"
