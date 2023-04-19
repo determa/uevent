@@ -32,44 +32,30 @@ class CompanyController {
         }
     }
 
-    async upload_avatar(req, res, next) {
-        try {
-            if (req.files) {
-                const { avatar } = req.files;
-                let fileName = uuid.v4() + '.jpg';
-                avatar.mv(path.resolve(__dirname, '..', 'static', fileName));
-                await Company.update({ picture: fileName }, { where: { id: req.account.id } });
-            }
-            return res.json({ message: "Avatar changed!" });
-        } catch (error) {
-            console.log(error)
-            return next(ApiError.badRequest("Company does not exists"));
-        }
-    }
-
     async update_data(req, res, next) {
         try {
-            const { id } = req.params;
-            const { accountId } = req.account;
-            const data = req.body;
-            const company = await Company.findOne({ where: { id } });
-            if (company.accountId != accountId) {
+            const { id: company_id } = req.params;
+            const { id } = req.account;
+            let { name, location, description } = req.body;
+            const location_parsed = JSON.parse(location);
+            if (company_id != id) {
                 return next(ApiError.forbidden("Нет доступа!"));
             }
-            await Company.update(data, { where: { id } });
-            return res.json({ message: "Data changed!" });
+            if (!name || !description || !location_parsed.name || !location_parsed.location) {
+                return next(ApiError.badRequest("Некорректное поле!"));
+            }
+            const company = await Company.findOne({ where: { id: company_id } });
+            if (!company) {
+                return next(ApiError.forbidden("Компании не существует!"));
+            }
+            let picture = company.picture;
+            if (req.files?.avatar) {
+                picture = imageUpload(req.files.avatar)
+            }
+            await Company.update({ name, location, description, picture }, { where: { id } });
+            return res.json({ message: "Данные изменены!" });
         } catch (error) {
             return next(ApiError.badRequest("Update data error!"));
-        }
-    }
-
-    async delete(req, res, next) {
-        try {
-            const { id } = req.params;
-            await Company.destroy({ where: { id } });
-            return res.json({ message: "Company deleted!" });
-        } catch (error) {
-            return next(ApiError.badRequest("Delete Company error!"));
         }
     }
 }

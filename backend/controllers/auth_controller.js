@@ -78,7 +78,8 @@ class AuthController {
         try {
             const { name, location, description } = req.body;
             let picture = 'default.jpg';
-            if (!name || !location || !description) {
+            const location_parsed = JSON.parse(location);
+            if (!name || !location_parsed.name || !location_parsed.location || !description) {
                 return next(ApiError.badRequest("Некорректное поле!"));
             }
             if (req.files?.avatar) {
