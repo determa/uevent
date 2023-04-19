@@ -107,13 +107,15 @@ const DropDown = () => {
 
                         {isAuth && confirmed && (
                             <>
-                                <Link
-                                    to={`/profile/${type.toLowerCase()}/${id}`}
-                                    className="text-gray-700 px-4 py-2 text-sm cursor-pointer"
-                                    onClick={handleCloseUserMenu}
-                                >
-                                    Ваш профиль
-                                </Link>
+                                {type !== "NONE" && (
+                                    <Link
+                                        to={`/profile/${type.toLowerCase()}/${id}`}
+                                        className="text-gray-700 px-4 py-2 text-sm cursor-pointer"
+                                        onClick={handleCloseUserMenu}
+                                    >
+                                        Ваш профиль
+                                    </Link>
+                                )}
                                 <Link
                                     to={`/tickets`}
                                     className="text-gray-700 px-4 py-2 text-sm cursor-pointer"
