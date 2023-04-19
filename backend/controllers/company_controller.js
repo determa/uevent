@@ -38,7 +38,12 @@ class CompanyController {
             const { id: company_id } = req.params;
             const { accountId } = req.account;
             let { name, location, description } = req.body;
-            const location_parsed = JSON.parse(location);
+            let location_parsed = {};
+            try {
+                location_parsed = JSON.parse(location);
+            } catch (error) {
+                return next(ApiError.badRequest("Некорректное поле для локации!"));
+            }
             if (!name || !description || !location_parsed.name || !location_parsed.location) {
                 return next(ApiError.badRequest("Некорректное поле!"));
             }
