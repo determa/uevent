@@ -40,12 +40,36 @@ class EventController {
                 where: { id },
                 include: [{ model: Category }, { model: Theme }],
             });
-            const tickets = await Ticket.findAll({ where: { eventId: id }, include: { model: Account, attributes: ["email"] } });
-            let arr = [];
+            const tickets = await Ticket.findAll({
+                where: { eventId: id },
+                attributes: ['accountId'],
+                group: ['ticket.accountId', 'account.id', 'account.user.id', 'account.company.id'],
+                include:
+                {
+                    model: Account, attributes: ["email"],
+                    include:
+                        [
+                            { model: User, attributes: ['id', 'picture', 'name', 'visible'] },
+                            { model: Company, attributes: ['id', 'picture', 'name'] },
+                        ],
+                },
+            });
+            let users = [];
+            let companies = [];
             tickets.forEach((element) => {
-                arr.push(element.account.email);
+                const { email } = element.account;
+                if (element.account.user) {
+                    const { id, name, picture, visible } = element.account.user;
+                    if (visible)
+                        users.push({ id, name, picture, email });
+                }
+                if (element.account.company) {
+                    const { id, name, picture } = element.account.company;
+                    companies.push({ id, name, picture, email });
+                }
             })
-            event.dataValues.accounts = arr;
+            event.dataValues.users = users;
+            event.dataValues.companies = companies;
             return res.json(event);
         } catch (e) {
             console.log(e)

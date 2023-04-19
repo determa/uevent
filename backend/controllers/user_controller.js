@@ -2,6 +2,7 @@ const ApiError = require('../error/ApiError');
 const { User } = require('../models/models');
 const uuid = require('uuid');
 const path = require('path');
+const imageUpload = require('../service/imageUpload');
 
 class UserController {
     async get_users(req, res) {
@@ -32,44 +33,31 @@ class UserController {
         }
     }
 
-    async upload_avatar(req, res, next) {
-        try {
-            if (req.files) {
-                const { avatar } = req.files;
-                let fileName = uuid.v4() + '.jpg';
-                avatar.mv(path.resolve(__dirname, '..', 'static', fileName));
-                await User.update({ picture: fileName }, { where: { id: req.account.id } });
-            }
-            return res.json({ message: "Avatar changed!" });
-        } catch (error) {
-            console.log(error)
-            return next(ApiError.badRequest("User does not exists"));
-        }
-    }
-
     async update_data(req, res, next) {
         try {
-            const { id } = req.params;
-            const { accountId } = req.account;
-            const data = req.body;
-            const user = await User.findOne({ where: { id } });
-            if (user.accountId != accountId) {
+            const { id: users_id } = req.params;
+            const { id } = req.account;
+            let { name, visible } = req.body;
+            if (users_id != id) {
                 return next(ApiError.forbidden("Нет доступа!"));
             }
-            await User.update(data, { where: { id } });
-            return res.json({ message: "Data changed!" });
+            const user = await User.findOne({ where: { id: users_id } });
+            if (!name) {
+                return next(ApiError.badRequest("Некорректное поле!"));
+            }
+            visible == 'on' ? visible = false : visible = true;
+            if (!user) {
+                return next(ApiError.forbidden("Юзера не существует!"));
+            }
+            let picture = user.picture;
+            if (req.files?.avatar) {
+                picture = imageUpload(req.files.avatar)
+            }
+            await User.update({ picture, name, visible }, { where: { id } });
+            return res.json({ message: "Данные изменены!" });
         } catch (error) {
-            return next(ApiError.badRequest("Update data error!"));
-        }
-    }
-
-    async delete(req, res, next) {
-        try {
-            const { id } = req.params;
-            await User.destroy({ where: { id } });
-            return res.json({ message: "User deleted!" });
-        } catch (error) {
-            return next(ApiError.badRequest("Delete user error!"));
+            console.log(error);
+            return next(ApiError.badRequest("Ошибка обновления данных юзера!"));
         }
     }
 }

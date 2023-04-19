@@ -13,6 +13,7 @@ const User = sequelize.define('user', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     name: { type: DataTypes.STRING, unique: true, allowNull: false },
     picture: { type: DataTypes.STRING, defaultValue: "default.jpg" },
+    visible: { type: DataTypes.BOOLEAN, defaultValue: true },
     role: { type: DataTypes.ENUM('USER', 'MODERATOR', 'ADMIN'), defaultValue: "USER" },
 });
 
