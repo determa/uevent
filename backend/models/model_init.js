@@ -23,7 +23,7 @@ module.exports = async function init() {
                 }
             );
         let user = null;
-        if (!await User.findOne({ where: { name: 'admin' } }))
+        if (!await User.findOne({ where: { id: 1 } }))
             user = await User.create(
                 {
                     name: "admin",
@@ -33,7 +33,7 @@ module.exports = async function init() {
                 }
             );
         let company = null;
-        if (!await Company.findOne({ where: { name: 'company' } }))
+        if (!await Company.findOne({ where: { id: 1 } }))
             company = await Company.create(
                 {
                     name: "company",
