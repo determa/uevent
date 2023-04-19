@@ -7,7 +7,16 @@ export const companyAPI = baseAPI.injectEndpoints({
                 url: `/company/${data}`,
                 method: "GET",
             }),
-            providesTags: ['User'],
+            providesTags: ["User"],
         }),
-    })
-})
+
+        updateCompany: build.mutation({
+            query: (data) => ({
+                url: `/company/${data.id}`,
+                method: "PATCH",
+                body: data.data,
+            }),
+            invalidatesTags: ["User", "Event"],
+        }),
+    }),
+});
