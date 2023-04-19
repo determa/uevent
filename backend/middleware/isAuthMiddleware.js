@@ -7,10 +7,11 @@ module.exports = function (req, res, next) {
     }
     try {
         const token = req.cookies.token;
+        console.log('work')
         req.isAuth = false;
         if (!token || !req.headers.authorization) {
             return next();
-        } 
+        }
         const access_token = req.headers.authorization.split(" ")[1];
         if (!access_token) {
             return next();

@@ -53,7 +53,7 @@ class UserController {
             if (req.files?.avatar) {
                 picture = imageUpload(req.files.avatar)
             }
-            await User.update({ picture, name, visible }, { where: { users_id } });
+            await User.update({ picture, name, visible }, { where: { id: users_id } });
             return res.json({ message: "Данные изменены!" });
         } catch (error) {
             console.log(error);

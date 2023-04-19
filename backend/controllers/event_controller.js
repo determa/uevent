@@ -42,6 +42,20 @@ class EventController {
                 where: { id },
                 include: [{ model: Category }, { model: Theme }],
             });
+            return res.json(event);
+        } catch (e) {
+            console.log(e)
+            return next(ApiError.badRequest(e.message));
+        }
+    }
+
+    async get_users(req, res, next) {
+        try {
+            let { id } = req.params;
+            let event = await Event.findOne({
+                where: { id },
+                include: [{ model: Category }, { model: Theme }],
+            });
             const tickets = await Ticket.findAll({
                 where: { eventId: id },
                 attributes: ['accountId'],
@@ -58,26 +72,23 @@ class EventController {
             });
             let users = [];
             let companies = [];
-            if (event.members_visibility == 'all') {
-                if (event.members_visibility != 'members' || (req.isAuth && await Ticket.findOne({ where: { eventId: id, accountId: req.account.accountId } })))
-                    tickets.forEach((element) => {
-                        const { email } = element.account;
-                        if (element.account.user) {
-                            const { id, name, picture, visible } = element.account.user;
-                            if (visible)
-                                users.push({ id, name, picture, email });
-                        }
-                        if (element.account.company) {
-                            const { id, name, picture } = element.account.company;
-                            companies.push({ id, name, picture, email });
-                        }
-                    })
-            }
-            event.dataValues.users = users;
-            event.dataValues.companies = companies;
-            return res.json(event);
-        } catch (e) {
-            console.log(e)
+            console.log(req.isAuth)
+            if (event.members_visibility != 'members' || (req.isAuth == true && await Ticket.findOne({ where: { eventId: id, accountId: req.account.accountId } })))
+                tickets.forEach((element) => {
+                    const { email } = element.account;
+                    if (element.account.user) {
+                        const { id, name, picture, visible } = element.account.user;
+                        if (visible)
+                            users.push({ id, name, picture, email });
+                    }
+                    if (element.account.company) {
+                        const { id, name, picture } = element.account.company;
+                        companies.push({ id, name, picture, email });
+                    }
+                })
+            res.json({ users, companies });
+        } catch (error) {
+            console.log(error)
             return next(ApiError.badRequest(e.message));
         }
     }
