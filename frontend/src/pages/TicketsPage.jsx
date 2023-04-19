@@ -1,6 +1,7 @@
 import React from "react";
 import { ticketAPI } from "../services/TicketService";
 import dayjs from "dayjs";
+import { Link } from "react-router-dom";
 
 // const tickets = [
 //     {
@@ -41,9 +42,12 @@ const TicketsPage = () => {
                             />
                         </div>
                         <div className="flex-1 flex flex-col justify-between gap-3">
-                            <p className="text-xl font-medium">
+                            <Link
+                                to={`/events/${data.event.id}`}
+                                className="text-xl font-medium"
+                            >
                                 Событие: {data.event.title}
-                            </p>
+                            </Link>
                             {/* <p className="text-xl font-medium">
                                 Место: {data.seat}
                             </p> */}
