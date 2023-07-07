@@ -26,6 +26,7 @@ const CommentComponent = ({ user }) => {
                                 <img
                                     className="rounded-xl border border-gray-300 object-cover object-center backdrop-blur-sm w-12 h-12"
                                     src={`${process.env.REACT_APP_SERVER_DOMEN}/${user.picture}`}
+                                    alt="pic"
                                 />
                                 <div className="flex flex-col justify-center">
                                     <p className="font-medium text-sm text-gray-700">
@@ -77,6 +78,7 @@ const ProfilePage = () => {
                                 <img
                                     className="w-40 h-40 rounded-full object-cover object-center backdrop-blur-sm"
                                     src={`${process.env.REACT_APP_SERVER_DOMEN}/${data.picture}`}
+                                    alt="pic"
                                 />
                             </div>
                         </div>

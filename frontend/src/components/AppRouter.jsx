@@ -1,7 +1,7 @@
 import React from 'react';
 // import { useSelector } from 'react-redux';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { publicRoutes, privateRoutes, adminRoutes, confirmedAccountRoutes, authRoutes } from '../router/routes';
+import { publicRoutes, confirmedAccountRoutes, authRoutes } from '../router/routes';
 import { useSelector } from 'react-redux';
 
 

@@ -7,7 +7,6 @@ import { companyAPI } from "../services/CompanyService";
 import CreateEvent from "./CreateEvent";
 import Modal from "./Modal";
 import { Box, IconButton, Menu, Tooltip } from "@mui/material";
-import { baseAPI } from "../services/BaseAPIService";
 
 const ProfileImg = ({ data }) => {
     return (
@@ -16,6 +15,7 @@ const ProfileImg = ({ data }) => {
                 <img
                     className="rounded-full object-cover object-center backdrop-blur-sm w-12 h-12"
                     src={`${process.env.REACT_APP_SERVER_DOMEN}/${data.picture}`}
+                    alt="img"
                 />
             )}
         </>
@@ -72,6 +72,7 @@ const DropDown = () => {
                             <img
                                 className="rounded-full object-cover object-center backdrop-blur-sm w-12 h-12"
                                 src={`${process.env.REACT_APP_SERVER_DOMEN}/default.jpg`}
+                                alt="img"
                             />
                         )}
                     </IconButton>

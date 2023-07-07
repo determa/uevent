@@ -15,7 +15,7 @@ const App = () => {
         if (data?.jwt_token) {
             dispatch(setCredentials({ data }));
         }
-    }, [data]);
+    }, [data, dispatch]);
 
     return (
         <BrowserRouter>

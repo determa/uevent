@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const AuthForm = ({ handler, error }) => {
     return (
         <form className="flex gap-3 flex-col" method="POST" onSubmit={handler}>
@@ -21,12 +23,12 @@ const AuthForm = ({ handler, error }) => {
             />
 
             <div className="text-xs">
-                <a
-                    href="#"
+                <Link
+                    to="#"
                     className="font-bold text-indigo-600 hover:text-indigo-500"
                 >
                     Forgot password?
-                </a>
+                </Link>
             </div>
 
             <span className="text-red-700 text-sm font-semibold text-center">

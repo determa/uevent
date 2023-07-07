@@ -19,6 +19,7 @@ const CommentComponent = ({ data, onReplyClick }) => {
                             ? data.account.user.picture
                             : data.account.company.picture
                     }`}
+                    alt="img"
                 />
                 <div className="flex flex-col justify-center">
                     <Link

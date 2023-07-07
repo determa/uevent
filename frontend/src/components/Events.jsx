@@ -7,7 +7,7 @@ const Events = () => {
     const [idTheme, setIdTheme] = React.useState([]);
     const [idCategory, setIdCategoryd] = React.useState([]);
     const [sort, setSort] = useState("date");
-    const [page, setPage] = useState(1); // for pagination
+    // const [page, setPage] = useState(1); // for pagination
 
     const [selectedDateFrom, setSelectedDateFrom] = useState();
     const [selectedDateTo, setSelectedDateTo] = useState();
@@ -16,7 +16,7 @@ const Events = () => {
         themes: idTheme,
         categories: idCategory,
         sort,
-        page,
+        page: 1,
         date_start: selectedDateFrom ? selectedDateFrom.toString() : "",
         date_end: selectedDateTo ? selectedDateTo.toString() : "",
     });

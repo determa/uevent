@@ -7,8 +7,8 @@ import { setCredentials } from "../store/reducers/UserSlice";
 
 const AuthPage = () => {
     let [page, setPage] = useState(false);
-    const [register, { data, error: reg_er }] = userAPI.useRegisterMutation();
-    const [login, { data: log_data, error: log_er }] =
+    const [register, { error: reg_er }] = userAPI.useRegisterMutation();
+    const [login, { error: log_er }] =
         userAPI.useLoginMutation();
     const dispatch = useDispatch();
 

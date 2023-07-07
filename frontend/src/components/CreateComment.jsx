@@ -7,7 +7,7 @@ const CreateComment = ({ eventId, parentId, onClose }) => {
     const handler = async (e) => {
         e.preventDefault();
         console.log(eventId, parentId);
-        const res = await create_comment({
+        await create_comment({
             params: { eventId, parentId },
             body: new FormData(e.target),
         });

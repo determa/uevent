@@ -39,6 +39,7 @@ const UserList = ({ data, type }) => {
             <img
                 className="rounded-full object-cover object-center backdrop-blur-sm w-12 h-12"
                 src={`${process.env.REACT_APP_SERVER_DOMEN}/${data.picture}`}
+                alt="pic"
             />
             <div className="flex gap-3 flex-col">
                 <Link to={`/profile/${type}/${data.id}`}>{data.name}</Link>

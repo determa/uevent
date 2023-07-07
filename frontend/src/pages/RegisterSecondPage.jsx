@@ -8,10 +8,8 @@ import { setCredentials } from "../store/reducers/UserSlice";
 const RegisterSecondPage = () => {
     let [page, setPage] = useState(false);
     let [location, setLocation] = useState(undefined);
-    const [register_user, { data: log_data, error: log_er }] =
-        userAPI.useRegisterUserMutation();
-    const [register_company, { data, error: reg_er }] =
-        userAPI.useRegisterCompanyMutation();
+    const [register_user] = userAPI.useRegisterUserMutation();
+    const [register_company] = userAPI.useRegisterCompanyMutation();
     const dispatch = useDispatch();
 
     async function register_user_handler(e) {
